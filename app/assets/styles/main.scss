@@ -1,0 +1,7 @@
+@use "./variables";
+@use "./typography";
+
+body {
+  background-color: var(--color-bg);
+  margin: 0;
+}
