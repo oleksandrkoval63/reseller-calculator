@@ -49,7 +49,7 @@ export default defineNuxtConfig({
     typeCheck: "build",
   },
 
-  modules: ["@pinia/nuxt", "@nuxtjs/i18n", "@nuxt/eslint"],
+  modules: ["@pinia/nuxt", "@nuxtjs/i18n", "@nuxt/eslint", "@nuxt/image"],
 
   css: ["~/assets/styles/main.scss"],
 
@@ -65,7 +65,7 @@ export default defineNuxtConfig({
 
   components: [
     {
-      path: "~/app/components",
+      path: "~/components",
       pathPrefix: false,
     },
   ],

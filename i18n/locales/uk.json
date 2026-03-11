@@ -1,5 +1,9 @@
 {
-  "nav": {
-    "dashboard": "Панель"
+  "header": {
+    "title": "Калькулятор"
+  },
+  "sidebar": {
+    "home": "Панель",
+    "items": "Одяг"
   }
 }

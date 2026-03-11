@@ -1,16 +1,20 @@
-<script setup lang="ts">
-
-</script>
-
 <template>
   <div class="app-shell">
-    <AppHeader />
-    <div class="app-shell__body">
-      <AppSidebar />
+    <AppSidebar />
+    <div class="container">
+      <AppHeader />
+
       <main class="app-shell__content">
         <slot />
       </main>
+
+      <AppFooter />
     </div>
-    <AppFooter />
   </div>
 </template>
+
+<style scoped lang="scss">
+.app-shell {
+  display: flex;
+}
+</style>
