@@ -1,5 +1,14 @@
 :root {
-  --color-bg: #0f131a;
+  //Fonts
+  --font-sans:
+    'Montserrat', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI',
+    sans-serif;
+
+  //Colors
+  --color-level-1: #0f131a;
+  --color-level-2: #19202d;
+  --color-level-3: #273449;
+
   --color-surface: #161b22;
   --color-surface-alt: #1d2430;
   --color-border: #2b3545;
@@ -18,4 +27,24 @@
 
   --color-white: #ffffff;
   --color-black: #000000;
+
+  --color-button-background: rgba(68, 91, 145, 0.14);
+  --color-button-primary: #4f8cff;
+  --color-button-disabled: #94a3b8;
+
+  --color-button-background-hov: rgba(68, 91, 145, 0.22);
+  --color-button-primary-hov: #4f8dff96;
+
+  --color-button-border: rgba(120, 144, 196, 0.2);
+  --color-button-border-hov: rgba(120, 144, 196, 0.35);
+
+  //Components
+  --container-width: 1280px;
+  --container-padding: 16px;
+  --container-padding-lg: 24px;
+
+  --badge-border-radius: 12px;
+  --badge-padding: 20px;
+
+  --button-border-radius: 12px;
 }

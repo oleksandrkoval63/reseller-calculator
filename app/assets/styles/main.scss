@@ -1,7 +1,26 @@
-@use "./variables";
-@use "./typography";
+@use './fonts';
+@use './variables';
+@use './typography';
+@use './mixins' as *;
 
 body {
-  background-color: var(--color-bg);
+  background-color: var(--color-level-2);
   margin: 0;
+}
+
+.container {
+  width: 100%;
+  max-width: calc(var(--container-width) + (var(--container-padding) * 2));
+  margin-inline: auto;
+  padding-inline: var(--container-padding);
+
+  @include up(lg) {
+    padding-inline: var(--container-padding-lg);
+  }
+}
+
+.d-flex {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
