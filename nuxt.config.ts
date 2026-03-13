@@ -75,4 +75,18 @@ export default defineNuxtConfig({
       pathPrefix: false,
     },
   ],
+
+  vite: {
+    optimizeDeps: {
+      include: ['vue', 'vue-router', 'pinia', 'pinia-plugin-persistedstate'],
+    },
+    ssr: {
+      noExternal: ['vue', 'vue-router', 'pinia', 'pinia-plugin-persistedstate'],
+    },
+  },
+
+  piniaPluginPersistedstate: {
+    storage: 'cookies',
+    debug: true,
+  },
 })
