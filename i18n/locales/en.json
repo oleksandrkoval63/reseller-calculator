@@ -2,6 +2,18 @@
   "header": {
     "title": "Calculator"
   },
+  "clothes": {
+    "title": "Clothes",
+    "status": "Status",
+    "stats": {
+      "purchasedPrice": "Bought",
+      "plannedPrice": "Planned",
+      "soldPrice": "Sold",
+      "quantity": "Qty",
+      "profit": "Profit"
+    },
+    "actions": "Actions"
+  },
   "sidebar": {
     "home": "Dashboard",
     "items": "Items"

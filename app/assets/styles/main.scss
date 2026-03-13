@@ -1,6 +1,7 @@
 @use './fonts';
 @use './variables';
 @use './typography';
+@use './scrollbar';
 @use './mixins' as *;
 
 body {

@@ -1,6 +1,10 @@
-export const useFormatterCurrency = (lang: string, value: number | null) => {
+export const useFormatterCurrency = (lang: string, value: number | null, type?: string) => {
   if (!value) {
     return '-'
+  }
+
+  if (type === 'quantity') {
+    return value
   }
 
   const formattedLang = useLangFormater(lang)

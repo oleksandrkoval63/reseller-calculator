@@ -2,6 +2,18 @@
   "header": {
     "title": "Калькулятор"
   },
+  "clothes": {
+    "title": "Товар",
+    "status": "Статус",
+    "stats": {
+      "purchasedPrice": "Куплено",
+      "plannedPrice": "Ціна",
+      "soldPrice": "Продано",
+      "quantity": "К-сть",
+      "profit": "Профіт"
+    },
+    "actions": "Дії"
+  },
   "sidebar": {
     "home": "Панель",
     "items": "Одяг"
