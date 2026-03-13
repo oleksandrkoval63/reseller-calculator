@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useItemsStore } from '~/stores/items'
 import type { ClothingItem } from '~~/entities/item/types'
 
 const clothes: ClothingItem[] = [
@@ -9,11 +10,12 @@ const clothes: ClothingItem[] = [
     category: 'Set',
     size: 'M',
     status: 'sold',
-    purchasedPrice: 130,
-    plannedPrice: 220,
-    soldPrice: 220,
-    quantity: 1,
-    profit: 90,
+    stats: {
+      purchasedPrice: 130,
+      plannedPrice: 220,
+      soldPrice: 110,
+      quantity: 1,
+    },
     purchasedAt: '2024-04-08',
     soldAt: '2024-04-18',
     image: '/images/clothes/nike-tech-fleece-set.avif',
@@ -25,11 +27,12 @@ const clothes: ClothingItem[] = [
     category: 'Sneakers',
     size: '10',
     status: 'listed',
-    purchasedPrice: 110,
-    plannedPrice: 220,
-    soldPrice: null,
-    quantity: 1,
-    profit: null,
+    stats: {
+      purchasedPrice: 110,
+      plannedPrice: 220,
+      soldPrice: null,
+      quantity: 1,
+    },
     purchasedAt: '2024-04-03',
     soldAt: null,
     image: '',
@@ -41,11 +44,12 @@ const clothes: ClothingItem[] = [
     category: 'Jacket',
     size: 'L',
     status: 'sold',
-    purchasedPrice: 280,
-    plannedPrice: 450,
-    soldPrice: 450,
-    quantity: 1,
-    profit: 170,
+    stats: {
+      purchasedPrice: 280,
+      plannedPrice: 450,
+      soldPrice: 450,
+      quantity: 1,
+    },
     purchasedAt: '2024-04-01',
     soldAt: '2024-04-12',
     image: '',
@@ -57,11 +61,12 @@ const clothes: ClothingItem[] = [
     category: 'Sneakers',
     size: '9.5',
     status: 'sold',
-    purchasedPrice: 150,
-    plannedPrice: 220,
-    soldPrice: 220,
-    quantity: 1,
-    profit: 70,
+    stats: {
+      purchasedPrice: 150,
+      plannedPrice: 220,
+      soldPrice: 220,
+      quantity: 1,
+    },
     purchasedAt: '2024-03-26',
     soldAt: '2024-04-06',
     image: '',
@@ -73,11 +78,12 @@ const clothes: ClothingItem[] = [
     category: 'Hoodie',
     size: 'L',
     status: 'draft',
-    purchasedPrice: 115,
-    plannedPrice: null,
-    soldPrice: null,
-    quantity: 1,
-    profit: null,
+    stats: {
+      purchasedPrice: 115,
+      plannedPrice: null,
+      soldPrice: null,
+      quantity: 1,
+    },
     purchasedAt: '2024-03-20',
     soldAt: null,
     image: '',
@@ -89,11 +95,12 @@ const clothes: ClothingItem[] = [
     category: 'Sneakers',
     size: '10',
     status: 'listed',
-    purchasedPrice: 115,
-    plannedPrice: 220,
-    soldPrice: null,
-    quantity: 1,
-    profit: null,
+    stats: {
+      purchasedPrice: 115,
+      plannedPrice: 220,
+      soldPrice: null,
+      quantity: 1,
+    },
     purchasedAt: '2024-03-20',
     soldAt: null,
     image: '',
@@ -105,11 +112,12 @@ const clothes: ClothingItem[] = [
     category: 'Jacket',
     size: 'M',
     status: 'sold',
-    purchasedPrice: 140,
-    plannedPrice: 240,
-    soldPrice: 225,
-    quantity: 1,
-    profit: 85,
+    stats: {
+      purchasedPrice: 140,
+      plannedPrice: 240,
+      soldPrice: 225,
+      quantity: 1,
+    },
     purchasedAt: '2024-03-14',
     soldAt: '2024-03-28',
     image: '',
@@ -121,18 +129,128 @@ const clothes: ClothingItem[] = [
     category: 'Sweatshirt',
     size: 'L',
     status: 'listed',
-    purchasedPrice: 160,
-    plannedPrice: 260,
-    soldPrice: null,
-    quantity: 1,
-    profit: null,
+    stats: {
+      purchasedPrice: 160,
+      plannedPrice: 260,
+      soldPrice: null,
+      quantity: 1,
+    },
     purchasedAt: '2024-03-10',
     soldAt: null,
     image: '',
   },
 ]
+
+const itemsStore = useItemsStore()
 </script>
 
 <template>
-  <List v-if="clothes.length" :data="clothes" />
+  <div class="items-content">
+    <Filters />
+
+    <div v-if="clothes?.length" class="items-wrapper">
+      <AScroll v-if="itemsStore.itemsDisplay === 'list'">
+        <List :data="clothes" />
+      </AScroll>
+      <AScroll v-else height="770px">
+        <Grid :data="clothes" />
+      </AScroll>
+    </div>
+
+    <div v-else class="items-error">
+      <AText>No one item was founded !</AText>
+    </div>
+  </div>
 </template>
+
+<style lang="scss">
+.item-title {
+  margin: 0 0 6px;
+  color: var(--color-white);
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.25;
+
+  display: -webkit-box;
+  line-clamp: 2;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  min-height: 45px;
+
+  &.list-title {
+    min-height: unset;
+  }
+}
+
+.item-meta {
+  margin: 0;
+  color: var(--color-text-muted);
+  font-size: 14px;
+}
+
+.a-badge {
+  &.item-status {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: fit-content;
+    min-height: 32px;
+    width: fit-content;
+    min-width: 60px;
+    padding: 5px 12px;
+    border-radius: 50px;
+    color: var(--color-white);
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: capitalize;
+    white-space: nowrap;
+  }
+}
+
+.item-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  &--top {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+  }
+
+  &--bottom {
+    justify-content: space-between;
+  }
+}
+
+.item-image__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.action-btn,
+.icon-btn,
+.card-btn {
+  transition:
+    transform 0.5s linear,
+    background-color 0.2s ease,
+    border-color 0.2s ease;
+
+  &:hover {
+    transform: translateY(-1px);
+  }
+}
+
+.profit-arrow {
+  &.up {
+    background: var(--color-success);
+  }
+
+  &.down {
+    background: var(--color-danger);
+    transform: rotate(180deg);
+  }
+}
+</style>

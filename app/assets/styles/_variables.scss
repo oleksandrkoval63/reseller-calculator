@@ -21,8 +21,8 @@
   --color-primary-hover: #6aa0ff;
   --color-secondary: #5b708b;
 
-  --color-success: #35c58a;
-  --color-warning: #f1b84b;
+  --color-success: #0b945b;
+  --color-warning: #d59317;
   --color-danger: #ef6b73;
 
   --color-white: #ffffff;
@@ -30,13 +30,17 @@
 
   --color-button-background: rgba(68, 91, 145, 0.14);
   --color-button-primary: #4f8cff;
+  --color-button-danger: #ef6b73;
   --color-button-disabled: #94a3b8;
 
   --color-button-background-hov: rgba(68, 91, 145, 0.22);
   --color-button-primary-hov: #4f8dff96;
+  --color-button-danger-hov: #ef6b74bc;
 
   --color-button-border: rgba(120, 144, 196, 0.2);
   --color-button-border-hov: rgba(120, 144, 196, 0.35);
+
+  --color-badge-background: #273449;
 
   //Components
   --container-width: 1280px;
@@ -44,7 +48,8 @@
   --container-padding-lg: 24px;
 
   --badge-border-radius: 12px;
-  --badge-padding: 20px;
+  --badge-padding: 12px;
 
   --button-border-radius: 12px;
+  --button-padding: 12px;
 }

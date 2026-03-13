@@ -3,17 +3,15 @@ const props = withDefaults(
   defineProps<{
     name: string
     size?: number | string
-    color?: string
   }>(),
   {
     size: 20,
-    color: 'var(--color-text-muted)',
   },
 )
 
 const iconSize = computed(() => (typeof props.size === 'number' ? `${props.size}px` : props.size))
 
-const iconUrl = computed(() => `images/shared/${props.name}.svg`)
+const iconUrl = computed(() => `images/shared/${props?.name}.svg`)
 </script>
 
 <template>
@@ -22,7 +20,6 @@ const iconUrl = computed(() => `images/shared/${props.name}.svg`)
     :style="{
       width: iconSize,
       height: iconSize,
-      backgroundColor: props.color,
       mask: `url(${iconUrl}) no-repeat center / contain`,
       WebkitMask: `url(${iconUrl}) no-repeat center / contain`,
     }"
@@ -33,5 +30,6 @@ const iconUrl = computed(() => `images/shared/${props.name}.svg`)
 .a-icon {
   display: inline-block;
   flex-shrink: 0;
+  background: var(--color-text-muted);
 }
 </style>

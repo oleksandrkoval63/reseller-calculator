@@ -12,15 +12,6 @@ export default defineNuxtConfig({
     },
   },
 
-  vite: {
-    optimizeDeps: {
-      include: ['vue', 'vue-router', 'pinia'],
-    },
-    ssr: {
-      noExternal: ['vue', 'vue-router', 'pinia'],
-    },
-  },
-
   app: {
     head: {
       titleTemplate: '%s · Reseller Calculator',
@@ -78,4 +69,13 @@ export default defineNuxtConfig({
       pathPrefix: false,
     },
   ],
+
+  vite: {
+    optimizeDeps: {
+      include: ['vue', 'vue-router', 'pinia'],
+    },
+    ssr: {
+      noExternal: ['vue', 'vue-router', 'pinia'],
+    },
+  },
 })

@@ -4,4 +4,4 @@ export type TextType = 'default' | 'primary'
 
 export type ButtonType = 'button' | 'submit' | 'reset'
 
-export type ButtonStyle = 'default' | 'primary' | 'disabled'
+export type ButtonStyle = 'danger' | 'default' | 'primary' | 'disabled'
