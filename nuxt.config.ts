@@ -49,7 +49,13 @@ export default defineNuxtConfig({
     typeCheck: 'build',
   },
 
-  modules: ['@pinia/nuxt', '@nuxtjs/i18n', '@nuxt/eslint', '@nuxt/image'],
+  modules: [
+    '@pinia/nuxt',
+    '@nuxtjs/i18n',
+    '@nuxt/eslint',
+    '@nuxt/image',
+    'pinia-plugin-persistedstate/nuxt',
+  ],
 
   css: ['~/assets/styles/main.scss'],
 
@@ -77,5 +83,10 @@ export default defineNuxtConfig({
     ssr: {
       noExternal: ['vue', 'vue-router', 'pinia', 'pinia-plugin-persistedstate'],
     },
+  },
+
+  piniaPluginPersistedstate: {
+    storage: 'cookies',
+    debug: true,
   },
 })

@@ -15,7 +15,6 @@ export const useItemsStore = defineStore(
   },
   {
     persist: {
-      storage: piniaPluginPersistedstate.cookies(),
       pick: ['itemsDisplay'],
     },
   },
