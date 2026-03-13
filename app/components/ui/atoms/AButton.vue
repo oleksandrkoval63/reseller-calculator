@@ -35,6 +35,7 @@ withDefaults(
   border-radius: var(--button-border-radius);
   color: var(--color-text);
   font-size: 18px;
+  padding: var(--button-padding);
   transition:
     background 0.2s ease,
     border-color 0.2s ease;
@@ -49,6 +50,14 @@ withDefaults(
 
     &:hover {
       background: var(--color-button-primary-hov);
+    }
+  }
+
+  &.danger {
+    background: var(--color-button-danger);
+
+    &:hover {
+      background: var(--color-button-danger-hov);
     }
   }
 

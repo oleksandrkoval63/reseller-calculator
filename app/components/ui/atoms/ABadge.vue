@@ -12,5 +12,6 @@
   align-items: center;
   justify-content: center;
   text-align: center;
+  background: var(--color-badge-background);
 }
 </style>

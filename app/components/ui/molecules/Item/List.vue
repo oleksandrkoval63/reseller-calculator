@@ -4,33 +4,36 @@ import type { ClothingItem } from '~~/entities/item/types'
 defineProps<{
   data: ClothingItem[]
 }>()
+
+const { t } = useI18n()
 </script>
 
 <template>
-  <div v-if="data?.length" class="clothes-list__table">
+  <div v-if="data?.length">
     <div class="clothes-list__row clothes-list__row--head">
-      <div class="clothes-list__cell clothes-list__cell--product">Товар</div>
-      <div class="clothes-list__cell">Куплено</div>
-      <div class="clothes-list__cell">Цена</div>
-      <div class="clothes-list__cell">Продано</div>
-      <div class="clothes-list__cell">Кол-во</div>
-      <div class="clothes-list__cell clothes-list__cell--actions">Дії</div>
+      <div class="clothes-list__cell clothes-list__cell--product">{{ t('clothes.title') }}</div>
+      <div class="clothes-list__cell">{{ t('clothes.status') }}</div>
+      <div class="clothes-list__cell">{{ t('clothes.stats.purchasedPrice') }}</div>
+      <div class="clothes-list__cell">{{ t('clothes.stats.plannedPrice') }}</div>
+      <div class="clothes-list__cell">{{ t('clothes.stats.soldPrice') }}</div>
+      <div class="clothes-list__cell">{{ t('clothes.stats.quantity') }}</div>
+      <div class="clothes-list__cell">{{ t('clothes.stats.profit') }}</div>
+
+      <div class="clothes-list__cell clothes-list__cell--actions">{{ t('clothes.actions') }}</div>
     </div>
 
-    <Card v-for="item in data" :key="item?.id" :item />
+    <div class="cards-scroll">
+      <ClothesListCard v-for="item in data" :key="item?.id" :item />
+    </div>
   </div>
 </template>
 
 <style scoped lang="scss">
-.clothes-list__table {
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
-}
-
 .clothes-list__row {
   display: grid;
-  grid-template-columns: minmax(320px, 1.9fr) 130px 130px 130px 100px 120px;
+  grid-template-columns: minmax(290px, 1fr) repeat(7, 1fr);
   align-items: center;
-  column-gap: 20px;
+  column-gap: 16px;
 }
 
 .clothes-list__row--head {
