@@ -11,7 +11,7 @@ const props = withDefaults(
 
 const iconSize = computed(() => (typeof props.size === 'number' ? `${props.size}px` : props.size))
 
-const iconUrl = computed(() => `images/shared/${props?.name}.svg`)
+const iconUrl = computed(() => `/images/shared/${props?.name}.svg`)
 </script>
 
 <template>

@@ -17,4 +17,8 @@
 .app-shell {
   display: flex;
 }
+
+.app-shell__content {
+  padding: 20px 0;
+}
 </style>

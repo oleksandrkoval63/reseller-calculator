@@ -17,5 +17,12 @@
   "sidebar": {
     "home": "Панель",
     "items": "Одяг"
+  },
+  "summary": {
+    "titles": {
+      "purchasedPrice": "Куплено",
+      "soldPrice": "Продано",
+      "profit": "Профіт"
+    }
   }
 }

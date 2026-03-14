@@ -1,12 +1,14 @@
 <script setup lang="ts">
+import { useItemsStore } from '~/stores/items'
 import type { ClothesStats, ClothingItem } from '~~/entities/item/types'
 
 const props = defineProps<{
   item: ClothingItem
 }>()
 
-const lang = useLang()
-const { t } = useI18n()
+const itemsStore = useItemsStore()
+
+const { t, locale } = useI18n()
 
 const imageSrc = computed(() => props.item?.image || '/images/shared/clothes-holder.avif')
 
@@ -26,17 +28,15 @@ const statsKeys = Object.keys(props?.item?.stats)
 
 const largeBadge = computed(() => (statsKeys?.length % 2 === 0 ? 'large' : ''))
 
-const profit = computed(() =>
-  props?.item?.stats?.soldPrice
-    ? props?.item?.stats?.soldPrice - props?.item?.stats?.purchasedPrice
-    : 0,
-)
+const profit = useProfit(props?.item?.stats?.purchasedPrice, props?.item?.stats?.soldPrice ?? 0)
+
+onMounted(() => itemsStore.setSummaryProfit(profit))
 </script>
 
 <template>
   <article v-if="item" class="grid-card">
     <div class="grid-card__media">
-      <NuxtImg :src="imageSrc" :alt="item.title" class="item-image__img" />
+      <LazyNuxtImg :src="imageSrc" :alt="item.title" class="item-image__img" />
 
       <div class="item-actions item-actions--top">
         <AButton class="icon-btn" styled="primary" aria-label="Редактировать">✎</AButton>
@@ -61,14 +61,14 @@ const profit = computed(() =>
           <AText class="stat-box__label">{{ t(`clothes.stats.${statsKey}`) }}</AText>
           <AText :class="['stat-box__value', { profit: statsKey === 'profit' }]">
             {{
-              useFormatterCurrency(lang, item?.stats?.[statsKey as keyof ClothesStats], statsKey)
+              useFormatterCurrency(locale, item?.stats?.[statsKey as keyof ClothesStats], statsKey)
             }}
           </AText>
         </ABadge>
         <ABadge :class="['stat-box', largeBadge]">
           <AText class="stat-box__label">{{ t(`clothes.stats.profit`) }}</AText>
           <AText :class="['stat-box__value', { profit: profit > 0 }, { down: profit < 0 }]">
-            {{ useFormatterCurrency(lang, profit) }}
+            {{ useFormatterCurrency(locale, profit) }}
             <AIcon
               v-if="profit"
               :class="['profit-arrow', { up: profit > 0 }, { down: profit < 0 }]"

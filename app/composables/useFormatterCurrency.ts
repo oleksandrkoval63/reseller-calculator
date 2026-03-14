@@ -9,13 +9,14 @@ export const useFormatterCurrency = (lang: string, value: number | null, type?: 
 
   const formattedLang = useLangFormater(lang)
 
-  const langToCurrency = computed(() => (lang === 'uk' ? 'UAH' : 'USD'))
+  const currencyLabel = lang === 'uk' ? 'грн' : '$'
 
-  const formater = new Intl.NumberFormat(formattedLang, {
-    style: 'currency',
-    currency: langToCurrency.value,
+  const formattedNumber = new Intl.NumberFormat(formattedLang, {
+    minimumFractionDigits: 2,
     maximumFractionDigits: 2,
   }).format(value)
 
-  return formater
+  return lang === 'uk'
+    ? `${formattedNumber} ${currencyLabel}`
+    : `${currencyLabel}${formattedNumber}`
 }

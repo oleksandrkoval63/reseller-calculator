@@ -1,11 +1,14 @@
 <script setup lang="ts">
+import { useItemsStore } from '~/stores/items'
 import type { ClothesStats, ClothingItem } from '~~/entities/item/types'
 
 const props = defineProps<{
   item: ClothingItem
 }>()
 
-const lang = useLang()
+const { locale } = useI18n()
+
+const itemsStore = useItemsStore()
 
 const imageSrc = computed(() => props?.item?.image || '/images/shared/clothes-holder.avif')
 
@@ -23,11 +26,9 @@ const statusColor = computed(() => {
 
 const statsKeys = Object.keys(props?.item?.stats)
 
-const profit = computed(() =>
-  props?.item?.stats?.soldPrice
-    ? props?.item?.stats?.soldPrice - props?.item?.stats?.purchasedPrice
-    : 0,
-)
+const profit = useProfit(props?.item?.stats?.purchasedPrice, props?.item?.stats?.soldPrice ?? 0)
+
+onMounted(() => itemsStore.setSummaryProfit(profit))
 </script>
 
 <template>
@@ -35,7 +36,7 @@ const profit = computed(() =>
     <div class="list-row__product">
       <div class="item-info">
         <ABadge class="item-image item-image--list">
-          <NuxtImg :src="imageSrc" :alt="item?.title" class="item-image__img" />
+          <LazyNuxtImg :src="imageSrc" :alt="item?.title" class="item-image__img" />
         </ABadge>
 
         <div class="item-info__content">
@@ -56,13 +57,13 @@ const profit = computed(() =>
 
     <div v-for="(statsKey, index) in statsKeys" :key="index" class="list-row__cell">
       <AText>
-        {{ useFormatterCurrency(lang, item?.stats?.[statsKey as keyof ClothesStats], statsKey) }}
+        {{ useFormatterCurrency(locale, item?.stats?.[statsKey as keyof ClothesStats], statsKey) }}
       </AText>
     </div>
 
     <div class="list-row__cell profit-cell">
       <AText :class="[{ profit: profit > 0 }, { down: profit < 0 }]">
-        {{ useFormatterCurrency(lang, profit) }}
+        {{ useFormatterCurrency(locale, profit) }}
       </AText>
       <AIcon
         v-if="profit"

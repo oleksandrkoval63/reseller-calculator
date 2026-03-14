@@ -11,6 +11,5 @@
   width: 15%;
   padding: 20px 0;
   background: var(--color-level-1);
-  height: 100svh;
 }
 </style>
