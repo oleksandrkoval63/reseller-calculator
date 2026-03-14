@@ -2,6 +2,8 @@
 import { useItemsStore } from '~/stores/items'
 import type { ClothingItem } from '~~/entities/item/types'
 
+const itemsStore = useItemsStore()
+
 const clothes: ClothingItem[] = [
   {
     id: 1,
@@ -141,7 +143,7 @@ const clothes: ClothingItem[] = [
   },
 ]
 
-const itemsStore = useItemsStore()
+onMounted(() => itemsStore.setItems(clothes))
 </script>
 
 <template>
@@ -160,6 +162,7 @@ const itemsStore = useItemsStore()
     <div v-else class="items-error">
       <AText>No one item was founded !</AText>
     </div>
+    <LazySummary />
   </div>
 </template>
 
@@ -252,5 +255,15 @@ const itemsStore = useItemsStore()
     background: var(--color-danger);
     transform: rotate(180deg);
   }
+}
+
+.arrow-link {
+  transform: rotate(90deg);
+}
+</style>
+
+<style scoped lang="scss">
+.items-wrapper {
+  margin-bottom: 20px;
 }
 </style>

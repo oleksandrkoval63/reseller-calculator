@@ -1,11 +1,9 @@
 export const useLangFormater = (lang: string, option?: 'currency') => {
-  const pureLang = lang.replace('/', '')
-
   if (!option) {
-    return pureLang
+    return lang
   }
 
   if (option === 'currency') {
-    return pureLang === 'uk' ? 'uk-UA' : 'en-US'
+    return lang === 'uk' ? 'uk-UA' : 'en-US'
   }
 }

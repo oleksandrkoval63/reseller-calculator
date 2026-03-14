@@ -17,5 +17,12 @@
   "sidebar": {
     "home": "Dashboard",
     "items": "Items"
+  },
+  "summary": {
+    "titles": {
+      "purchasedPrice": "Bought",
+      "soldPrice": "Sold",
+      "profit": "Profit"
+    }
   }
 }

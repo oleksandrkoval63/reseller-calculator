@@ -6,7 +6,7 @@
 
 <style scoped lang="scss">
 .item-filters {
-  padding: 20px 0;
+  padding-bottom: 20px;
   display: flex;
   align-items: center;
   justify-content: space-between;
