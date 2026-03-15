@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { useItemsStore } from '~/stores/items'
 import type { ClothesStats, ClothingItem } from '~~/entities/item/types'
 
 const props = defineProps<{
@@ -7,8 +6,6 @@ const props = defineProps<{
 }>()
 
 const { locale } = useI18n()
-
-const itemsStore = useItemsStore()
 
 const imageSrc = computed(() => props?.item?.image || '/images/shared/clothes-holder.avif')
 
@@ -27,8 +24,6 @@ const statusColor = computed(() => {
 const statsKeys = Object.keys(props?.item?.stats)
 
 const profit = useProfit(props?.item?.stats?.purchasedPrice, props?.item?.stats?.soldPrice ?? 0)
-
-onMounted(() => itemsStore.setSummaryProfit(profit))
 </script>
 
 <template>

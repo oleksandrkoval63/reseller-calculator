@@ -162,6 +162,7 @@ onMounted(() => itemsStore.setItems(clothes))
     <div v-else class="items-error">
       <AText>No one item was founded !</AText>
     </div>
+
     <LazySummary />
   </div>
 </template>
