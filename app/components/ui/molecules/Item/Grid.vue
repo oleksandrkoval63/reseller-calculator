@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import type { ClothingItem } from '~~/entities/item/types'
-import ClothesGridCard from './ClothesGridCard.vue'
 
 defineProps<{
   data: ClothingItem[]

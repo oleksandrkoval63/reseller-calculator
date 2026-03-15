@@ -1,16 +1,38 @@
 <script setup lang="ts">
-const { t, tm } = useI18n()
+import { useItemsStore } from '~/stores/items'
+import { useSettingsStore } from '~/stores/settings'
+import { pluralizeItems } from '~~/shared/utils/plural-items'
+
+const itemsStore = useItemsStore()
+const settingsStore = useSettingsStore()
+
 const route = useRoute()
 
-const currentLink = computed(() => {
-  const purePath = route?.path.replace('/', '')
+const { t, tm, locale, setLocale } = useI18n()
 
-  if (Object.keys(tm('sidebar')).includes(purePath)) {
-    return purePath
-  }
+const purePath = computed(() => {
+  const path = route.path.replace(/^\/(uk|en)(?=\/|$)/, '')
+  const normalized = path.replace(/^\/+|\/+$/g, '')
 
-  return 'home'
+  return normalized || 'home'
 })
+
+const currentLink = computed(() => {
+  const sidebar = tm('sidebar') as Record<string, unknown>
+
+  return purePath.value in sidebar ? purePath.value : 'home'
+})
+
+const itemsCountText = computed(() => {
+  return pluralizeItems(itemsStore.items.length, locale.value)
+})
+
+const handleChangeLocale = async () => {
+  const lang = locale.value === 'uk' ? 'en' : 'uk'
+
+  await setLocale(lang)
+  settingsStore.setCurrentLocale(lang)
+}
 </script>
 
 <template>
@@ -18,14 +40,18 @@ const currentLink = computed(() => {
     <NuxtLink to="/">
       <AText as="h1">{{ t(`sidebar.${currentLink}`) }}</AText>
     </NuxtLink>
+
+    <div v-if="purePath === 'items'" class="items-summary__head">
+      <AText class="items-summary__star" size="24px">★</AText>
+      <AText size="24px">{{ itemsCountText }}</AText>
+    </div>
+
     <div class="header-actions d-flex">
       <AAvatar />
 
-      <div class="header-actions__lang d-flex">
-        <AButton class="btn-lang">
-          <AIcon name="world" src="images/shared/world.svg" :size="20" />
-        </AButton>
-      </div>
+      <AButton class="btn-lang" @click="handleChangeLocale">
+        <AIcon name="world" src="images/shared/world.svg" :size="20" />
+      </AButton>
     </div>
   </header>
 </template>
@@ -45,5 +71,22 @@ const currentLink = computed(() => {
 
 .btn-lang {
   padding: 10px;
+}
+
+.items-summary__head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.items-summary__star {
+  color: var(--color-warning);
+  display: inline-flex;
+  align-items: center;
+}
+
+.items-summary__count {
+  color: var(--color-white);
+  font-weight: 600;
 }
 </style>

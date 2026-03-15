@@ -4,10 +4,10 @@ export const pluralizeItems = (count: number, locale: string) => {
   if (normalizedLocale.startsWith('uk')) {
     const rule = new Intl.PluralRules('uk-UA').select(count)
 
-    if (rule === 'one') return `${count} айтем`
-    if (rule === 'few') return `${count} айтеми`
+    if (rule === 'one') return `${count} товар`
+    if (rule === 'few') return `${count} товари`
 
-    return `${count} айтемів`
+    return `${count} товарів`
   }
 
   const rule = new Intl.PluralRules('en-US').select(count)

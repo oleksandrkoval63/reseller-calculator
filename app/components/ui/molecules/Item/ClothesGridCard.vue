@@ -1,12 +1,9 @@
 <script setup lang="ts">
-import { useItemsStore } from '~/stores/items'
 import type { ClothesStats, ClothingItem } from '~~/entities/item/types'
 
 const props = defineProps<{
   item: ClothingItem
 }>()
-
-const itemsStore = useItemsStore()
 
 const { t, locale } = useI18n()
 
@@ -29,8 +26,6 @@ const statsKeys = Object.keys(props?.item?.stats)
 const largeBadge = computed(() => (statsKeys?.length % 2 === 0 ? 'large' : ''))
 
 const profit = useProfit(props?.item?.stats?.purchasedPrice, props?.item?.stats?.soldPrice ?? 0)
-
-onMounted(() => itemsStore.setSummaryProfit(profit))
 </script>
 
 <template>
