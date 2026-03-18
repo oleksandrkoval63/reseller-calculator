@@ -9,7 +9,7 @@ const { t } = useI18n()
 </script>
 
 <template>
-  <div v-if="data?.length">
+  <div>
     <div class="clothes-list__row clothes-list__row--head">
       <div class="clothes-list__cell clothes-list__cell--product">{{ t('clothes.title') }}</div>
       <div class="clothes-list__cell">{{ t('clothes.status') }}</div>
@@ -22,9 +22,11 @@ const { t } = useI18n()
       <div class="clothes-list__cell clothes-list__cell--actions">{{ t('clothes.actions') }}</div>
     </div>
 
-    <div class="cards-scroll">
+    <div v-if="data.length" class="cards-scroll">
       <ClothesListCard v-for="item in data" :key="item?.id" :item />
     </div>
+
+    <MEmpty v-else />
   </div>
 </template>
 

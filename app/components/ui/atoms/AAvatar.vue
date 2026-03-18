@@ -1,7 +1,11 @@
 <script setup lang="ts">
+import { useAuthStore } from '~/stores/auth'
+
 const props = defineProps<{
   avatar?: string
 }>()
+
+const authStore = useAuthStore()
 
 const isAvatar = computed(() => props?.avatar || 'images/avatar.webp')
 </script>
@@ -9,7 +13,15 @@ const isAvatar = computed(() => props?.avatar || 'images/avatar.webp')
 <template>
   <div class="avatar-wrapper">
     <div class="avatar">
-      <NuxtImg v-if="isAvatar" :src="isAvatar" alt="avatar" />
+      <NuxtImg
+        v-if="isAvatar"
+        class="avatar-img"
+        :src="isAvatar"
+        alt="avatar"
+        width="40"
+        height="40"
+      />
+      <AText>{{ authStore.user?.email }}</AText>
     </div>
     <AIcon name="chevron-down" :size="20" class="arrow-down" src="images/shared/chevron-down.svg" />
   </div>
@@ -34,10 +46,12 @@ const isAvatar = computed(() => props?.avatar || 'images/avatar.webp')
 }
 
 .avatar {
-  width: 40px;
-  height: 40px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 500;
 
-  img {
+  &-img {
     border-radius: 50%;
     width: 100%;
     height: 100%;

@@ -49,6 +49,7 @@ const { t, locale } = useI18n()
 
 <style scoped lang="scss">
 .items-summary {
+  margin-top: 20px;
   overflow: hidden;
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 16px;

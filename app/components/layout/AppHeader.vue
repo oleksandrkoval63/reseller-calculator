@@ -1,10 +1,12 @@
 <script setup lang="ts">
+import { useAuthStore } from '~/stores/auth'
 import { useItemsStore } from '~/stores/items'
 import { useSettingsStore } from '~/stores/settings'
 import { pluralizeItems } from '~~/shared/utils/plural-items'
 
 const itemsStore = useItemsStore()
 const settingsStore = useSettingsStore()
+const authStore = useAuthStore()
 
 const route = useRoute()
 
@@ -41,13 +43,15 @@ const handleChangeLocale = async () => {
       <AText as="h1">{{ t(`sidebar.${currentLink}`) }}</AText>
     </NuxtLink>
 
-    <div v-if="purePath === 'items'" class="items-summary__head">
+    <div v-if="purePath === 'items' && authStore.isAuthenticated" class="items-summary__head">
       <AText class="items-summary__star" size="24px">★</AText>
       <AText size="24px">{{ itemsCountText }}</AText>
     </div>
 
     <div class="header-actions d-flex">
-      <AAvatar />
+      <ClientOnly>
+        <MUser />
+      </ClientOnly>
 
       <AButton class="btn-lang" @click="handleChangeLocale">
         <AIcon name="world" src="images/shared/world.svg" :size="20" />
@@ -70,7 +74,7 @@ const handleChangeLocale = async () => {
 }
 
 .btn-lang {
-  padding: 10px;
+  padding: 13px;
 }
 
 .items-summary__head {

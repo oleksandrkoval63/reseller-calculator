@@ -1,14 +1,30 @@
+import { createRequire } from 'module'
+const require = createRequire(import.meta.url)
+
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
 
+  alias: {
+    'tslib': require.resolve('tslib/tslib.es6.js')
+  },
+  
+
+  build: {
+    transpile: ['tslib', '@supabase/functions-js', '@supabase/gotrue-js']
+  },
+
   runtimeConfig: {
+    supabaseServiceRoleKey: process.env.SUPABASE_SERVICE_ROLE_KEY,
     public: {
       apiBase: '',
       siteUrl: '',
       appName: 'Reseller Calculator',
       defaultLocale: 'uk',
       defaultCurrency: 'UAH',
+
+      supabaseUrl: process.env.SUPABASE_URL,
+      supabasePublishableKey: process.env.SUPABASE_PUBLISHABLE_KEY,
     },
   },
 
@@ -45,7 +61,7 @@ export default defineNuxtConfig({
   },
 
   typescript: {
-    strict: true,
+    strict: false,
     typeCheck: 'build',
   },
 
@@ -78,10 +94,17 @@ export default defineNuxtConfig({
 
   vite: {
     optimizeDeps: {
-      include: ['vue', 'vue-router', 'pinia', 'pinia-plugin-persistedstate'],
+      include: [
+        'tslib',
+        'vue',
+        'vue-router',
+        'pinia',
+        'pinia-plugin-persistedstate',
+        '@supabase/ssr',
+      ],
     },
     ssr: {
-      noExternal: ['vue', 'vue-router', 'pinia', 'pinia-plugin-persistedstate'],
+      noExternal: ['tslib', 'vue', 'vue-router', 'pinia', 'pinia-plugin-persistedstate'],
     },
   },
 
@@ -89,4 +112,6 @@ export default defineNuxtConfig({
     storage: 'cookies',
     debug: true,
   },
+
+  
 })

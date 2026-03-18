@@ -13,5 +13,6 @@
   justify-content: center;
   text-align: center;
   background: var(--color-badge-background);
+  transition: all 0.5s ease;
 }
 </style>

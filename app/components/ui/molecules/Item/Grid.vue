@@ -10,6 +10,8 @@ defineProps<{
   <div v-if="data?.length" class="clothes-grid__list">
     <ClothesGridCard v-for="item in data" :key="item?.id" :item />
   </div>
+
+  <MEmpty v-else />
 </template>
 
 <style scoped lang="scss">
