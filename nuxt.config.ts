@@ -2,6 +2,11 @@ export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
 
+  alias: {
+    'tslib': require.resolve('tslib/tslib.es6.js')
+  },
+  
+
   build: {
     transpile: ['tslib', '@supabase/functions-js', '@supabase/gotrue-js']
   },
