@@ -53,8 +53,8 @@ const isAvatar = computed(() => props?.avatar || 'images/avatar.webp')
 
   &-img {
     border-radius: 50%;
-    width: 100%;
-    height: 100%;
+    width: 40px;
+    height: 40px;
     object-fit: cover;
   }
 }
