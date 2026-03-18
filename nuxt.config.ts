@@ -89,6 +89,11 @@ export default defineNuxtConfig({
   ],
 
   vite: {
+    build: {
+      rollupOptions: {
+        external: ['tslib']
+      }
+    },
     optimizeDeps: {
       include: [
         'tslib',
