@@ -81,11 +81,6 @@ export default defineNuxtConfig({
   ],
 
   vite: {
-    resolve: {
-      alias: {
-        tslib: 'tslib/tslib.es6.mjs',
-      },
-    },
     optimizeDeps: {
       include: [
         'tslib',
