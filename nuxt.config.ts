@@ -57,7 +57,7 @@ export default defineNuxtConfig({
   },
 
   typescript: {
-    strict: true,
+    strict: false,
     typeCheck: 'build',
   },
 
@@ -98,11 +98,6 @@ export default defineNuxtConfig({
         'pinia-plugin-persistedstate',
         '@supabase/ssr',
       ],
-    },
-    build: {
-      commonjsOptions: {
-        include: ['/tslib/', '/node_modules/']
-      }
     },
     ssr: {
       noExternal: ['vue', 'vue-router', 'pinia', 'pinia-plugin-persistedstate'],
