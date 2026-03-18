@@ -1,3 +1,6 @@
+import { createRequire } from 'module'
+const require = createRequire(import.meta.url)
+
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
@@ -90,11 +93,6 @@ export default defineNuxtConfig({
   ],
 
   vite: {
-    resolve: {
-      alias: {
-        'tslib': 'tslib' 
-      }
-    },
     optimizeDeps: {
       include: [
         'tslib',
@@ -106,7 +104,7 @@ export default defineNuxtConfig({
       ],
     },
     ssr: {
-      noExternal: ['vue', 'vue-router', 'pinia', 'pinia-plugin-persistedstate'],
+      noExternal: ['tslib', 'vue', 'vue-router', 'pinia', 'pinia-plugin-persistedstate'],
     },
   },
 
