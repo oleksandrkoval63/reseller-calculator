@@ -3,12 +3,16 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
 
   runtimeConfig: {
+    supabaseServiceRoleKey: process.env.SUPABASE_SERVICE_ROLE_KEY,
     public: {
       apiBase: '',
       siteUrl: '',
       appName: 'Reseller Calculator',
       defaultLocale: 'uk',
       defaultCurrency: 'UAH',
+
+      supabaseUrl: process.env.SUPABASE_URL,
+      supabasePublishableKey: process.env.SUPABASE_PUBLISHABLE_KEY,
     },
   },
 

@@ -8,7 +8,11 @@ export default defineNuxtRouteMiddleware(() => {
     return
   }
 
-  if (authStore.isAuthenticated) {
+  if (!authStore.isAuthenticated) {
+    return navigateTo(localePath('/login'))
+  }
+
+  if (!authStore.isStaff) {
     return navigateTo(localePath('/'))
   }
 })

@@ -1,169 +1,31 @@
 <script setup lang="ts">
+import { useAuthStore } from '~/stores/auth'
 import { useItemsStore } from '~/stores/items'
-import type { ClothingItem } from '~~/entities/item/types'
 
 const itemsStore = useItemsStore()
+const authStore = useAuthStore()
 
-const clothes: ClothingItem[] = [
-  {
-    id: 1,
-    title: 'Nike Tech Fleece Set',
-    brand: 'Nike',
-    category: 'Set',
-    size: 'M',
-    status: 'sold',
-    stats: {
-      purchasedPrice: 130,
-      plannedPrice: 220,
-      soldPrice: 110,
-      quantity: 1,
-    },
-    purchasedAt: '2024-04-08',
-    soldAt: '2024-04-18',
-    image: '/images/clothes/nike-tech-fleece-set.avif',
-  },
-  {
-    id: 2,
-    title: 'Adidas Campus 00s',
-    brand: 'Adidas',
-    category: 'Sneakers',
-    size: '10',
-    status: 'listed',
-    stats: {
-      purchasedPrice: 110,
-      plannedPrice: 220,
-      soldPrice: null,
-      quantity: 1,
-    },
-    purchasedAt: '2024-04-03',
-    soldAt: null,
-    image: '',
-  },
-  {
-    id: 3,
-    title: 'The North Face 1996 Retro Nuptse',
-    brand: 'The North Face',
-    category: 'Jacket',
-    size: 'L',
-    status: 'sold',
-    stats: {
-      purchasedPrice: 280,
-      plannedPrice: 450,
-      soldPrice: 450,
-      quantity: 1,
-    },
-    purchasedAt: '2024-04-01',
-    soldAt: '2024-04-12',
-    image: '',
-  },
-  {
-    id: 4,
-    title: 'Jordan 4 Retro Thunder',
-    brand: 'Jordan',
-    category: 'Sneakers',
-    size: '9.5',
-    status: 'sold',
-    stats: {
-      purchasedPrice: 150,
-      plannedPrice: 220,
-      soldPrice: 220,
-      quantity: 1,
-    },
-    purchasedAt: '2024-03-26',
-    soldAt: '2024-04-06',
-    image: '',
-  },
-  {
-    id: 5,
-    title: 'Supreme Box Logo Hoodie',
-    brand: 'Supreme',
-    category: 'Hoodie',
-    size: 'L',
-    status: 'draft',
-    stats: {
-      purchasedPrice: 115,
-      plannedPrice: null,
-      soldPrice: null,
-      quantity: 1,
-    },
-    purchasedAt: '2024-03-20',
-    soldAt: null,
-    image: '',
-  },
-  {
-    id: 6,
-    title: 'New Balance 2002R Black',
-    brand: 'New Balance',
-    category: 'Sneakers',
-    size: '10',
-    status: 'listed',
-    stats: {
-      purchasedPrice: 115,
-      plannedPrice: 220,
-      soldPrice: null,
-      quantity: 1,
-    },
-    purchasedAt: '2024-03-20',
-    soldAt: null,
-    image: '',
-  },
-  {
-    id: 7,
-    title: 'Carhartt WIP Detroit Jacket',
-    brand: 'Carhartt WIP',
-    category: 'Jacket',
-    size: 'M',
-    status: 'sold',
-    stats: {
-      purchasedPrice: 140,
-      plannedPrice: 240,
-      soldPrice: 225,
-      quantity: 1,
-    },
-    purchasedAt: '2024-03-14',
-    soldAt: '2024-03-28',
-    image: '',
-  },
-  {
-    id: 8,
-    title: 'Stone Island Crewneck',
-    brand: 'Stone Island',
-    category: 'Sweatshirt',
-    size: 'L',
-    status: 'listed',
-    stats: {
-      purchasedPrice: 160,
-      plannedPrice: 260,
-      soldPrice: null,
-      quantity: 1,
-    },
-    purchasedAt: '2024-03-10',
-    soldAt: null,
-    image: '',
-  },
-]
-
-onMounted(() => itemsStore.setItems(clothes))
+onMounted(() => itemsStore.setItems())
 </script>
 
 <template>
-  <div class="items-content">
-    <Filters />
+  <div class="items-wrapper">
+    <div class="items-content">
+      <Filters />
 
-    <div v-if="clothes?.length" class="items-wrapper">
-      <AScroll v-if="itemsStore.itemsDisplay === 'list'">
-        <List :data="clothes" />
-      </AScroll>
-      <AScroll v-else height="770px">
-        <Grid :data="clothes" />
-      </AScroll>
+      <div class="items-wrapper">
+        <AScroll v-if="itemsStore.itemsDisplay === 'list'">
+          <List :data="itemsStore.items" />
+        </AScroll>
+        <AScroll v-else height="770px">
+          <Grid :data="itemsStore.items" />
+        </AScroll>
+      </div>
+
+      <LazySummary />
     </div>
 
-    <div v-else class="items-error">
-      <AText>No one item was founded !</AText>
-    </div>
-
-    <LazySummary />
+    <MAuthorize v-if="!authStore.isAuthenticated" />
   </div>
 </template>
 
@@ -265,6 +127,7 @@ onMounted(() => itemsStore.setItems(clothes))
 
 <style scoped lang="scss">
 .items-wrapper {
-  margin-bottom: 20px;
+  position: relative;
+  height: 100%;
 }
 </style>

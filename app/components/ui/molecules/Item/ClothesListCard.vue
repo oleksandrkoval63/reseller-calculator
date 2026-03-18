@@ -1,14 +1,16 @@
 <script setup lang="ts">
+import { useItemsStore } from '~/stores/items'
 import type { ClothesStats, ClothingItem } from '~~/entities/item/types'
 
 const props = defineProps<{
   item: ClothingItem
 }>()
 
+const itemsStore = useItemsStore()
+
 const { locale } = useI18n()
 
 const imageSrc = computed(() => props?.item?.image || '/images/shared/clothes-holder.avif')
-
 const statusColor = computed(() => {
   if (props?.item?.status === 'listed') {
     return 'var(--color-warning)'
@@ -70,7 +72,13 @@ const profit = useProfit(props?.item?.stats?.purchasedPrice, props?.item?.stats?
 
     <div class="list-row__actions">
       <AButton class="action-btn" styled="primary" aria-label="Редактировать">✎</AButton>
-      <AButton class="action-btn" styled="danger" aria-label="Удалить">🗑</AButton>
+      <AButton
+        class="action-btn"
+        styled="danger"
+        aria-label="Удалить"
+        @click="itemsStore.delItem(item.id)"
+        >🗑</AButton
+      >
     </div>
   </article>
 </template>

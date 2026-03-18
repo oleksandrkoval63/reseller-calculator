@@ -7,16 +7,41 @@ const getProfit = (purchasedPrice: number, soldPrice: number | null) => {
 export const useItemsStore = defineStore(
   'items',
   () => {
+    const { getItems, deleteItem } = useItemsApi()
+
     const items = ref<ClothingItem[]>([])
     const itemsDisplay = ref<'list' | 'grid'>('list')
     const isLoading = ref(false)
+    const errorMsg = ref<string>('')
+
+    const setLoading = (status: true | false) => {
+      isLoading.value = status
+    }
+
+    const setError = (error: string) => {
+      errorMsg.value = error
+    }
 
     const setItemsDisplay = (display: 'list' | 'grid') => {
       itemsDisplay.value = display
     }
 
-    const setItems = (clothes: ClothingItem[]) => {
-      items.value = clothes
+    const setItems = async () => {
+      try {
+        setLoading(true)
+        setError('')
+
+        items.value = await getItems()
+      } catch (error: any) {
+        setError(error.message || 'Failed to load items')
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    const delItem = async (id: number) => {
+      await deleteItem(id)
+      await setItems()
     }
 
     const summaryProfit = computed(() => {
@@ -45,6 +70,10 @@ export const useItemsStore = defineStore(
       itemsDisplay,
       setItemsDisplay,
       isLoading,
+      setLoading,
+      errorMsg,
+      setError,
+      delItem,
     }
   },
   {

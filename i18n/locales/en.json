@@ -24,5 +24,20 @@
       "soldPrice": "Sold",
       "profit": "Profit"
     }
+  },
+  "auth": {
+    "title": "Sign in to your account to see the list of products",
+    "buttons": {
+      "signIn": "Sign In",
+      "signUp": "Sign Up",
+      "signOut": "Sign Out"
+    }
+  },
+  "empty": {
+    "title": "There are no products yet.",
+    "description": "Add your first product to start tracking purchases, sales, and profits."
+  },
+  "actionBtns": {
+    "addItem": "Add item"
   }
 }
