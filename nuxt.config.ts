@@ -2,6 +2,14 @@ export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
 
+  build: {
+    transpile: [
+      'tslib',
+      '@supabase/functions-js',
+      '@supabase/gotrue-js'
+    ]
+  },
+
   runtimeConfig: {
     supabaseServiceRoleKey: process.env.SUPABASE_SERVICE_ROLE_KEY,
     public: {
@@ -91,8 +99,13 @@ export default defineNuxtConfig({
         '@supabase/ssr',
       ],
     },
+    build: {
+      commonjsOptions: {
+        include: ['/tslib/', '/node_modules/']
+      }
+    },
     ssr: {
-      noExternal: ['tslib', 'vue', 'vue-router', 'pinia', 'pinia-plugin-persistedstate'],
+      noExternal: ['vue', 'vue-router', 'pinia', 'pinia-plugin-persistedstate'],
     },
   },
 
@@ -101,7 +114,5 @@ export default defineNuxtConfig({
     debug: true,
   },
 
-  build: {
-    transpile: ['tslib']
-  }
+  
 })
