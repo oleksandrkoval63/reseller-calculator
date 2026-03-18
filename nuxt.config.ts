@@ -1,5 +1,3 @@
-import { fileURLToPath } from 'node:url'
-
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
@@ -85,7 +83,7 @@ export default defineNuxtConfig({
   vite: {
     resolve: {
       alias: {
-        tslib: fileURLToPath(new URL('./node_modules/tslib/tslib.es6.js', import.meta.url)),
+        tslib: 'tslib/tslib.es6.mjs',
       },
     },
     optimizeDeps: {
