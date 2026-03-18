@@ -100,4 +100,8 @@ export default defineNuxtConfig({
     storage: 'cookies',
     debug: true,
   },
+
+  build: {
+    transpile: ['tslib']
+  }
 })
