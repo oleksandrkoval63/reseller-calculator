@@ -1,3 +1,5 @@
+import { fileURLToPath } from 'node:url'
+
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
@@ -81,11 +83,23 @@ export default defineNuxtConfig({
   ],
 
   vite: {
+    resolve: {
+      alias: {
+        tslib: fileURLToPath(new URL('./node_modules/tslib/tslib.es6.js', import.meta.url)),
+      },
+    },
     optimizeDeps: {
-      include: ['vue', 'vue-router', 'pinia', 'pinia-plugin-persistedstate', '@supabase/ssr'],
+      include: [
+        'tslib',
+        'vue',
+        'vue-router',
+        'pinia',
+        'pinia-plugin-persistedstate',
+        '@supabase/ssr',
+      ],
     },
     ssr: {
-      noExternal: ['vue', 'vue-router', 'pinia', 'pinia-plugin-persistedstate'],
+      noExternal: ['tslib', 'vue', 'vue-router', 'pinia', 'pinia-plugin-persistedstate'],
     },
   },
 
