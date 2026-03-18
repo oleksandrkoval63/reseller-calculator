@@ -3,11 +3,7 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
 
   build: {
-    transpile: [
-      'tslib',
-      '@supabase/functions-js',
-      '@supabase/gotrue-js'
-    ]
+    transpile: ['tslib', '@supabase/functions-js', '@supabase/gotrue-js']
   },
 
   runtimeConfig: {
@@ -89,9 +85,9 @@ export default defineNuxtConfig({
   ],
 
   vite: {
-    build: {
-      rollupOptions: {
-        external: ['tslib']
+    resolve: {
+      alias: {
+        'tslib': 'tslib' 
       }
     },
     optimizeDeps: {
