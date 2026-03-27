@@ -109,6 +109,7 @@ export default defineNuxtConfig({
         'pinia',
         'pinia-plugin-persistedstate',
         '@supabase/ssr',
+        'dayjs-nuxt',
       ],
     },
     ssr: {
