@@ -1,4 +1,4 @@
-import type { ClothingItem } from '~~/entities/item/types'
+import type { ClothingItem, ClothingItemBD, ClothingItemForm } from '~~/entities/item/types'
 import { mapDbItemToClothingItem } from '~~/shared/utils/map-item'
 
 export const useItemsApi = () => {
@@ -15,20 +15,7 @@ export const useItemsApi = () => {
     return (data || []).map(mapDbItemToClothingItem)
   }
 
-  const createItem = async (payload: {
-    title: string
-    brand: string
-    category: string
-    size: string
-    purchasedPrice: number
-    plannedPrice: number | null
-    soldPrice: number | null
-    quantity: number
-    status: 'draft' | 'listed' | 'sold'
-    purchasedAt: string
-    soldAt: string | null
-    image: string
-  }) => {
+  const createItem = async (payload: ClothingItemBD) => {
     const { data: userData } = await supabase.auth.getUser()
     const user = userData.user
 
@@ -40,36 +27,20 @@ export const useItemsApi = () => {
       brand: payload.brand,
       category: payload.category,
       size: payload.size,
-      purchased_price: payload.purchasedPrice,
-      planned_price: payload.plannedPrice,
-      sold_price: payload.soldPrice,
+      purchased_price: payload.purchased_price,
+      planned_price: payload.planned_price,
+      sold_price: payload.sold_price,
       quantity: payload.quantity,
       status: payload.status,
-      purchased_at: payload.purchasedAt,
-      sold_at: payload.soldAt,
+      purchased_at: payload.purchased_at,
+      sold_at: payload.sold_at,
       image: payload.image,
     })
 
     if (error) throw error
   }
 
-  const updateItem = async (
-    id: number,
-    payload: Partial<{
-      title: string
-      brand: string
-      category: string
-      size: string
-      purchased_price: number
-      planned_price: number | null
-      sold_price: number | null
-      quantity: number
-      status: 'draft' | 'listed' | 'sold'
-      purchased_at: string
-      sold_at: string | null
-      image: string
-    }>,
-  ) => {
+  const updateItem = async (id: number, payload: Partial<ClothingItemForm>) => {
     const { error } = await supabase.from('items').update(payload).eq('id', id)
     if (error) throw error
   }

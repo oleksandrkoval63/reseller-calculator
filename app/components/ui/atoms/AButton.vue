@@ -61,6 +61,14 @@ withDefaults(
     }
   }
 
+  &.success {
+    background: var(--color-button-success);
+
+    &:hover {
+      background: var(--color-button-success-hov);
+    }
+  }
+
   &.disabled {
     background: var(--color-button-disabled);
   }

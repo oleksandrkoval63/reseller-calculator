@@ -120,5 +120,6 @@ onUnmounted(() => document.addEventListener('click', handleClickOutside))
   border-top: 0;
   border-radius: 0 0 8px 8px;
   cursor: default;
+  z-index: 999;
 }
 </style>

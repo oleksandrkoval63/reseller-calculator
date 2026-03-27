@@ -16,6 +16,7 @@
 <style scoped lang="scss">
 .app-shell {
   display: flex;
+  min-height: 100%;
 }
 
 .app-shell__content {

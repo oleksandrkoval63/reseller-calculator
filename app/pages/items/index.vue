@@ -14,10 +14,10 @@ onMounted(() => itemsStore.setItems())
       <Filters />
 
       <div class="items-wrapper">
-        <AScroll v-if="itemsStore.itemsDisplay === 'list'">
+        <AScroll v-if="itemsStore.itemsDisplay === 'list'" right="-15px">
           <List :data="itemsStore.items" />
         </AScroll>
-        <AScroll v-else height="770px">
+        <AScroll v-else height="770px" right="-15px">
           <Grid :data="itemsStore.items" />
         </AScroll>
       </div>
@@ -25,7 +25,9 @@ onMounted(() => itemsStore.setItems())
       <LazySummary />
     </div>
 
-    <MAuthorize v-if="!authStore.isAuthenticated" />
+    <ClientOnly>
+      <MAuthorize v-if="!authStore.isAuthenticated" />
+    </ClientOnly>
   </div>
 </template>
 

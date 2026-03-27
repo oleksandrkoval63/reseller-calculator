@@ -39,5 +39,53 @@
   },
   "actionBtns": {
     "addItem": "Add item"
+  },
+  "modals": {
+    "createItem": {
+      "title": "New item",
+      "desc": "Create a new item to display it in the list"
+    },
+    "actions": {
+      "save": "Save",
+      "cancel": "Cancel"
+    }
+  },
+  "form": {
+    "fields": {
+      "title": "Item title",
+      "brand": "Brand",
+      "category": "Category",
+      "size": "Size",
+      "price": "Price",
+      "quantity": "Quantity",
+      "purchasedAt": "Purchase date",
+      "soldAt": "Sale date",
+      "status": "Status",
+      "purchasedPrice": "Purchased for",
+      "plannedPrice": "Planned price",
+      "soldPrice": "Sold for"
+    },
+    "sections": {
+      "mainInfo": "Main information",
+      "status": "Status",
+      "price": "Price",
+      "date": "Date"
+    }
+  },
+  "status": {
+    "draft": "Draft",
+    "listed": "Listed",
+    "sold": "Sold"
+  },
+  "gallery": {
+    "label": "Upload photos",
+    "hint": "Drag files here or click to choose"
+  },
+  "errors": {
+    "form": {
+      "title": "Minimum number of characters is 2",
+      "soldPrice": "Enter the sale price"
+    },
+    "required": "This field is required"
   }
 }

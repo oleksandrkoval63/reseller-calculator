@@ -11,5 +11,9 @@ watchEffect(() => settingsStore.initLocale(locale.value))
 <template>
   <NuxtLayout>
     <NuxtPage />
+
+    <ClientOnly>
+      <ModalsApp />
+    </ClientOnly>
   </NuxtLayout>
 </template>

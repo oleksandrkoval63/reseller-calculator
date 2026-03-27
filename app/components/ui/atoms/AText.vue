@@ -6,11 +6,13 @@ const props = withDefaults(
     as?: TextTag
     type?: TextType
     size?: number | string
+    color?: string
   }>(),
   {
     as: 'span',
     type: 'default',
     size: '16px',
+    color: 'var(--color-white)',
   },
 )
 
@@ -41,8 +43,18 @@ const textSize = computed(() => {
 
 <style scoped lang="scss">
 .text {
+  color: v-bind(color);
+
   &.primary {
     color: var(--color-primary);
+  }
+
+  &.danger {
+    color: var(--color-danger);
+  }
+
+  &.muted {
+    color: var(--color-text-muted);
   }
 
   &.custom-size {
