@@ -10,7 +10,8 @@ const itemsStore = useItemsStore()
 
 const { locale } = useI18n()
 
-const imageSrc = computed(() => props?.item?.image || '/images/shared/clothes-holder.avif')
+const imageUrls = await getImageUrls(props.item.image)
+
 const statusColor = computed(() => {
   if (props?.item?.status === 'listed') {
     return 'var(--color-warning)'
@@ -32,8 +33,22 @@ const profit = useProfit(props?.item?.stats?.purchasedPrice, props?.item?.stats?
   <article v-if="item" class="list-row">
     <div class="list-row__product">
       <div class="item-info">
-        <ABadge class="item-image item-image--list">
-          <LazyNuxtImg :src="imageSrc" :alt="item?.title" class="item-image__img" />
+        <ABadge v-if="imageUrls?.length" class="item-image item-image--list">
+          <LazyNuxtImg
+            v-for="src in imageUrls"
+            :key="src"
+            :src="src"
+            :alt="item?.title"
+            class="item-image__img"
+          />
+        </ABadge>
+
+        <ABadge v-else class="item-image item-image--list">
+          <LazyNuxtImg
+            src="/images/shared/clothes-holder.avif"
+            alt="holder"
+            class="item-image__img"
+          />
         </ABadge>
 
         <div class="item-info__content">

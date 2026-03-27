@@ -6,9 +6,13 @@ import 'overlayscrollbars/overlayscrollbars.css'
 withDefaults(
   defineProps<{
     height?: string
+    right?: string
+    padblock?: string
   }>(),
   {
     height: '650px',
+    right: '10px',
+    padblock: '0px',
   },
 )
 
@@ -43,5 +47,39 @@ onBeforeUnmount(() => {
 <style lang="scss" scoped>
 .cards-scroll {
   max-height: v-bind(height);
+}
+</style>
+
+<style lang="scss">
+.os-scrollbar.os-theme-app {
+  --os-size: 4px;
+  --os-padding-perpendicular: 0;
+  --os-padding-axis: v-bind(padblock);
+
+  --os-track-bg: transparent;
+  --os-track-bg-hover: rgba(255, 255, 255, 0.04);
+  --os-track-bg-active: rgba(255, 255, 255, 0.06);
+  --os-track-border-radius: 50px;
+
+  --os-handle-bg: var(--color-primary);
+  --os-handle-bg-hover: var(--color-primary-hover);
+  --os-handle-bg-active: var(--color-primary-hover);
+  --os-handle-border-radius: 50px;
+
+  --os-handle-min-size: 36px;
+  --os-handle-interactive-area-offset: 4px;
+}
+
+[data-overlayscrollbars] {
+  position: unset !important;
+}
+
+[data-overlayscrollbars-padding],
+[data-overlayscrollbars-viewport]:not([data-overlayscrollbars]) {
+  position: unset !important;
+}
+
+.os-scrollbar.os-scrollbar-vertical .os-scrollbar-handle {
+  right: v-bind(right) !important;
 }
 </style>

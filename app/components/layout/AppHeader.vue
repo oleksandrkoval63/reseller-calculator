@@ -43,10 +43,12 @@ const handleChangeLocale = async () => {
       <AText as="h1">{{ t(`sidebar.${currentLink}`) }}</AText>
     </NuxtLink>
 
-    <div v-if="purePath === 'items' && authStore.isAuthenticated" class="items-summary__head">
-      <AText class="items-summary__star" size="24px">★</AText>
-      <AText size="24px">{{ itemsCountText }}</AText>
-    </div>
+    <ClientOnly>
+      <div v-if="purePath === 'items' && authStore.isAuthenticated" class="items-summary__head">
+        <AText class="items-summary__star" size="24px">★</AText>
+        <AText size="24px">{{ itemsCountText }}</AText>
+      </div>
+    </ClientOnly>
 
     <div class="header-actions d-flex">
       <ClientOnly>

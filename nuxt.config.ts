@@ -6,12 +6,11 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
 
   alias: {
-    'tslib': require.resolve('tslib/tslib.es6.js')
+    tslib: require.resolve('tslib/tslib.es6.js'),
   },
-  
 
   build: {
-    transpile: ['tslib', '@supabase/functions-js', '@supabase/gotrue-js']
+    transpile: ['tslib', '@supabase/functions-js', '@supabase/gotrue-js', '@vuepic/vue-datepicker'],
   },
 
   runtimeConfig: {
@@ -24,6 +23,7 @@ export default defineNuxtConfig({
       defaultCurrency: 'UAH',
 
       supabaseUrl: process.env.SUPABASE_URL,
+      supabaseImgBucket: process.env.NUXT_PUBLIC_IMG_BUCKET,
       supabasePublishableKey: process.env.SUPABASE_PUBLISHABLE_KEY,
     },
   },
@@ -61,17 +61,25 @@ export default defineNuxtConfig({
   },
 
   typescript: {
-    strict: false,
+    strict: true,
     typeCheck: 'build',
   },
 
   modules: [
     '@pinia/nuxt',
+    'dayjs-nuxt',
     '@nuxtjs/i18n',
     '@nuxt/eslint',
     '@nuxt/image',
     'pinia-plugin-persistedstate/nuxt',
   ],
+
+  dayjs: {
+    locales: ['uk', 'en'],
+    plugins: ['relativeTime', 'utc', 'timezone'],
+    defaultLocale: 'uk',
+    defaultTimezone: 'Europe/Kyiv',
+  },
 
   css: ['~/assets/styles/main.scss'],
 
@@ -101,6 +109,7 @@ export default defineNuxtConfig({
         'pinia',
         'pinia-plugin-persistedstate',
         '@supabase/ssr',
+        'dayjs-nuxt',
       ],
     },
     ssr: {
@@ -112,6 +121,4 @@ export default defineNuxtConfig({
     storage: 'cookies',
     debug: true,
   },
-
-  
 })

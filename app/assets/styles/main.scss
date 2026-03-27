@@ -1,8 +1,11 @@
 @use './fonts';
 @use './variables';
 @use './typography';
-@use './scrollbar';
 @use './mixins' as *;
+
+#__nuxt {
+  height: 100%;
+}
 
 body {
   background-color: var(--color-level-2);

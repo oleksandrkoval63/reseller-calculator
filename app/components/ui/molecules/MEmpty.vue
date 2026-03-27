@@ -1,9 +1,12 @@
 <script setup lang="ts">
-const emit = defineEmits<{
-  add: []
-}>()
+import { useModalsStore } from '~/stores/modals'
 
 const { t } = useI18n()
+const { open } = useModalsStore()
+
+const handleOpenModal = () => {
+  open('LazyCreateItem')
+}
 </script>
 
 <template>
@@ -24,9 +27,13 @@ const { t } = useI18n()
         </div>
       </div>
 
-      <AButton styled="primary" class="empty-items__button" type="button" @click="emit('add')">{{
-        t('actionBtns.addItem')
-      }}</AButton>
+      <AButton
+        styled="success"
+        class="empty-items__button"
+        type="button"
+        @click="handleOpenModal"
+        >{{ t('actionBtns.addItem') }}</AButton
+      >
     </div>
   </div>
 </template>
