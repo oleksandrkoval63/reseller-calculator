@@ -93,13 +93,6 @@ export default defineNuxtConfig({
     ],
   },
 
-  components: [
-    {
-      path: '~/components',
-      pathPrefix: false,
-    },
-  ],
-
   vite: {
     optimizeDeps: {
       include: [
