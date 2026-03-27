@@ -61,7 +61,7 @@ export default defineNuxtConfig({
   },
 
   typescript: {
-    strict: false,
+    strict: true,
     typeCheck: 'build',
   },
 
@@ -92,6 +92,13 @@ export default defineNuxtConfig({
       'features/**/composables',
     ],
   },
+
+  components: [
+    {
+      path: '~/components',
+      pathPrefix: false,
+    },
+  ],
 
   vite: {
     optimizeDeps: {

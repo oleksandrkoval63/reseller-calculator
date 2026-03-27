@@ -8,6 +8,7 @@ export const clothingFormSchema = () => {
       required: true,
       validate: (value: string) => {
         if (value.trim().length < 2) return t('errors.form.title')
+        return ''
       },
     },
     purchasedPrice: {
@@ -16,6 +17,7 @@ export const clothingFormSchema = () => {
     soldPrice: {
       validate: (value: string, form: ClothingItemForm) => {
         if (!value && form.status === 'sold') return t('errors.form.soldPrice')
+        return ''
       },
     },
   }

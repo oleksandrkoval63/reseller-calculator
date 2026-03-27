@@ -26,11 +26,11 @@ const handleOpenSelect = () => {
 }
 
 const defaultSelected = () => {
-  selected.value = props?.options[0]
+  selected.value = props?.options[0] ?? null
 }
 
 const availableOptions = computed(() => {
-  return props?.options.filter((option) => selected.value.value !== option.value)
+  return props?.options.filter((option) => selected.value?.value !== option.value)
 })
 
 defaultSelected()

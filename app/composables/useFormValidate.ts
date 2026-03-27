@@ -43,6 +43,9 @@ export const useFormValidate = () => {
 
       return customError
     }
+
+    errors[field] = ''
+    return ''
   }
 
   const validateForm = (form: ClothingItemForm) => {

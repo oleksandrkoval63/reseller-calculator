@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import { useModalsStore } from '~/stores/modals'
+import { modalRegistry } from '~~/shared/config/modal-registry'
 
 const { t } = useI18n()
 
 const { open } = useModalsStore()
 
 const handleOpenModal = () => {
-  open('LazyCreateItem')
+  open(modalRegistry.LazyCreateItem)
 }
 </script>
 

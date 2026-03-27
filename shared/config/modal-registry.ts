@@ -1,7 +1,5 @@
-import CreateItem from '~/components/modals/CreateItem.vue'
-
 export const modalRegistry = {
-  LazyCreateItem: CreateItem,
+  LazyCreateItem: 'LazyCreateItem',
   LazyEditItem: 'LazyEditItem',
   LazyConfirmDelete: 'LazyConfirmDelete',
 } as const

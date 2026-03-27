@@ -1,12 +1,16 @@
 <script setup lang="ts">
-import { modalRegistry } from '~~/shared/config/modal-registry'
-
 const { currentModal, isModalOpen, close } = useModals()
+
+const componentMap = {
+  LazyCreateItem: defineAsyncComponent(() => import('~/components/modals/CreateItem.vue')),
+  LazyEditItem: defineAsyncComponent(() => import('~/components/modals/EditItem.vue')),
+  LazyConfirmDelete: defineAsyncComponent(() => import('~/components/modals/ConfirmDelete.vue')),
+} as const
 
 const currentComponent = computed(() => {
   const name = currentModal.value?.name
 
-  return name ? modalRegistry[name] : null
+  return name ? componentMap[name] : null
 })
 
 const modalProps = computed(() => currentModal.value?.props ?? {})
