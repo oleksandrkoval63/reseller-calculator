@@ -1,14 +1,13 @@
 <script setup lang="ts">
-import { useItemsStore } from '~/stores/items'
 import type { ClothesStats, ClothingItem } from '~~/entities/item/types'
+import { modalRegistry } from '~~/shared/config/modal-registry'
 
 const props = defineProps<{
   item: ClothingItem
 }>()
 
-const itemsStore = useItemsStore()
-
 const { locale } = useI18n()
+const { open } = useModals()
 
 const imageUrls = await getImageUrls(props.item.image)
 
@@ -27,6 +26,10 @@ const statusColor = computed(() => {
 const statsKeys = Object.keys(props?.item?.stats)
 
 const profit = useProfit(props?.item?.stats?.purchasedPrice, props?.item?.stats?.soldPrice ?? 0)
+
+const handleOpenDelete = () => {
+  open(modalRegistry.LazyConfirmDelete, { itemId: props?.item?.id })
+}
 </script>
 
 <template>
@@ -87,11 +90,7 @@ const profit = useProfit(props?.item?.stats?.purchasedPrice, props?.item?.stats?
 
     <div class="list-row__actions">
       <AButton class="action-btn" styled="primary" aria-label="Редактировать">✎</AButton>
-      <AButton
-        class="action-btn"
-        styled="danger"
-        aria-label="Удалить"
-        @click="itemsStore.delItem(item.id)"
+      <AButton class="action-btn" styled="danger" aria-label="Удалить" @click="handleOpenDelete"
         >🗑</AButton
       >
     </div>
