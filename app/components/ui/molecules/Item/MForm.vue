@@ -52,7 +52,7 @@ const statusOptions = [
             :label="t('gallery.label')"
             :hint="t('gallery.hint')"
             :multiple="true"
-            :max-files="6"
+            :max-files="1"
           />
 
           <div class="create-form__error">
