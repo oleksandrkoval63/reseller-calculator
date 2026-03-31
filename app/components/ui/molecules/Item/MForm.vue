@@ -3,16 +3,21 @@ import { VueDatePicker } from '@vuepic/vue-datepicker'
 import { createForm } from '~~/features/clothing/model/form'
 import AInput from '../../atoms/AInput.vue'
 import '@vuepic/vue-datepicker/dist/main.css'
+import type { ClothingItem } from '~~/entities/item/types'
 
 const emit = defineEmits<{
   close: []
 }>()
 
+const props = defineProps<{
+  item?: ClothingItem
+}>()
+
 const { t } = useI18n()
-const { createItem } = useItemsApi()
+const { createItem, updateItem } = useItemsApi()
 const { errors, validateForm } = useFormValidate()
 
-const form = createForm()
+const form = createForm(props?.item)
 
 const handleSubmit = async () => {
   const isValid = validateForm(form)
@@ -20,7 +25,12 @@ const handleSubmit = async () => {
   if (!isValid) return
 
   const formatted = await mapFormToPayload(form)
-  await createItem(formatted)
+
+  if (props?.item) {
+    await updateItem(props?.item.id, formatted)
+  } else {
+    await createItem(formatted)
+  }
 
   emit('close')
 }

@@ -1,7 +1,14 @@
 import type { ClothingItemBD, ClothingItemForm } from '~~/entities/item/types'
 
 export const mapFormToPayload = async (form: ClothingItemForm): Promise<ClothingItemBD> => {
-  const imgs = Array.isArray(form.image) && form.image.length ? await uploadImages(form.image) : []
+  const currentImages = form.image ?? []
+
+  const existingPaths = currentImages.filter((img): img is string => typeof img === 'string')
+  const newFiles = currentImages.filter((img): img is File => img instanceof File)
+
+  const uploadedPaths = newFiles.length ? await uploadImages(newFiles) : []
+
+  const finalImagePaths = [...existingPaths, ...uploadedPaths]
 
   return {
     title: form.title.trim(),
@@ -15,6 +22,6 @@ export const mapFormToPayload = async (form: ClothingItemForm): Promise<Clothing
     quantity: Number(form.quantity),
     purchased_at: useDayjsFormatter(form.purchasedAt),
     sold_at: form.soldAt ? useDayjsFormatter(form.soldAt) : null,
-    image: imgs,
+    image: finalImagePaths,
   }
 }

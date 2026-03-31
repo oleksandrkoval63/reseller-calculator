@@ -32,7 +32,7 @@ export type ClothingItemForm = {
   status: 'draft' | 'listed' | 'sold'
   purchasedAt: string
   soldAt: string
-  image: File | File[] | null
+  image: File[] | string[] | null
 }
 
 export type ClothingItemBD = {

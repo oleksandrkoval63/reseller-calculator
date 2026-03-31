@@ -1,4 +1,4 @@
-import type { ClothingItem, ClothingItemBD, ClothingItemForm } from '~~/entities/item/types'
+import type { ClothingItem, ClothingItemBD } from '~~/entities/item/types'
 import { mapDbItemToClothingItem } from '~~/shared/utils/map-item'
 
 export const useItemsApi = () => {
@@ -40,7 +40,7 @@ export const useItemsApi = () => {
     if (error) throw error
   }
 
-  const updateItem = async (id: number, payload: Partial<ClothingItemForm>) => {
+  const updateItem = async (id: number, payload: ClothingItemBD) => {
     const { error } = await supabase.from('items').update(payload).eq('id', id)
     if (error) throw error
   }

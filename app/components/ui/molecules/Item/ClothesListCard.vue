@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { useItemsStore } from '~/stores/items'
+import { useModalsStore } from '~/stores/modals'
 import type { ClothesStats, ClothingItem } from '~~/entities/item/types'
+import { modalRegistry } from '~~/shared/config/modal-registry'
 
 const props = defineProps<{
   item: ClothingItem
@@ -9,6 +11,7 @@ const props = defineProps<{
 const itemsStore = useItemsStore()
 
 const { locale } = useI18n()
+const { open } = useModalsStore()
 
 const imageUrls = await getImageUrls(props.item.image)
 
@@ -27,6 +30,10 @@ const statusColor = computed(() => {
 const statsKeys = Object.keys(props?.item?.stats)
 
 const profit = useProfit(props?.item?.stats?.purchasedPrice, props?.item?.stats?.soldPrice ?? 0)
+
+const handleOpenEdit = () => {
+  open(modalRegistry.LazyEditItem, { item: props?.item })
+}
 </script>
 
 <template>
@@ -86,7 +93,13 @@ const profit = useProfit(props?.item?.stats?.purchasedPrice, props?.item?.stats?
     </div>
 
     <div class="list-row__actions">
-      <AButton class="action-btn" styled="primary" aria-label="Редактировать">✎</AButton>
+      <AButton
+        class="action-btn"
+        styled="primary"
+        aria-label="Редактировать"
+        @click="handleOpenEdit"
+        >✎</AButton
+      >
       <AButton
         class="action-btn"
         styled="danger"
