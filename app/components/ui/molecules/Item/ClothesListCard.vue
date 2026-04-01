@@ -13,7 +13,10 @@ const itemsStore = useItemsStore()
 const { locale } = useI18n()
 const { open } = useModalsStore()
 
-const imageUrls = await getImageUrls(props.item.image)
+const imageSrc = computed(() => {
+  const firstKey = props.item.image?.[0]
+  return firstKey ? getImageUrl(firstKey) : '/images/shared/clothes-holder.avif'
+})
 
 const statusColor = computed(() => {
   if (props?.item?.status === 'listed') {
@@ -40,22 +43,8 @@ const handleOpenEdit = () => {
   <article v-if="item" class="list-row">
     <div class="list-row__product">
       <div class="item-info">
-        <ABadge v-if="imageUrls?.length" class="item-image item-image--list">
-          <LazyNuxtImg
-            v-for="src in imageUrls"
-            :key="src"
-            :src="src"
-            :alt="item?.title"
-            class="item-image__img"
-          />
-        </ABadge>
-
-        <ABadge v-else class="item-image item-image--list">
-          <LazyNuxtImg
-            src="/images/shared/clothes-holder.avif"
-            alt="holder"
-            class="item-image__img"
-          />
+        <ABadge v-if="imageSrc" class="item-image item-image--list">
+          <img :src="imageSrc" :alt="item?.title" class="item-image__img" />
         </ABadge>
 
         <div class="item-info__content">

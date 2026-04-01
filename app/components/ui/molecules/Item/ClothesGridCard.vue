@@ -7,7 +7,10 @@ const props = defineProps<{
 
 const { t, locale } = useI18n()
 
-const imageUrls = await getImageUrls(props?.item?.image)
+const imageSrc = computed(() => {
+  const firstKey = props.item.image?.[0]
+  return firstKey ? getImageUrl(firstKey) : '/images/shared/clothes-holder.avif'
+})
 
 const statusColor = computed(() => {
   if (props.item?.status === 'listed') {
@@ -31,23 +34,7 @@ const profit = useProfit(props?.item?.stats?.purchasedPrice, props?.item?.stats?
 <template>
   <article v-if="item" class="grid-card">
     <div class="grid-card__media">
-      <div v-if="imageUrls?.length">
-        <LazyNuxtImg
-          v-for="src in imageUrls"
-          :key="src"
-          :src="src ?? '/images/shared/clothes-holder.avif'"
-          :alt="item?.title"
-          class="item-image__img"
-        />
-      </div>
-
-      <div v-else>
-        <LazyNuxtImg
-          src="/images/shared/clothes-holder.avif"
-          alt="holder"
-          class="item-image__img"
-        />
-      </div>
+      <img :src="imageSrc" :alt="item?.title" class="item-image__img" />
 
       <div class="item-actions item-actions--top">
         <AButton class="icon-btn" styled="primary" aria-label="Редактировать">✎</AButton>

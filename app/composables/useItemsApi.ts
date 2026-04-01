@@ -40,14 +40,32 @@ export const useItemsApi = () => {
     if (error) throw error
   }
 
-  const updateItem = async (id: number, payload: ClothingItemBD) => {
+  const updateItem = async (
+    id: number,
+    payload: ClothingItemBD,
+    previousImageKeys: string[] = [],
+  ) => {
+    const nextImageKeys = Array.isArray(payload.image) ? payload.image : []
+    const removedKeys = previousImageKeys.filter((key) => !nextImageKeys.includes(key))
+    const r2RemovedKeys = removedKeys.filter((key) => key.startsWith('users/'))
+
     const { error } = await supabase.from('items').update(payload).eq('id', id)
     if (error) throw error
+
+    if (r2RemovedKeys.length) {
+      await deleteImagesFromR2(r2RemovedKeys)
+    }
   }
 
-  const deleteItem = async (id: number) => {
+  const deleteItem = async (id: number, imageKeys: string[] = []) => {
     const { error } = await supabase.from('items').delete().eq('id', id)
     if (error) throw error
+
+    const r2Keys = imageKeys.filter((key) => key.startsWith('users/'))
+
+    if (r2Keys.length) {
+      await deleteImagesFromR2(r2Keys)
+    }
   }
 
   return {

@@ -139,8 +139,6 @@ function removeFile(id: string) {
 
   model.value = nextItems
 }
-
-console.log(previewItems.value)
 </script>
 
 <template>
@@ -176,7 +174,7 @@ console.log(previewItems.value)
 
     <div v-if="previewItems.length" class="file-upload__grid">
       <div v-for="item in previewItems" :key="item.id" class="file-upload__card">
-        <NuxtImg class="file-upload__image" :src="item.url" :alt="item.name" />
+        <img class="file-upload__image" :src="item.url" :alt="item.name" />
 
         <AButton class="file-upload__remove" styled="danger" @click="removeFile(item.id)">
           ×

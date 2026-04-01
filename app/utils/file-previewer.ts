@@ -16,7 +16,8 @@ export const createPreviewItems = (items: (File | string)[]) => {
     return {
       id: `${item}-${crypto.randomUUID()}`,
       name: fileName,
-      url: getImageUrls(item),
+      path: item,
+      url: getImageUrl(item),
       kind: 'saved' as const,
     }
   })

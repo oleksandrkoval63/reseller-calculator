@@ -23,3 +23,9 @@ export type SelectType = {
   label: string
   value: string | number
 }
+
+export type UploadedImage = {
+  key: string
+  size: number
+  contentType: string
+}
