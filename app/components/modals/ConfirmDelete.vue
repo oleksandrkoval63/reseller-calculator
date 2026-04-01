@@ -7,12 +7,13 @@ const emit = defineEmits<{
 
 const props = defineProps<{
   itemId: number
+  imageKeys: string[]
 }>()
 
 const itemsStore = useItemsStore()
 
 const handleDeleteItem = () => {
-  itemsStore.delItem(props?.itemId)
+  itemsStore.delItem(props?.itemId, props?.imageKeys)
   emit('close')
 }
 
