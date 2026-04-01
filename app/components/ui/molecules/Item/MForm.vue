@@ -172,7 +172,7 @@ const statusOptions = [
         {{ t('modals.actions.save') }}
       </AButton>
 
-      <AButton styled="danger" @click="$emit('close')">
+      <AButton @click="$emit('close')">
         {{ t('modals.actions.cancel') }}
       </AButton>
     </div>

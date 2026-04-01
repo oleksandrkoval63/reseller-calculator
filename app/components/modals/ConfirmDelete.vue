@@ -1,3 +1,55 @@
+<script setup lang="ts">
+import { useItemsStore } from '~/stores/items'
+
+const emit = defineEmits<{
+  close: []
+}>()
+
+const props = defineProps<{
+  itemId: number
+}>()
+
+const itemsStore = useItemsStore()
+
+const handleDeleteItem = () => {
+  itemsStore.delItem(props?.itemId)
+  emit('close')
+}
+
+const { t } = useI18n()
+</script>
+
 <template>
-  <div></div>
+  <div class="confirm-delete">
+    <AText as="h2">{{ t('modals.confirmDelete.title') }}</AText>
+    <AText size="18px" type="danger">{{ t('modals.confirmDelete.desc') }}</AText>
+
+    <div class="confirm-delete__actions">
+      <AButton styled="primary" @click="handleDeleteItem">
+        <AText>{{ t('modals.actions.delete') }}</AText>
+      </AButton>
+
+      <AButton @click="emit('close')">
+        <AText>{{ t('modals.actions.cancel') }}</AText>
+      </AButton>
+    </div>
+  </div>
 </template>
+
+<style scoped lang="scss">
+.confirm-delete {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 8px;
+}
+
+.confirm-delete__actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 16px;
+}
+</style>
