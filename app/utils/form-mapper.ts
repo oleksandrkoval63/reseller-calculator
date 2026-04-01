@@ -1,7 +1,17 @@
 import type { ClothingItemBD, ClothingItemForm } from '~~/entities/item/types'
+import { uploadImagesToR2 } from '~~/app/utils/upload-image'
 
-export const mapFormToPayload = async (form: ClothingItemForm): Promise<ClothingItemBD> => {
-  const imgs = Array.isArray(form.image) && form.image.length ? await uploadImages(form.image) : []
+export const mapFormToPayload = async (
+  form: ClothingItemForm,
+  userId: string,
+  existingImageSizes: number[] = [],
+): Promise<ClothingItemBD & { image_sizes: number[] }> => {
+  const currentImages = form.image ?? []
+
+  const existingKeys = currentImages.filter((img): img is string => typeof img === 'string')
+  const newFiles = currentImages.filter((img): img is File => img instanceof File)
+
+  const uploaded = newFiles.length ? await uploadImagesToR2(newFiles, userId) : []
 
   return {
     title: form.title.trim(),
@@ -15,6 +25,7 @@ export const mapFormToPayload = async (form: ClothingItemForm): Promise<Clothing
     quantity: Number(form.quantity),
     purchased_at: useDayjsFormatter(form.purchasedAt),
     sold_at: form.soldAt ? useDayjsFormatter(form.soldAt) : null,
-    image: imgs,
+    image: [...existingKeys, ...uploaded.map((img) => img.key)],
+    image_sizes: [...existingImageSizes, ...uploaded.map((img) => img.size)],
   }
 }

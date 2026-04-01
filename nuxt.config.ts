@@ -15,6 +15,16 @@ export default defineNuxtConfig({
 
   runtimeConfig: {
     supabaseServiceRoleKey: process.env.SUPABASE_SERVICE_ROLE_KEY,
+
+    r2AccountId: process.env.R2_ACCOUNT_ID,
+    r2AccessKeyId: process.env.R2_ACCESS_KEY_ID,
+    r2SecretAccessKey: process.env.R2_SECRET_ACCESS_KEY,
+    r2BucketName: process.env.R2_BUCKET_NAME,
+    maxR2TotalBytes: Number(process.env.MAX_R2_TOTAL_BYTES || 10737418240),
+    maxR2UserBytes: Number(process.env.MAX_R2_USER_BYTES || 524288000),
+    maxR2FileBytes: Number(process.env.MAX_R2_FILE_BYTES || 3145728),
+    maxItemImages: Number(process.env.MAX_ITEM_IMAGES || 1),
+
     public: {
       apiBase: '',
       siteUrl: '',

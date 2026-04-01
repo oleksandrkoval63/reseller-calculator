@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { useItemsStore } from '~/stores/items'
+import { useModalsStore } from '~/stores/modals'
 import type { ClothesStats, ClothingItem } from '~~/entities/item/types'
 import { modalRegistry } from '~~/shared/config/modal-registry'
 
@@ -6,10 +8,15 @@ const props = defineProps<{
   item: ClothingItem
 }>()
 
-const { locale } = useI18n()
-const { open } = useModals()
+const itemsStore = useItemsStore()
 
-const imageUrls = await getImageUrls(props.item.image)
+const { locale } = useI18n()
+const { open } = useModalsStore()
+
+const imageSrc = computed(() => {
+  const firstKey = props.item.image?.[0]
+  return firstKey ? getImageUrl(firstKey) : '/images/shared/clothes-holder.avif'
+})
 
 const statusColor = computed(() => {
   if (props?.item?.status === 'listed') {
@@ -27,8 +34,8 @@ const statsKeys = Object.keys(props?.item?.stats)
 
 const profit = useProfit(props?.item?.stats?.purchasedPrice, props?.item?.stats?.soldPrice ?? 0)
 
-const handleOpenDelete = () => {
-  open(modalRegistry.LazyConfirmDelete, { itemId: props?.item?.id })
+const handleOpenEdit = () => {
+  open(modalRegistry.LazyEditItem, { item: props?.item })
 }
 </script>
 
@@ -36,22 +43,8 @@ const handleOpenDelete = () => {
   <article v-if="item" class="list-row">
     <div class="list-row__product">
       <div class="item-info">
-        <ABadge v-if="imageUrls?.length" class="item-image item-image--list">
-          <LazyNuxtImg
-            v-for="src in imageUrls"
-            :key="src"
-            :src="src"
-            :alt="item?.title"
-            class="item-image__img"
-          />
-        </ABadge>
-
-        <ABadge v-else class="item-image item-image--list">
-          <LazyNuxtImg
-            src="/images/shared/clothes-holder.avif"
-            alt="holder"
-            class="item-image__img"
-          />
+        <ABadge v-if="imageSrc" class="item-image item-image--list">
+          <img :src="imageSrc" :alt="item?.title" class="item-image__img" />
         </ABadge>
 
         <div class="item-info__content">
@@ -89,8 +82,18 @@ const handleOpenDelete = () => {
     </div>
 
     <div class="list-row__actions">
-      <AButton class="action-btn" styled="primary" aria-label="Редактировать">✎</AButton>
-      <AButton class="action-btn" styled="danger" aria-label="Удалить" @click="handleOpenDelete"
+      <AButton
+        class="action-btn"
+        styled="primary"
+        aria-label="Редактировать"
+        @click="handleOpenEdit"
+        >✎</AButton
+      >
+      <AButton
+        class="action-btn"
+        styled="danger"
+        aria-label="Удалить"
+        @click="itemsStore.delItem(item.id)"
         >🗑</AButton
       >
     </div>

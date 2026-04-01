@@ -1,3 +1,5 @@
+import type { ClothingItem } from '~~/entities/item/types'
+
 export const modalRegistry = {
   LazyCreateItem: 'LazyCreateItem',
   LazyEditItem: 'LazyEditItem',
@@ -7,17 +9,10 @@ export const modalRegistry = {
 export type ModalName = keyof typeof modalRegistry
 
 export type ModalPropsMap = {
-  LazyCreateItem: {
-    initialValues?: {
-      title?: string
-      brand?: string
-      category?: string
-      size?: string
-    }
-  }
+  LazyCreateItem: null
 
   LazyEditItem: {
-    itemId: number
+    item: ClothingItem
   }
 
   LazyConfirmDelete: {

@@ -3,24 +3,37 @@ import { VueDatePicker } from '@vuepic/vue-datepicker'
 import { createForm } from '~~/features/clothing/model/form'
 import AInput from '../../atoms/AInput.vue'
 import '@vuepic/vue-datepicker/dist/main.css'
+import type { ClothingItem } from '~~/entities/item/types'
+import { useAuthStore } from '~/stores/auth'
 
 const emit = defineEmits<{
   close: []
 }>()
 
+const props = defineProps<{
+  item?: ClothingItem
+}>()
+
+const authStore = useAuthStore()
+
 const { t } = useI18n()
-const { createItem } = useItemsApi()
+const { createItem, updateItem } = useItemsApi()
 const { errors, validateForm } = useFormValidate()
 
-const form = createForm()
+const form = createForm(props?.item)
 
 const handleSubmit = async () => {
   const isValid = validateForm(form)
 
-  if (!isValid) return
+  if (!isValid || !authStore.user?.id) return
 
-  const formatted = await mapFormToPayload(form)
-  await createItem(formatted)
+  const formatted = await mapFormToPayload(form, authStore.user.id)
+
+  if (props?.item) {
+    await updateItem(props?.item.id, formatted, props?.item?.image ?? [])
+  } else {
+    await createItem(formatted)
+  }
 
   emit('close')
 }
@@ -51,8 +64,8 @@ const statusOptions = [
             v-model="form.image"
             :label="t('gallery.label')"
             :hint="t('gallery.hint')"
-            :multiple="true"
-            :max-files="6"
+            :multiple="false"
+            :max-files="1"
           />
 
           <div class="create-form__error">

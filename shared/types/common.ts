@@ -8,15 +8,24 @@ export type ButtonStyle = 'danger' | 'default' | 'primary' | 'success' | 'disabl
 
 export type InputModel = string | number | null
 
-export type InputFileModel = File | File[] | null
+export type InputFileModel = (File | string)[] | null
 
 export type PreviewItem = {
   id: string
-  file: File
+  name: string
   url: string
+  size?: number
+  kind: 'file' | 'saved'
+  file?: File
 }
 
 export type SelectType = {
   label: string
   value: string | number
+}
+
+export type UploadedImage = {
+  key: string
+  size: number
+  contentType: string
 }

@@ -31,14 +31,6 @@ function openFileDialog() {
   inputRef.value?.click()
 }
 
-function createPreviewItems(files: File[]) {
-  return files.map((file) => ({
-    id: `${file.name}-${file.size}-${file.lastModified}-${crypto.randomUUID()}`,
-    file,
-    url: URL.createObjectURL(file),
-  }))
-}
-
 function revokeAllUrls() {
   previewItems.value.forEach((item) => {
     URL.revokeObjectURL(item.url)
@@ -53,8 +45,8 @@ function syncFromModel() {
     return
   }
 
-  const files = Array.isArray(model.value) ? model.value : [model.value]
-  previewItems.value = createPreviewItems(files)
+  const items = model.value || []
+  previewItems.value = createPreviewItems(items)
 }
 
 watch(
@@ -74,19 +66,17 @@ function normalizeFiles(fileList: FileList | null): File[] {
   return Array.from(fileList).filter((file) => file.type.startsWith('image/'))
 }
 
-function updateModel(files: File[]) {
-  if (!files.length) {
-    model.value = props.multiple ? [] : null
-    return
-  }
-
-  model.value = props.multiple ? files : files[0]
+function updateModel(items: InputFileModel) {
+  model.value = items?.length ? items : null
 }
 
 function mergeFiles(newFiles: File[]) {
-  const currentFiles = previewItems.value.map((item) => item.file)
+  const currentItems = model.value ?? []
 
-  const merged = [...currentFiles, ...newFiles].filter(
+  const currentFiles = currentItems.filter((item): item is File => item instanceof File)
+  const currentPaths = currentItems.filter((item): item is string => typeof item === 'string')
+
+  const mergedFiles = [...currentFiles, ...newFiles].filter(
     (file, index, arr) =>
       index ===
       arr.findIndex(
@@ -94,8 +84,8 @@ function mergeFiles(newFiles: File[]) {
       ),
   )
 
-  const limited = merged.slice(0, props.maxFiles)
-  updateModel(limited)
+  const merged = [...currentPaths, ...mergedFiles].slice(0, props.maxFiles)
+  updateModel(merged)
 }
 
 function replaceFiles(newFiles: File[]) {
@@ -143,9 +133,11 @@ function onDrop(event: DragEvent) {
 }
 
 function removeFile(id: string) {
-  const nextFiles = previewItems.value.filter((item) => item.id !== id).map((item) => item.file)
+  const nextItems = previewItems.value
+    .filter((item) => item.id !== id)
+    .map((item) => (item.kind === 'file' ? item.file! : item.url))
 
-  updateModel(nextFiles)
+  model.value = nextItems
 }
 </script>
 
@@ -182,17 +174,20 @@ function removeFile(id: string) {
 
     <div v-if="previewItems.length" class="file-upload__grid">
       <div v-for="item in previewItems" :key="item.id" class="file-upload__card">
-        <NuxtImg class="file-upload__image" :src="item.url" :alt="item.file.name" />
+        <img class="file-upload__image" :src="item.url" :alt="item.name" />
 
-        <AButton class="file-upload__remove" styled="danger" @click="removeFile(item.id)"
-          >×</AButton
-        >
+        <AButton class="file-upload__remove" styled="danger" @click="removeFile(item.id)">
+          ×
+        </AButton>
 
         <div class="file-upload__footer">
-          <AText class="file-upload__name" size="12px">{{ item.file.name }}</AText>
-          <AText class="file-upload__size" size="12px"
-            >{{ (item.file.size / 1024 / 1024).toFixed(2) }} MB</AText
-          >
+          <AText class="file-upload__name" size="12px">
+            {{ item.name }}
+          </AText>
+
+          <AText v-if="item.size" class="file-upload__size" size="12px">
+            {{ (item.size / 1024 / 1024).toFixed(2) }} MB
+          </AText>
         </div>
       </div>
     </div>
