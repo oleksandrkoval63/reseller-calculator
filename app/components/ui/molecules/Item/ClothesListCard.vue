@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { useItemsStore } from '~/stores/items'
 import { useModalsStore } from '~/stores/modals'
 import type { ClothesStats, ClothingItem } from '~~/entities/item/types'
 import { modalRegistry } from '~~/shared/config/modal-registry'
@@ -7,8 +6,6 @@ import { modalRegistry } from '~~/shared/config/modal-registry'
 const props = defineProps<{
   item: ClothingItem
 }>()
-
-const itemsStore = useItemsStore()
 
 const { locale } = useI18n()
 const { open } = useModalsStore()
@@ -36,6 +33,13 @@ const profit = useProfit(props?.item?.stats?.purchasedPrice, props?.item?.stats?
 
 const handleOpenEdit = () => {
   open(modalRegistry.LazyEditItem, { item: props?.item })
+}
+
+const handleOpenDelete = () => {
+  open(modalRegistry.LazyConfirmDelete, {
+    itemId: props?.item?.id,
+    imageKeys: props?.item?.image ?? [],
+  })
 }
 </script>
 
@@ -89,11 +93,7 @@ const handleOpenEdit = () => {
         @click="handleOpenEdit"
         >✎</AButton
       >
-      <AButton
-        class="action-btn"
-        styled="danger"
-        aria-label="Удалить"
-        @click="itemsStore.delItem(item.id)"
+      <AButton class="action-btn" styled="danger" aria-label="Удалить" @click="handleOpenDelete"
         >🗑</AButton
       >
     </div>

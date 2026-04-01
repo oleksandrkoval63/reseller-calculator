@@ -17,5 +17,6 @@ export type ModalPropsMap = {
 
   LazyConfirmDelete: {
     itemId: number
+    imageKeys: string[]
   }
 }

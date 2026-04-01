@@ -39,8 +39,8 @@ export const useItemsStore = defineStore(
       }
     }
 
-    const delItem = async (id: number) => {
-      await deleteItem(id)
+    const delItem = async (id: number, imgKeys: string[]) => {
+      await deleteItem(id, imgKeys)
       await setItems()
     }
 
