@@ -12,10 +12,15 @@ export const useItemsStore = defineStore(
     const items = ref<ClothingItem[]>([])
     const itemsDisplay = ref<'list' | 'grid'>('list')
     const isLoading = ref(false)
+    const isFetched = ref(false)
     const errorMsg = ref<string>('')
 
     const setLoading = (status: true | false) => {
       isLoading.value = status
+    }
+
+    const setFetched = (status: true | false) => {
+      isFetched.value = status
     }
 
     const setError = (error: string) => {
@@ -36,6 +41,7 @@ export const useItemsStore = defineStore(
         setError(error.message || 'Failed to load items')
       } finally {
         setLoading(false)
+        setFetched(true)
       }
     }
 
@@ -70,6 +76,8 @@ export const useItemsStore = defineStore(
       itemsDisplay,
       setItemsDisplay,
       isLoading,
+      isFetched,
+      setFetched,
       setLoading,
       errorMsg,
       setError,

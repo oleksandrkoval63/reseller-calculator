@@ -12,6 +12,8 @@ const route = useRoute()
 
 const { t, tm, locale, setLocale } = useI18n()
 
+const isMounted = ref(false)
+
 const purePath = computed(() => {
   const path = route.path.replace(/^\/(uk|en)(?=\/|$)/, '')
   const normalized = path.replace(/^\/+|\/+$/g, '')
@@ -35,6 +37,8 @@ const handleChangeLocale = async () => {
   await setLocale(lang)
   settingsStore.setCurrentLocale(lang)
 }
+
+onMounted(() => (isMounted.value = true))
 </script>
 
 <template>
@@ -51,9 +55,10 @@ const handleChangeLocale = async () => {
     </ClientOnly>
 
     <div class="header-actions d-flex">
-      <ClientOnly>
-        <MUser />
-      </ClientOnly>
+      <div class="header-auth">
+        <ASkeleton v-if="!isMounted || !authStore.isReady" height="48px" />
+        <MUser v-else />
+      </div>
 
       <AButton class="btn-lang" @click="handleChangeLocale">
         <AIcon name="world" src="images/shared/world.svg" :size="20" />
@@ -69,6 +74,11 @@ const handleChangeLocale = async () => {
   display: flex;
   align-items: center;
   justify-content: space-between;
+}
+
+.header-auth {
+  width: 100%;
+  min-width: 220px;
 }
 
 .header-actions {

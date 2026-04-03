@@ -54,6 +54,10 @@ onUnmounted(() => document.addEventListener('click', handleClickOutside))
 </template>
 
 <style scoped lang="scss">
+.skeleton-wrapper {
+  width: 100%;
+}
+
 .user-auth {
   .a-button {
     padding: 8px 12px;

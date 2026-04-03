@@ -1,11 +1,16 @@
 <script setup lang="ts">
+import { useItemsStore } from '~/stores/items'
 import type { ClothingItem } from '~~/entities/item/types'
 
-defineProps<{
+const props = defineProps<{
   data: ClothingItem[]
 }>()
 
+const itemsStore = useItemsStore()
+
 const { t } = useI18n()
+
+const itemsLength = computed(() => props?.data?.length || 6)
 </script>
 
 <template>
@@ -22,7 +27,11 @@ const { t } = useI18n()
       <div class="clothes-list__cell clothes-list__cell--actions">{{ t('clothes.actions') }}</div>
     </div>
 
-    <div v-if="data.length" class="cards-scroll">
+    <div v-if="!itemsStore.isFetched" class="skeleton-wrapper">
+      <SkeletonListCard v-for="count in itemsLength" :key="count" height="94px" />
+    </div>
+
+    <div v-else-if="data?.length" class="cards-scroll">
       <ClothesListCard v-for="item in data" :key="item?.id" :item />
     </div>
 
@@ -31,6 +40,11 @@ const { t } = useI18n()
 </template>
 
 <style scoped lang="scss">
+.skeleton-wrapper {
+  max-height: 600px;
+  overflow: hidden;
+}
+
 .clothes-list__row {
   display: grid;
   grid-template-columns: minmax(290px, 1fr) repeat(7, 1fr);

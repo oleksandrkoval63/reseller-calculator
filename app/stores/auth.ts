@@ -27,7 +27,6 @@ export const useAuthStore = defineStore('auth', () => {
   const clearAuth = () => {
     user.value = null
     role.value = null
-    isReady.value = true
   }
 
   return {
