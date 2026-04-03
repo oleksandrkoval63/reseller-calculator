@@ -2,9 +2,9 @@ import type { ClothingItem, ClothingItemBD } from '~~/entities/item/types'
 import { mapDbItemToClothingItem } from '~~/shared/utils/map-item'
 
 export const useItemsApi = () => {
-  const supabase = useSupabaseClient()
-
   const getItems = async (): Promise<ClothingItem[]> => {
+    const supabase = useSupabaseClient()
+
     const { data, error } = await supabase
       .from('items')
       .select('*')
@@ -16,6 +16,8 @@ export const useItemsApi = () => {
   }
 
   const createItem = async (payload: ClothingItemBD) => {
+    const supabase = useSupabaseClient()
+
     const { data: userData } = await supabase.auth.getUser()
     const user = userData.user
 
@@ -45,6 +47,8 @@ export const useItemsApi = () => {
     payload: ClothingItemBD,
     previousImageKeys: string[] = [],
   ) => {
+    const supabase = useSupabaseClient()
+
     const nextImageKeys = Array.isArray(payload.image) ? payload.image : []
     const removedKeys = previousImageKeys.filter((key) => !nextImageKeys.includes(key))
     const r2RemovedKeys = removedKeys.filter((key) => key.startsWith('users/'))
@@ -58,6 +62,8 @@ export const useItemsApi = () => {
   }
 
   const deleteItem = async (id: number, imageKeys: string[] = []) => {
+    const supabase = useSupabaseClient()
+
     const { error } = await supabase.from('items').delete().eq('id', id)
     if (error) throw error
 

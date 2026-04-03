@@ -6,13 +6,6 @@ const itemsStore = useItemsStore()
 const authStore = useAuthStore()
 
 onMounted(() => itemsStore.setItems())
-
-if (import.meta.client) {
-  watch(
-    () => itemsStore.items,
-    () => itemsStore.setItems(),
-  )
-}
 </script>
 
 <template>

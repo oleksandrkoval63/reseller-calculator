@@ -5,6 +5,7 @@ import AInput from '../../atoms/AInput.vue'
 import '@vuepic/vue-datepicker/dist/main.css'
 import type { ClothingItem } from '~~/entities/item/types'
 import { useAuthStore } from '~/stores/auth'
+import { useItemsStore } from '~/stores/items'
 
 const emit = defineEmits<{
   close: []
@@ -14,6 +15,7 @@ const props = defineProps<{
   item?: ClothingItem
 }>()
 
+const itemsStore = useItemsStore()
 const authStore = useAuthStore()
 
 const { t } = useI18n()
@@ -35,6 +37,7 @@ const handleSubmit = async () => {
     await createItem(formatted)
   }
 
+  itemsStore.setItems()
   emit('close')
 }
 

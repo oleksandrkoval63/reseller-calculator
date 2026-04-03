@@ -1,7 +1,7 @@
 export const useItemNotesApi = () => {
-  const supabase = useSupabaseClient()
-
   const upsertNote = async (itemId: number, note: string) => {
+    const supabase = useSupabaseClient()
+
     const { data: userData } = await supabase.auth.getUser()
     const user = userData.user
 
