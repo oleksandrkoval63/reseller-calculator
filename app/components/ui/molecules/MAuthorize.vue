@@ -1,14 +1,23 @@
 <script setup lang="ts">
-const localePath = useLocalePath()
+import { useModalsStore } from '~/stores/modals'
+import { modalRegistry } from '~~/shared/config/modal-registry'
 
 const { t } = useI18n()
+
+const { open } = useModalsStore()
+
+const handleOpenAuth = () => {
+  open(modalRegistry.LazyAuthLogin)
+}
 </script>
 
 <template>
   <ABadge class="lock">
     <AIcon name="lock" size="60px" />
-    <AText size="24px">{{ t('auth.title') }}</AText>
-    <AButton :to="localePath('/login')" styled="primary">{{ t('auth.buttons.signIn') }}</AButton>
+    <AText size="24px">{{ t('auth.titleLogin') }}</AText>
+    <AButton styled="primary" @click="handleOpenAuth"
+      ><AText size="20px">{{ t('auth.buttons.auth') }}</AText></AButton
+    >
   </ABadge>
 </template>
 

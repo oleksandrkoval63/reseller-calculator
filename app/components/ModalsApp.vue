@@ -5,6 +5,7 @@ const componentMap = {
   LazyCreateItem: defineAsyncComponent(() => import('~/components/modals/CreateItem.vue')),
   LazyEditItem: defineAsyncComponent(() => import('~/components/modals/EditItem.vue')),
   LazyConfirmDelete: defineAsyncComponent(() => import('~/components/modals/ConfirmDelete.vue')),
+  LazyAuthLogin: defineAsyncComponent(() => import('~/components/modals/AuthLogin.vue')),
 } as const
 
 const currentComponent = computed(() => {

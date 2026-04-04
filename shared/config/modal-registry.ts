@@ -4,6 +4,7 @@ export const modalRegistry = {
   LazyCreateItem: 'LazyCreateItem',
   LazyEditItem: 'LazyEditItem',
   LazyConfirmDelete: 'LazyConfirmDelete',
+  LazyAuthLogin: 'LazyAuthLogin',
 } as const
 
 export type ModalName = keyof typeof modalRegistry
@@ -19,4 +20,6 @@ export type ModalPropsMap = {
     itemId: number
     imageKeys: string[]
   }
+
+  LazyAuthLogin: null
 }
