@@ -1,11 +1,13 @@
 <script setup lang="ts">
 import { useAuthStore } from '~/stores/auth'
+import { useModalsStore } from '~/stores/modals'
+import { modalRegistry } from '~~/shared/config/modal-registry'
 
 const { signOut } = useAuth()
+const { open } = useModalsStore()
 const { t } = useI18n()
 
 const authStore = useAuthStore()
-const localePath = useLocalePath()
 
 const settingsState = ref(false)
 
@@ -19,6 +21,10 @@ const handleClickOutside = (event: MouseEvent) => {
   if (!target.closest('.user-logout')) {
     settingsState.value = false
   }
+}
+
+const handleOpenAuth = () => {
+  open(modalRegistry.LazyAuthLogin)
 }
 
 onMounted(() => document.addEventListener('click', handleClickOutside))
@@ -42,12 +48,8 @@ onUnmounted(() => document.addEventListener('click', handleClickOutside))
     </ABadge>
 
     <div v-else class="user-auth__actions">
-      <AButton styled="primary" :to="localePath('/login')">
-        <AText size="18px">{{ t('auth.buttons.signIn') }}</AText>
-      </AButton>
-
-      <AButton :to="localePath('/register')">
-        <AText size="18px">{{ t('auth.buttons.signUp') }}</AText>
+      <AButton styled="primary" @click="handleOpenAuth">
+        <AText size="18px">{{ t('auth.buttons.auth') }}</AText>
       </AButton>
     </div>
   </div>

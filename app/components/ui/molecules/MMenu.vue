@@ -1,22 +1,21 @@
 <script setup lang="ts">
-const { t } = useI18n()
+const { tm } = useI18n()
 
-const localePath = useLocalePath()
+const links = computed(() => Object.keys(tm('sidebar')))
 </script>
 
 <template>
-  <nav>
-    <ul>
-      <li>
-        <NuxtLink :to="localePath('/')">
-          <AText>{{ t('sidebar.home') }}</AText>
-        </NuxtLink>
-      </li>
-      <li>
-        <NuxtLink :to="localePath('/items')">
-          <AText>{{ t('sidebar.items') }}</AText>
-        </NuxtLink>
-      </li>
+  <nav class="sidebar-nav">
+    <ul class="sidebar-list">
+      <MMenuLink v-for="link in links" :key="link" :link />
     </ul>
   </nav>
 </template>
+
+<style scoped lang="scss">
+.sidebar-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+</style>

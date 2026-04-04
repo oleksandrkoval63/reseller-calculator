@@ -56,7 +56,7 @@ onMounted(() => (isMounted.value = true))
 
     <div class="header-actions d-flex">
       <div class="header-auth">
-        <ASkeleton v-if="!isMounted || !authStore.isReady" height="48px" />
+        <ASkeleton v-if="!isMounted || !authStore.isReady" height="48px" width="200px" />
         <MUser v-else />
       </div>
 
@@ -78,7 +78,6 @@ onMounted(() => (isMounted.value = true))
 
 .header-auth {
   width: 100%;
-  min-width: 220px;
 }
 
 .header-actions {

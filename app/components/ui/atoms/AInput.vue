@@ -5,7 +5,7 @@ const model = defineModel<InputModel>()
 
 const props = withDefaults(
   defineProps<{
-    type?: 'text' | 'number'
+    type?: 'text' | 'number' | 'email' | 'password'
     modifiers?: 'qty' | 'default'
   }>(),
   {
