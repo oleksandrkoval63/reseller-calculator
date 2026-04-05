@@ -23,7 +23,6 @@ const itemsStore = useItemsStore()
 
 <style scoped lang="scss">
 .items-display {
-  margin-left: auto;
   width: fit-content;
   padding: 0;
   background: unset;

@@ -10,6 +10,10 @@ export type InputModel = string | number | null | undefined
 
 export type InputFileModel = (File | string)[] | null
 
+export type SortingStatus = 'all' | 'draft' | 'listed' | 'sold'
+
+export type SortingType = 'all' | 'expensive' | 'cheap' | 'new' | 'old' | 'az' | 'za'
+
 export type PreviewItem = {
   id: string
   name: string
@@ -28,4 +32,9 @@ export type UploadedImage = {
   key: string
   size: number
   contentType: string
+}
+
+export type Sorting = {
+  status: SortingStatus
+  type: SortingType
 }
