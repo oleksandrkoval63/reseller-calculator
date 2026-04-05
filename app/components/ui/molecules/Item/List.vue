@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useFiltersStore } from '~/stores/filters'
 import { useItemsStore } from '~/stores/items'
 import type { ClothingItem } from '~~/entities/item/types'
 
@@ -7,10 +8,34 @@ const props = defineProps<{
 }>()
 
 const itemsStore = useItemsStore()
+const filtersStore = useFiltersStore()
 
 const { t } = useI18n()
 
-const itemsLength = computed(() => props?.data?.length || 6)
+const filteredItems = computed(() => {
+  const search = (filtersStore.searchedText ?? '').trim().toLowerCase()
+
+  if (!search) return props?.data ?? []
+
+  return (props?.data ?? []).filter(
+    (item) =>
+      item?.title.toLocaleLowerCase().includes(filtersStore.searchedText) ||
+      item?.brand.toLocaleLowerCase().includes(filtersStore.searchedText),
+  )
+})
+
+const skeletonsLength = computed(() => filteredItems.value.length || 6)
+
+if (import.meta.client) {
+  watch(
+    filteredItems,
+    (items) => {
+      itemsStore.setItemQty(items.length)
+      itemsStore.setFilteredItems(items)
+    },
+    { immediate: true },
+  )
+}
 </script>
 
 <template>
@@ -28,11 +53,11 @@ const itemsLength = computed(() => props?.data?.length || 6)
     </div>
 
     <div v-if="!itemsStore.isFetched" class="skeleton-wrapper">
-      <SkeletonListCard v-for="count in itemsLength" :key="count" height="94px" />
+      <SkeletonListCard v-for="count in skeletonsLength" :key="count" height="94px" />
     </div>
 
-    <div v-else-if="data?.length" class="cards-scroll">
-      <ClothesListCard v-for="item in data" :key="item?.id" :item />
+    <div v-else-if="filteredItems?.length" class="cards-scroll">
+      <ClothesListCard v-for="item in itemsStore.filteredItems" :key="item?.id" :item />
     </div>
 
     <MEmpty v-else />

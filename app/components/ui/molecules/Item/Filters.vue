@@ -13,6 +13,8 @@ const handleOpenModal = () => {
 
 <template>
   <div class="item-filters">
+    <MSearch />
+
     <Display />
     <AButton class="create" styled="success" @click="handleOpenModal">
       <AText size="18px">+ {{ t('actionBtns.addItem') }}</AText>

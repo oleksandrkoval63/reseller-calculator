@@ -24,7 +24,6 @@ const iconUrl = computed(() => `/images/shared/${props?.name}.svg`)
       height: iconSize,
       mask: `url(${iconUrl}) no-repeat center / contain`,
       WebkitMask: `url(${iconUrl}) no-repeat center / contain`,
-      background: color,
     }"
   />
 </template>
@@ -33,5 +32,6 @@ const iconUrl = computed(() => `/images/shared/${props?.name}.svg`)
 .a-icon {
   display: inline-block;
   flex-shrink: 0;
+  background: v-bind(color);
 }
 </style>

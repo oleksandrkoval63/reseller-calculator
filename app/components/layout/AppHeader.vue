@@ -28,7 +28,7 @@ const currentLink = computed(() => {
 })
 
 const itemsCountText = computed(() => {
-  return pluralizeItems(itemsStore.items.length, locale.value)
+  return pluralizeItems(itemsStore.itemsQty, locale.value)
 })
 
 const handleChangeLocale = async () => {

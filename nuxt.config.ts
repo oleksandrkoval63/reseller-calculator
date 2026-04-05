@@ -40,12 +40,15 @@ export default defineNuxtConfig({
 
   app: {
     head: {
-      titleTemplate: '%s · Reseller Calculator',
+      titleTemplate: 'Reseller Calculator',
       meta: [
         { name: 'viewport', content: 'width=device-width, initial-scale=1' },
         { name: 'theme-color', content: '#0f172a' },
       ],
-      link: [{ rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' }],
+      link: [
+        { rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' },
+        { rel: 'alternate icon', type: 'image/x-icon', href: '/favicon.ico' },
+      ],
     },
   },
 
@@ -76,6 +79,7 @@ export default defineNuxtConfig({
   },
 
   modules: [
+    '@vueuse/nuxt',
     '@pinia/nuxt',
     'dayjs-nuxt',
     '@nuxtjs/i18n',
