@@ -10,10 +10,16 @@ export const useItemsStore = defineStore(
     const { getItems, deleteItem } = useItemsApi()
 
     const items = ref<ClothingItem[]>([])
+    const filteredItems = ref<ClothingItem[]>([])
+    const itemsQty = ref<number>(items.value?.length || 0)
     const itemsDisplay = ref<'list' | 'grid'>('list')
     const isLoading = ref(false)
     const isFetched = ref(false)
     const errorMsg = ref<string>('')
+
+    const setItemQty = (quantity: number) => {
+      itemsQty.value = quantity
+    }
 
     const setLoading = (status: true | false) => {
       isLoading.value = status
@@ -45,31 +51,42 @@ export const useItemsStore = defineStore(
       }
     }
 
+    const setFilteredItems = (filtered: ClothingItem[]) => {
+      filteredItems.value = filtered
+    }
+
     const delItem = async (id: number, imgKeys: string[]) => {
       await deleteItem(id, imgKeys)
       await setItems()
     }
 
     const summaryProfit = computed(() => {
-      return items.value.reduce((acc, item) => {
+      return filteredItems.value.reduce((acc, item) => {
         return acc + getProfit(item.stats.purchasedPrice, item.stats.soldPrice)
       }, 0)
     })
 
     const summaryPurchase = computed(() => {
-      return items.value.reduce(
+      return filteredItems.value.reduce(
         (acc, currentItem) => acc + (currentItem?.stats?.purchasedPrice || 0),
         0,
       )
     })
 
     const summarySold = computed(() => {
-      return items.value.reduce((acc, currentItem) => acc + (currentItem?.stats?.soldPrice || 0), 0)
+      return filteredItems.value.reduce(
+        (acc, currentItem) => acc + (currentItem?.stats?.soldPrice || 0),
+        0,
+      )
     })
 
     return {
       items,
+      itemsQty,
+      setItemQty,
       setItems,
+      filteredItems,
+      setFilteredItems,
       summaryProfit,
       summaryPurchase,
       summarySold,

@@ -6,7 +6,7 @@ export type ButtonType = 'button' | 'submit' | 'reset'
 
 export type ButtonStyle = 'danger' | 'default' | 'primary' | 'success' | 'disabled'
 
-export type InputModel = string | number | null
+export type InputModel = string | number | null | undefined
 
 export type InputFileModel = (File | string)[] | null
 
