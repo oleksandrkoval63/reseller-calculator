@@ -12,17 +12,11 @@ const filtersStore = useFiltersStore()
 
 const { t } = useI18n()
 
-const filteredItems = computed(() => {
-  const search = (filtersStore.searchedText ?? '').trim().toLowerCase()
+const clotingItems = computed(() => props?.data ?? [])
+const searchedText = computed(() => filtersStore.searchedText)
+const sorting = computed(() => filtersStore.sorting)
 
-  if (!search) return props?.data ?? []
-
-  return (props?.data ?? []).filter(
-    (item) =>
-      item?.title.toLocaleLowerCase().includes(filtersStore.searchedText) ||
-      item?.brand.toLocaleLowerCase().includes(filtersStore.searchedText),
-  )
-})
+const { filteredItems } = useFilteredItems(clotingItems, searchedText, sorting)
 
 const skeletonsLength = computed(() => filteredItems.value.length || 6)
 

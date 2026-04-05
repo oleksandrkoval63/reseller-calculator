@@ -15,7 +15,12 @@ const handleDebouncedInput = useDebounceFn((value: InputModel | undefined) => {
 
 <template>
   <div class="search">
-    <AInput v-model="searchText" class="search-input" @update:model-value="handleDebouncedInput" />
+    <AInput
+      v-model="searchText"
+      class="search-input"
+      placeholder="Search"
+      @update:model-value="handleDebouncedInput"
+    />
     <AIcon class="search-icon" name="search" size="24px" />
   </div>
 </template>

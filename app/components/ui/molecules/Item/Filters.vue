@@ -15,6 +15,8 @@ const handleOpenModal = () => {
   <div class="item-filters">
     <MSearch />
 
+    <MSort />
+
     <Display />
     <AButton class="create" styled="success" @click="handleOpenModal">
       <AText size="18px">+ {{ t('actionBtns.addItem') }}</AText>
@@ -27,12 +29,12 @@ const handleOpenModal = () => {
   padding-bottom: 20px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 24px;
+  gap: 16px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .create {
   font-weight: 600;
+  margin-left: auto;
 }
 </style>
