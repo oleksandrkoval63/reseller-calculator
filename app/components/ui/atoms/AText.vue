@@ -7,12 +7,14 @@ const props = withDefaults(
     type?: TextType
     size?: number | string
     color?: string
+    weight?: '500' | '600' | '700' | null
   }>(),
   {
     as: 'span',
     type: 'default',
     size: '16px',
     color: 'var(--color-white)',
+    weight: null,
   },
 )
 
@@ -44,6 +46,7 @@ const textSize = computed(() => {
 <style scoped lang="scss">
 .text {
   color: v-bind(color);
+  font-weight: v-bind(weight);
 
   &.primary {
     color: var(--color-primary);

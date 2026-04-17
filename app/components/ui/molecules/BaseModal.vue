@@ -106,7 +106,7 @@ onUnmounted(() => {
 }
 
 .popup-body {
-  padding: 28px;
+  padding: 28px 60px;
   position: relative;
 }
 

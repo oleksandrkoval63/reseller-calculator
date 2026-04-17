@@ -2,6 +2,10 @@
 import { useModalsStore } from '~/stores/modals'
 import { modalRegistry } from '~~/shared/config/modal-registry'
 
+defineProps<{
+  count: number
+}>()
+
 const { t } = useI18n()
 
 const { open } = useModalsStore()
@@ -18,7 +22,7 @@ const handleOpenModal = () => {
     <MSort />
 
     <Display />
-    <AButton class="create" styled="success" @click="handleOpenModal">
+    <AButton v-if="count" class="create" styled="success" @click="handleOpenModal">
       <AText size="18px">+ {{ t('actionBtns.addItem') }}</AText>
     </AButton>
   </div>

@@ -19,14 +19,14 @@ const handleInc = () => {
 }
 
 const handleDec = () => {
-  model.value = Math.max(1, Number(model.value) - 1)
+  model.value = Math.max(0, Number(model.value) - 1)
 }
 
 const onInputChange = (event: Event) => {
   const target = event.target as HTMLInputElement
 
   if (props.type === 'number') {
-    model.value = isNaN(Number(target.value)) ? 1 : Math.max(1, Number(target.value))
+    model.value = isNaN(Number(target.value)) ? 0 : Math.max(0, Number(target.value))
     return
   }
 
@@ -36,7 +36,7 @@ const onInputChange = (event: Event) => {
 
 <template>
   <div v-if="type === 'number' && modifiers === 'qty'" class="input-wrapper">
-    <input v-model="model" class="a-input" :min="1" :type @input="onInputChange" />
+    <input v-model="model" class="a-input" :min="0" :type @input="onInputChange" />
 
     <div class="input-actions">
       <AButton styled="primary" @click="handleInc">+</AButton>
