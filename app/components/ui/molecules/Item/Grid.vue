@@ -11,7 +11,7 @@ defineProps<{
     <ClothesGridCard v-for="item in data" :key="item?.id" :item />
   </div>
 
-  <MEmpty v-else />
+  <MEmpty v-else type="items" />
 </template>
 
 <style scoped lang="scss">

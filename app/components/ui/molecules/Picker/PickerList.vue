@@ -41,7 +41,7 @@ const updateSelected = (item: ClothingItem) => {
       </AScroll>
     </div>
 
-    <MEmpty v-else />
+    <MEmpty v-else type="deliveries" />
   </div>
 </template>
 
