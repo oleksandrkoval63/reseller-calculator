@@ -1,11 +1,12 @@
 <script setup lang="ts">
-const { currentModal, isModalOpen, close } = useModals()
+const { currentModal, isModalOpen, close, width } = useModals()
 
 const componentMap = {
   LazyCreateItem: defineAsyncComponent(() => import('~/components/modals/CreateItem.vue')),
   LazyEditItem: defineAsyncComponent(() => import('~/components/modals/EditItem.vue')),
   LazyConfirmDelete: defineAsyncComponent(() => import('~/components/modals/ConfirmDelete.vue')),
   LazyAuthLogin: defineAsyncComponent(() => import('~/components/modals/AuthLogin.vue')),
+  LazyCreateDelivery: defineAsyncComponent(() => import('~/components/modals/CreateDelivery.vue')),
 } as const
 
 const currentComponent = computed(() => {
@@ -18,7 +19,7 @@ const modalProps = computed(() => currentModal.value?.props ?? {})
 </script>
 
 <template>
-  <BaseModal :is-open="isModalOpen" @close="close">
+  <BaseModal :is-open="isModalOpen" :width @close="close">
     <component :is="currentComponent" v-if="currentComponent" v-bind="modalProps" @close="close" />
   </BaseModal>
 </template>

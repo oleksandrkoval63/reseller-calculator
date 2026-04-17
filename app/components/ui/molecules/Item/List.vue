@@ -54,7 +54,7 @@ if (import.meta.client) {
       <ClothesListCard v-for="item in itemsStore.filteredItems" :key="item?.id" :item />
     </div>
 
-    <MEmpty v-else />
+    <MEmpty v-else type="items" />
   </div>
 </template>
 

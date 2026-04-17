@@ -1,11 +1,10 @@
 <script setup lang="ts">
 import { VueDatePicker } from '@vuepic/vue-datepicker'
 import { createForm } from '~~/features/clothing/model/form'
-import AInput from '../../atoms/AInput.vue'
-import '@vuepic/vue-datepicker/dist/main.css'
-import type { ClothingItem } from '~~/entities/item/types'
 import { useAuthStore } from '~/stores/auth'
 import { useItemsStore } from '~/stores/items'
+import type { ClothingItem } from '~~/entities/item/types'
+import '@vuepic/vue-datepicker/dist/main.css'
 
 const emit = defineEmits<{
   close: []
@@ -108,7 +107,7 @@ const statusOptions = [
           <AText as="h4">{{ t('form.sections.status') }}</AText>
 
           <div class="create-form__error">
-            <ASelect v-model="form.status" :options="statusOptions" />
+            <MSelect v-model="form.status" :options="statusOptions" default-selected />
             <AText v-if="errors.status" as="p" type="danger">{{ errors.status }}</AText>
           </div>
         </div>

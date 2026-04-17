@@ -74,20 +74,20 @@ if (import.meta.client) {
 
 <template>
   <div class="sort-wrapper d-flex">
-    <ASelect
+    <MSelect
       v-model="sorting.status"
-      class="sort"
       :options="sortOptions"
       type="absolute"
       :placeholder="t('clothes.status')"
+      default-selected
     />
 
-    <ASelect
+    <MSelect
       v-model="sorting.type"
-      class="sort"
       :options="sortTypeOptions"
       type="absolute"
       :placeholder="t('sorting.sortSelect')"
+      default-selected
     />
   </div>
 </template>
@@ -95,9 +95,5 @@ if (import.meta.client) {
 <style scoped lang="scss">
 .sort-wrapper {
   gap: 16px;
-}
-
-.sort {
-  padding: 6px 2px;
 }
 </style>

@@ -23,7 +23,7 @@ export type PreviewItem = {
   file?: File
 }
 
-export type SelectType = {
+export type DefaultOptionType = {
   label: string
   value: string | number
 }

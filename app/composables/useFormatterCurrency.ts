@@ -9,7 +9,7 @@ export const useFormatterCurrency = (lang: string, value: number | null, type?: 
 
   const formattedLang = useLangFormater(lang)
 
-  const currencyLabel = lang === 'uk' ? 'грн' : '$'
+  const currencyLabel = lang === 'uk' ? 'грн' : '€'
 
   const formattedNumber = new Intl.NumberFormat(formattedLang, {
     minimumFractionDigits: 2,
@@ -18,5 +18,5 @@ export const useFormatterCurrency = (lang: string, value: number | null, type?: 
 
   return lang === 'uk'
     ? `${formattedNumber} ${currencyLabel}`
-    : `${currencyLabel}${formattedNumber}`
+    : `${currencyLabel} ${formattedNumber}`
 }

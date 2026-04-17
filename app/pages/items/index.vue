@@ -11,7 +11,7 @@ onMounted(() => itemsStore.setItems())
 <template>
   <div class="items-wrapper">
     <div class="items-content">
-      <Filters />
+      <Filters :count="itemsStore.items.length" />
 
       <div class="items-wrapper">
         <AScroll v-if="itemsStore.itemsDisplay === 'list'" right="-15px">

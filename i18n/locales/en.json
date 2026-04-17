@@ -16,7 +16,8 @@
   },
   "sidebar": {
     "home": "Dashboard",
-    "items": "Items"
+    "items": "Items",
+    "delivery": "Delivery"
   },
   "summary": {
     "titles": {

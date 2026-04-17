@@ -1,21 +1,42 @@
 <script setup lang="ts">
 import { useModalsStore } from '~/stores/modals'
 
+const props = defineProps<{
+  type: 'items' | 'deliveries'
+}>()
+
 const { t } = useI18n()
 const { open } = useModalsStore()
 
+const actionBtnText = computed(() =>
+  props.type === 'items' ? t('actionBtns.addItem') : t('actionBtns.addDelivery'),
+)
+
+const emptyTitle = computed(() =>
+  props.type === 'items' ? t('empty.items.title') : t('empty.deliveries.title'),
+)
+
+const emptyDescription = computed(() =>
+  props.type === 'items' ? t('empty.items.description') : t('empty.deliveries.description'),
+)
+
 const handleOpenModal = () => {
-  open('LazyCreateItem')
+  if (props.type === 'items') {
+    open('LazyCreateItem')
+    return
+  }
+
+  open('LazyCreateDelivery')
 }
 </script>
 
 <template>
   <div class="empty-items">
     <div class="empty-items__content">
-      <AText as="h2" class="empty-items__title">{{ t('empty.title') }}</AText>
+      <AText as="h2" class="empty-items__title">{{ emptyTitle }}</AText>
 
       <AText as="p" class="empty-items__text">
-        {{ t('empty.description') }}
+        {{ emptyDescription }}
       </AText>
 
       <div class="empty-items__scene" aria-hidden="true">
@@ -32,7 +53,7 @@ const handleOpenModal = () => {
         class="empty-items__button"
         type="button"
         @click="handleOpenModal"
-        >{{ t('actionBtns.addItem') }}</AButton
+        >{{ actionBtnText }}</AButton
       >
     </div>
   </div>

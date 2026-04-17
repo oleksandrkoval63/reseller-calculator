@@ -33,5 +33,6 @@ const iconUrl = computed(() => `/images/shared/${props?.name}.svg`)
   display: inline-block;
   flex-shrink: 0;
   background: v-bind(color);
+  transition: all 0.5s ease;
 }
 </style>
