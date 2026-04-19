@@ -210,7 +210,11 @@ export const useDeliveriesApi = () => {
   }
 
   const updateDeliveryStatus = async (deliveryId: number, status: DeliveryStatus) => {
-    await updateDelivery(deliveryId, { status })
+    const supabase = useSupabaseClient()
+
+    const { error } = await supabase.from('deliveries').update({ status }).eq('id', deliveryId)
+
+    if (error) throw error
 
     if (status === 'arrived') {
       await updateDeliveryItemsStatus(deliveryId, 'delivered')

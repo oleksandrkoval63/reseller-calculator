@@ -6,7 +6,6 @@ export const useModals = () => {
   return {
     currentModal: computed(() => modalStore.current),
     isModalOpen: computed(() => modalStore.isOpen),
-    width: computed(() => modalStore.currentWidth),
     open: modalStore.open,
     close: modalStore.close,
   }

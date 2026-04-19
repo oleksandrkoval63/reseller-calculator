@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useDeliveriesStore } from '~/stores/deliveries'
 import { useItemsStore } from '~/stores/items'
 
 const emit = defineEmits<{
@@ -6,14 +7,25 @@ const emit = defineEmits<{
 }>()
 
 const props = defineProps<{
-  itemId: number
-  imageKeys: string[]
+  id: number
+  type: 'items' | 'deliveries'
+  imageKeys?: string[]
 }>()
 
 const itemsStore = useItemsStore()
+const deliveriesStore = useDeliveriesStore()
+
+const isImageKeys = computed(() => (props?.imageKeys ? props?.imageKeys : []))
 
 const handleDeleteItem = () => {
-  itemsStore.delItem(props?.itemId, props?.imageKeys)
+  if (props?.type === 'items') {
+    itemsStore.delItem(props?.id, isImageKeys.value)
+    emit('close')
+
+    return
+  }
+
+  deliveriesStore.deleteDelivery(props?.id)
   emit('close')
 }
 

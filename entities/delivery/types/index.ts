@@ -34,6 +34,10 @@ export type Delivery = {
   updatedAt: string
 }
 
+export type DeliveryWithItems = Delivery & {
+  items: ClothingItem[]
+}
+
 export type DeliveryPayload = {
   title?: string
   note?: string | null
@@ -43,10 +47,6 @@ export type DeliveryPayload = {
   sent_at?: string | null
   arrived_at?: string | null
   status?: DeliveryStatus
-}
-
-export type DeliveryWithItems = Delivery & {
-  items: ClothingItem[]
 }
 
 export type DeliveryForm = {

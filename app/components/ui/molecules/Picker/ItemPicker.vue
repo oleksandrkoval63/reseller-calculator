@@ -3,16 +3,12 @@ import type { ClothingItem } from '~~/entities/item/types'
 
 const model = defineModel<number[]>()
 
-const props = withDefaults(
-  defineProps<{
-    items: ClothingItem[]
-    search?: boolean
-    absolute?: boolean
-  }>(),
-  {
-    search: false,
-  },
-)
+const props = defineProps<{
+  items: ClothingItem[]
+  deliveryItems?: ClothingItem[]
+  search?: boolean
+  absolute?: boolean
+}>()
 
 const emit = defineEmits<{
   (e: 'updateCount', selectedCount: number): void
@@ -23,7 +19,7 @@ const { t } = useI18n()
 const pickerRef = ref<HTMLElement | null>(null)
 const isOpen = ref(false)
 
-const selectedItems = ref<ClothingItem[]>([])
+const selectedItems = ref<ClothingItem[]>(props?.deliveryItems ?? [])
 
 const isSameItem = (id: number) => {
   return selectedItems.value.some((selItem) => selItem.id === id)
