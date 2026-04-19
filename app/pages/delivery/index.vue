@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useAuthStore } from '~/stores/auth'
 import { useDeliveriesStore } from '~/stores/deliveries'
+import type { Delivery } from '~~/entities/delivery/types'
 
 import { modalRegistry } from '~~/shared/config/modal-registry'
 
@@ -11,7 +12,11 @@ const { open } = useModals()
 const { t } = useI18n()
 
 const handleOpenDelivery = () => {
-  open(modalRegistry.LazyCreateDelivery, null, '900px')
+  open(modalRegistry.LazyCreateDelivery)
+}
+
+const handleEditDelivery = (parcel: Delivery) => {
+  open(modalRegistry.LazyEditDelivery, { delivery: parcel })
 }
 
 onMounted(() => deliveriesStore.setDeliveries())
@@ -36,6 +41,7 @@ onMounted(() => deliveriesStore.setDeliveries())
             :key="parcel.id"
             :parcel
             :idx
+            @click.stop="handleEditDelivery(parcel)"
           />
         </div>
 

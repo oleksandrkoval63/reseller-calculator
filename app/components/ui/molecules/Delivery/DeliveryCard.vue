@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useDeliveriesStore } from '~/stores/deliveries'
 import type { Delivery } from '~~/entities/delivery/types'
+import { modalRegistry } from '~~/shared/config/modal-registry'
 
 const props = defineProps<{
   parcel: Delivery
@@ -10,6 +11,7 @@ const props = defineProps<{
 const deliveriesStore = useDeliveriesStore()
 
 const { t, locale } = useI18n()
+const { open } = useModals()
 
 const parcelItems = computed(() => deliveriesStore.deliveryItemsMap[props?.parcel.id])
 
@@ -20,6 +22,10 @@ const parcelCurrency = computed(() =>
     ? useFormatterCurrency(locale.value, props?.parcel?.priceEur)
     : useFormatterCurrency(locale.value, deliveryPriceCalculator(props?.parcel?.weightKg)),
 )
+
+const handleDeleteDelivery = () => {
+  open(modalRegistry.LazyConfirmDelete, { id: props?.parcel?.id, type: 'deliveries' })
+}
 
 onMounted(() => deliveriesStore.setDeliveryItems(props?.parcel?.id))
 </script>
@@ -53,7 +59,13 @@ onMounted(() => deliveriesStore.setDeliveryItems(props?.parcel?.id))
       <AText>{{ parcel.arrivedAt }}</AText>
     </div>
 
-    <AButton class="delivery-btn" styled="danger" aria-label="Удалить">🗑</AButton>
+    <AButton
+      class="delivery-btn"
+      styled="danger"
+      aria-label="Удалить"
+      @click.stop="handleDeleteDelivery"
+      >🗑</AButton
+    >
 
     <NuxtImg class="delivery-bg" src="images/delivery/bg.webp" />
   </ABadge>

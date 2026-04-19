@@ -11,6 +11,7 @@ export const useDeliveriesStore = defineStore('deliveries', () => {
     updateDelivery,
     syncDeliveryItems,
     updateDeliveryStatus,
+    updateDeliveryItemsStatus,
     removeDelivery,
   } = useDeliveriesApi()
 
@@ -104,9 +105,14 @@ export const useDeliveriesStore = defineStore('deliveries', () => {
         nextItemIds,
       })
 
-      if (payload.status) {
-        await updateDeliveryStatus(deliveryId, payload.status)
-      }
+      await updateDeliveryItemsStatus(
+        deliveryId,
+        payload.status === 'arrived'
+          ? 'delivered'
+          : payload.status === 'in_transit'
+            ? 'in_delivery'
+            : 'not_sent',
+      )
 
       await Promise.all([setDeliveries(), setDeliveryItems(deliveryId), setAvailableItems()])
     } catch (error: unknown) {

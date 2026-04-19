@@ -5,12 +5,14 @@ withDefaults(
   defineProps<{
     type?: ButtonType
     styled?: ButtonStyle
+    disabled?: boolean
     to?: string
   }>(),
   {
     type: 'button',
     styled: 'default',
     to: '',
+    disabled: false,
   },
 )
 </script>
@@ -20,7 +22,7 @@ withDefaults(
     <slot />
   </NuxtLink>
 
-  <button v-else :type :class="['a-button', styled]">
+  <button v-else :disabled :type :class="['a-button', styled]">
     <slot />
   </button>
 </template>

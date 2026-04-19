@@ -2,7 +2,7 @@
 import { VueDatePicker } from '@vuepic/vue-datepicker'
 import { useAuthStore } from '~/stores/auth'
 import { useDeliveriesStore } from '~/stores/deliveries'
-import type { DeliveryWithItems } from '~~/entities/delivery/types'
+import type { Delivery, DeliveryForm } from '~~/entities/delivery/types'
 import { createDeliveryForm } from '~~/features/delivery/model/form'
 import '@vuepic/vue-datepicker/dist/main.css'
 
@@ -11,7 +11,7 @@ const emit = defineEmits<{
 }>()
 
 const props = defineProps<{
-  delivery?: DeliveryWithItems
+  delivery?: Delivery
 }>()
 
 const authStore = useAuthStore()
@@ -20,9 +20,24 @@ const deliveriesStore = useDeliveriesStore()
 const { t } = useI18n()
 const { errors, validateForm } = useDeliveryFormValidate()
 
-const form = createDeliveryForm(props?.delivery)
+const deliveryWithItems = computed(() => {
+  if (!props?.delivery) return undefined
+
+  return {
+    ...props.delivery,
+    items: deliveriesStore.deliveryItemsMap[props.delivery.id] ?? [],
+  }
+})
+
+const initialForm = ref<DeliveryForm | null>(null)
+const form = createDeliveryForm(deliveryWithItems.value)
+
 const selectedCount = ref<number | null>(null)
 const pickerRef = ref<{ clearSelectedItems: () => void } | null>(null)
+
+const deliveryItems = computed(() =>
+  props.delivery ? deliveriesStore.deliveryItemsMap[props.delivery.id] : [],
+)
 
 const modes = [
   {
@@ -42,7 +57,7 @@ const statusOptions = [
   },
   {
     label: t('delivery.form.status.inTransit'),
-    value: 'inTransit',
+    value: 'in_transit',
   },
   {
     label: t('delivery.form.status.arrived'),
@@ -54,10 +69,46 @@ const statusOptions = [
   },
 ]
 
+watch(
+  () => props.delivery,
+  () => {
+    initialForm.value = JSON.parse(JSON.stringify(form))
+  },
+  { immediate: true },
+)
+
+const normalizeFormForCompare = (form: DeliveryForm) => {
+  return {
+    title: form.title.trim(),
+    note: form.note.trim(),
+    weightKg: form.weightKg ?? null,
+    priceEur: form.priceEur ?? null,
+    pricingMode: form.pricingMode,
+    sentAt: form.sentAt || null,
+    arrivedAt: form.arrivedAt || null,
+    status: form.status,
+    itemIds: [...form.itemIds].sort((a, b) => a - b),
+  }
+}
+
+const isFormChanged = computed(() => {
+  if (!initialForm.value) return true
+
+  return (
+    JSON.stringify(normalizeFormForCompare(form)) !==
+    JSON.stringify(normalizeFormForCompare(initialForm.value))
+  )
+})
+
 const handleSubmit = async () => {
   const isValid = validateForm(form)
 
   if (!isValid || !authStore.user?.id) return
+
+  if (props.delivery?.id && !isFormChanged.value) {
+    emit('close')
+    return
+  }
 
   const formatted = mapDeliveryFormToPayload(form)
 
@@ -73,6 +124,8 @@ const handleSubmit = async () => {
 const setSelectedCount = (count: number) => {
   if (count < 1) {
     selectedCount.value = null
+
+    return
   }
 
   selectedCount.value = count
@@ -124,6 +177,7 @@ onMounted(() => deliveriesStore.setAvailableItems())
               ref="pickerRef"
               v-model="form.itemIds"
               :items="deliveriesStore.availableItems"
+              :delivery-items="deliveryItems"
               @update-count="setSelectedCount"
             />
             <AText v-if="errors.itemIds" as="p" type="danger">{{ errors.itemIds }}</AText>
@@ -189,12 +243,18 @@ onMounted(() => deliveriesStore.setAvailableItems())
     </AScroll>
 
     <div class="create-actions">
-      <AButton styled="primary" @click="handleSubmit">
-        {{ t('modals.actions.save') }}
+      <AButton :disabled="deliveriesStore.isLoading" styled="primary" @click="handleSubmit">
+        <AText v-if="!deliveriesStore.isLoading" size="20px">
+          {{ t('modals.actions.save') }}
+        </AText>
+
+        <AIcon v-else name="gear-spinner" size="30px" color="var(--color-white)" />
       </AButton>
 
       <AButton @click="$emit('close')">
-        {{ t('modals.actions.cancel') }}
+        <AText size="20px">
+          {{ t('modals.actions.cancel') }}
+        </AText>
       </AButton>
     </div>
   </div>
@@ -248,6 +308,10 @@ onMounted(() => deliveriesStore.setAvailableItems())
   align-items: center;
   justify-content: end;
   padding-top: 10px;
+
+  .a-button {
+    min-width: 115px;
+  }
 }
 
 .dp__theme_dark {

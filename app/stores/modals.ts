@@ -8,17 +8,13 @@ type ModalPayload<T extends ModalName = ModalName> = {
 export const useModalsStore = defineStore('modals', () => {
   const current = ref<ModalPayload | null>(null)
 
-  const currentWidth = ref<string>('')
-
   const isOpen = computed(() => !!current.value)
 
-  const open = <T extends ModalName>(name: T, props?: ModalPropsMap[T], width?: string) => {
+  const open = <T extends ModalName>(name: T, props?: ModalPropsMap[T]) => {
     current.value = {
       name,
       props,
     } as ModalPayload
-
-    currentWidth.value = width ?? '720px'
   }
 
   const close = () => {
@@ -30,6 +26,5 @@ export const useModalsStore = defineStore('modals', () => {
     isOpen,
     open,
     close,
-    currentWidth,
   }
 })

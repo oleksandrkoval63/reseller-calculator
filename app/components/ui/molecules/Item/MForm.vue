@@ -170,12 +170,18 @@ const statusOptions = [
     </AScroll>
 
     <div class="create-actions">
-      <AButton styled="primary" @click="handleSubmit">
-        {{ t('modals.actions.save') }}
+      <AButton :disabled="itemsStore.isLoading" styled="primary" @click="handleSubmit">
+        <AText v-if="!itemsStore.isLoading" size="20px">
+          {{ t('modals.actions.save') }}
+        </AText>
+
+        <AIcon v-else name="gear-spinner" size="30px" color="var(--color-white)" />
       </AButton>
 
       <AButton @click="$emit('close')">
-        {{ t('modals.actions.cancel') }}
+        <AText size="20px">
+          {{ t('modals.actions.cancel') }}
+        </AText>
       </AButton>
     </div>
   </div>
@@ -211,6 +217,10 @@ const statusOptions = [
   align-items: center;
   justify-content: end;
   padding-top: 10px;
+
+  .a-button {
+    min-width: 115px;
+  }
 }
 
 .dp__theme_dark {

@@ -37,7 +37,8 @@ const handleOpenEdit = () => {
 
 const handleOpenDelete = () => {
   open(modalRegistry.LazyConfirmDelete, {
-    itemId: props?.item?.id,
+    id: props?.item?.id,
+    type: 'items',
     imageKeys: props?.item?.image ?? [],
   })
 }
