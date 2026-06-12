@@ -23,6 +23,8 @@ export type ModalPropsMap = {
     id: number
     type: 'items' | 'deliveries'
     imageKeys?: string[]
+    title: string
+    desc: string
   }
 
   LazyAuthLogin: null

@@ -1,27 +1,50 @@
 <script setup lang="ts">
 import { useDebounceFn } from '@vueuse/core'
-import { useFiltersStore } from '~/stores/filters'
 
-const filtersStore = useFiltersStore()
+const { t } = useI18n()
 
-const searchText = ref<string>('')
+const model = defineModel<string>()
 
 const handleDebouncedInput = useDebounceFn((value: InputModel | undefined) => {
   const normalizedValue = value == null ? '' : String(value)
 
-  filtersStore.setSearchedText(normalizedValue)
+  model.value = normalizedValue
 }, 500)
+
+const localValue = ref(model.value ?? '')
+
+const handleClearSearch = () => {
+  model.value = ''
+}
+
+watch(
+  () => model.value,
+  (newValue) => {
+    if (newValue !== localValue.value) {
+      localValue.value = newValue ?? ''
+    }
+  },
+)
 </script>
 
 <template>
   <div class="search">
     <AInput
-      v-model="searchText"
+      v-model="localValue"
       class="search-input"
-      placeholder="Search"
+      :placeholder="t('search.placeholder')"
       @update:model-value="handleDebouncedInput"
     />
-    <AIcon class="search-icon" name="search" size="24px" />
+    <AIcon v-if="!localValue" class="search-icon" name="search" size="24px" />
+    <AIcon
+      v-else
+      class="search-icon"
+      style="cursor: pointer"
+      name="delete"
+      size="24px"
+      hover-color="var(--color-primary)"
+      @click.stop="handleClearSearch"
+    />
   </div>
 </template>
 

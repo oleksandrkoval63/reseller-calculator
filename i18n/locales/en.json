@@ -40,16 +40,40 @@
     "description": "Add your first product to start tracking purchases, sales, and profits."
   },
   "actionBtns": {
-    "addItem": "Add item"
+    "addItem": "Add item",
+    "addDelivery": "Add delivery"
   },
   "modals": {
     "createItem": {
       "title": "New item",
       "desc": "Create a new item to display it in the list"
     },
+    "confirmDelete": {
+      "items": {
+        "title": "Are you sure you want to delete this item?",
+        "desc": "After deletion, it will disappear from the item list!"
+      },
+      "deliveries": {
+        "title": "Are you sure you want to delete this delivery?",
+        "desc": "After deletion, it will disappear from the deliveries list!"
+      }
+    },
+    "editItem": {
+      "title": "Item settings",
+      "desc": "Edit the item to change its information"
+    },
+    "createDelivery": {
+      "title": "New shipment",
+      "desc": "Create a new shipment to add items to the parcel"
+    },
+    "editDelivery": {
+      "title": "Shipment settings",
+      "desc": "Edit your shipment to add items or make other changes to this parcel"
+    },
     "actions": {
       "save": "Save",
-      "cancel": "Cancel"
+      "cancel": "Cancel",
+      "delete": "Delete"
     }
   },
   "form": {
@@ -75,6 +99,7 @@
     }
   },
   "status": {
+    "all": "All",
     "draft": "Draft",
     "listed": "Listed",
     "sold": "Sold"
@@ -89,5 +114,82 @@
       "soldPrice": "Enter the sale price"
     },
     "required": "This field is required"
+  },
+  "sorting": {
+    "sortSelect": "Sorting",
+    "type": {
+      "all": "All",
+      "expensive": "Most expensive first",
+      "cheap": "Cheapest first",
+      "new": "Newest first",
+      "old": "Oldest first",
+      "az": "A to Z",
+      "za": "Z to A"
+    }
+  },
+  "delivery": {
+    "form": {
+      "name": "Shipment name",
+      "note": "Short description",
+      "weight": "Weight (kg)",
+      "price": "Price",
+      "status": {
+        "draft": "Draft",
+        "inTransit": "In transit",
+        "arrived": "Arrived",
+        "cancelled": "Cancelled"
+      },
+      "items": "Items",
+      "modeTitle": "Parcel price calculation type",
+      "mode": {
+        "manual": "Manual",
+        "auto": "Automatic"
+      },
+      "date": {
+        "sentAt": "Sent",
+        "arrivedAt": "Arrived"
+      }
+    },
+    "card": {
+      "titles": {
+        "qty": "Quantity",
+        "status": "Status",
+        "currency": "Parcel currency",
+        "sentAt": "Sent at",
+        "arrivedAt": "Arrived at"
+      },
+      "status": {
+        "draft": "Draft",
+        "in_transit": "In transit",
+        "arrived": "Arrived",
+        "cancelled": "Cancelled"
+      }
+    },
+    "sorting": {
+      "status": {
+        "all": "All",
+        "draft": "Draft",
+        "transit": "In transit",
+        "arrived": "Arrived",
+        "cancelled": "Cancelled"
+      },
+      "type": {
+        "all": "All",
+        "expensive": "Most expensive first",
+        "cheap": "Cheapest first",
+        "new": "Newest first",
+        "old": "Oldest first",
+        "az": "A to Z",
+        "za": "Z to A"
+      }
+    }
+  },
+  "itemPicker": {
+    "empty": "Empty",
+    "null": "No selected items",
+    "delAll": "Delete all items"
+  },
+  "search": {
+    "placeholder": "Search"
   }
 }

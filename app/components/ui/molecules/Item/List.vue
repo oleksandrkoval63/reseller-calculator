@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { useFiltersStore } from '~/stores/filters'
 import { useItemsStore } from '~/stores/items'
 import type { ClothingItem } from '~~/entities/item/types'
 
@@ -8,13 +7,12 @@ const props = defineProps<{
 }>()
 
 const itemsStore = useItemsStore()
-const filtersStore = useFiltersStore()
 
 const { t } = useI18n()
 
 const clotingItems = computed(() => props?.data ?? [])
-const searchedText = computed(() => filtersStore.searchedText)
-const sorting = computed(() => filtersStore.sorting)
+const searchedText = computed(() => itemsStore.searchedText)
+const sorting = computed(() => itemsStore.sorting)
 
 const { filteredItems } = useFilteredItems(clotingItems, searchedText, sorting)
 
@@ -34,7 +32,10 @@ if (import.meta.client) {
 
 <template>
   <div>
-    <div class="clothes-list__row clothes-list__row--head">
+    <div
+      v-if="itemsStore.itemsDisplay === 'list'"
+      class="clothes-list__row clothes-list__row--head"
+    >
       <div class="clothes-list__cell clothes-list__cell--product">{{ t('clothes.title') }}</div>
       <div class="clothes-list__cell">{{ t('clothes.status') }}</div>
       <div class="clothes-list__cell">{{ t('clothes.stats.purchasedPrice') }}</div>
@@ -50,8 +51,11 @@ if (import.meta.client) {
       <SkeletonListCard v-for="count in skeletonsLength" :key="count" height="94px" />
     </div>
 
-    <div v-else-if="filteredItems?.length" class="cards-scroll">
-      <ClothesListCard v-for="item in itemsStore.filteredItems" :key="item?.id" :item />
+    <div
+      v-else-if="itemsStore.filteredItems?.length"
+      :class="['cards-scroll', { 'clothes-grid__list': itemsStore.itemsDisplay === 'grid' }]"
+    >
+      <ItemCard v-for="item in itemsStore.filteredItems" :key="item?.id" :item />
     </div>
 
     <MEmpty v-else type="items" />
@@ -69,6 +73,13 @@ if (import.meta.client) {
   grid-template-columns: minmax(290px, 1fr) repeat(7, 1fr);
   align-items: center;
   column-gap: 16px;
+}
+
+.clothes-grid__list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 22px;
+  margin-top: 20px;
 }
 
 .clothes-list__row--head {

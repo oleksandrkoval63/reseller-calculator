@@ -49,7 +49,7 @@ export const deliveryFormSchema = () => {
 
     arrivedAt: {
       validate: (value: unknown, form: DeliveryForm) => {
-        if (form.status === 'arrived') {
+        if (form.status === 'arrived' && !value) {
           return t('errors.deliveryForm.arrived')
         }
 

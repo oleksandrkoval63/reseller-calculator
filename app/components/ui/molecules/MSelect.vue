@@ -18,6 +18,7 @@ const props = withDefaults(
 )
 
 const isOpen = ref(false)
+const selectRef = ref<HTMLElement | null>(null)
 const selected = ref<DefaultOptionType | DefaultOptionType[] | null>(props.multiple ? [] : null)
 
 const isSameOption = (a: DefaultOptionType, b: DefaultOptionType) => {
@@ -63,7 +64,17 @@ const handleChangeSelected = (option: DefaultOptionType) => {
   isOpen.value = false
 }
 
-const handleOpenSelect = () => {
+const handleClickOutside = (event: MouseEvent) => {
+  const target = event.target as Node
+
+  if (!selectRef.value) return
+
+  if (!selectRef.value.contains(target)) {
+    isOpen.value = false
+  }
+}
+
+const handleClickOnSelect = () => {
   isOpen.value = !isOpen.value
 }
 
@@ -100,28 +111,34 @@ watch(
   },
   { immediate: true, deep: true },
 )
+
+onMounted(() => document.addEventListener('click', handleClickOutside))
+onUnmounted(() => document.removeEventListener('click', handleClickOutside))
 </script>
 
 <template>
-  <ABadge
-    :class="['m-select', { modified: type === 'absolute' }, { open: isOpen }]"
-    @click="handleOpenSelect"
-  >
-    <AText as="span">{{ isPlaceholder }} {{ selectedLabel }}</AText>
-
-    <ul
-      v-if="availableOptions?.length"
-      :class="['m-select__list', { open: isOpen }, { absolute: type === 'absolute' }]"
+  <div ref="selectRef">
+    <ABadge
+      :class="['m-select', { modified: type === 'absolute' }, { open: isOpen }]"
+      @click="handleClickOnSelect"
     >
-      <li
-        v-for="option in availableOptions"
-        :key="option.value"
-        @click.stop="handleChangeSelected(option)"
+      <AText as="span" weight="400">{{ isPlaceholder }} {{ selectedLabel }}</AText>
+
+      <ul
+        v-if="availableOptions?.length"
+        :class="['m-select__list', { open: isOpen }, { absolute: type === 'absolute' }]"
+        @click.stop
       >
-        <AText>{{ option?.label }}</AText>
-      </li>
-    </ul>
-  </ABadge>
+        <li
+          v-for="option in availableOptions"
+          :key="option.value"
+          @click.stop="handleChangeSelected(option)"
+        >
+          <AText>{{ option?.label }}</AText>
+        </li>
+      </ul>
+    </ABadge>
+  </div>
 </template>
 
 <style scoped lang="scss">

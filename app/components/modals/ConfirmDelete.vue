@@ -10,6 +10,8 @@ const props = defineProps<{
   id: number
   type: 'items' | 'deliveries'
   imageKeys?: string[]
+  title: string
+  desc: string
 }>()
 
 const itemsStore = useItemsStore()
@@ -34,8 +36,8 @@ const { t } = useI18n()
 
 <template>
   <div class="confirm-delete">
-    <AText as="h2">{{ t('modals.confirmDelete.title') }}</AText>
-    <AText size="18px" type="danger">{{ t('modals.confirmDelete.desc') }}</AText>
+    <AText as="h2">{{ title }}</AText>
+    <AText size="18px" type="danger">{{ desc }}</AText>
 
     <div class="confirm-delete__actions">
       <AButton styled="primary" @click="handleDeleteItem">

@@ -14,6 +14,17 @@ export type SortingStatus = 'all' | 'draft' | 'listed' | 'sold'
 
 export type SortingType = 'all' | 'expensive' | 'cheap' | 'new' | 'old' | 'az' | 'za'
 
+export type SortingDeliveryType =
+  | 'all'
+  | 'expensive'
+  | 'cheap'
+  | 'heavy'
+  | 'light'
+  | 'new'
+  | 'old'
+  | 'az'
+  | 'za'
+
 export type PreviewItem = {
   id: string
   name: string

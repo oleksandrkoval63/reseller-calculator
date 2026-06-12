@@ -23,8 +23,15 @@ const parcelCurrency = computed(() =>
     : useFormatterCurrency(locale.value, deliveryPriceCalculator(props?.parcel?.weightKg)),
 )
 
+const parcelTitle = computed(() => props?.parcel?.title ?? `Delivery ${props.idx + 1}`)
+
 const handleDeleteDelivery = () => {
-  open(modalRegistry.LazyConfirmDelete, { id: props?.parcel?.id, type: 'deliveries' })
+  open(modalRegistry.LazyConfirmDelete, {
+    id: props?.parcel?.id,
+    type: 'deliveries',
+    title: t('modals.confirmDelete.deliveries.title'),
+    desc: t('modals.confirmDelete.deliveries.desc'),
+  })
 }
 
 onMounted(() => deliveriesStore.setDeliveryItems(props?.parcel?.id))
@@ -32,30 +39,30 @@ onMounted(() => deliveriesStore.setDeliveryItems(props?.parcel?.id))
 
 <template>
   <ABadge class="delivery-card">
-    <AText as="span" size="24px" class="delivery-title">Delivery #{{ idx + 1 }}</AText>
+    <AText as="span" size="24px" class="delivery-title">{{ parcelTitle }}</AText>
 
     <div v-if="parcelItems?.length" class="delivery-block">
-      <AText weight="500">Кількість товарів</AText>
+      <AText weight="500">{{ t('delivery.card.titles.qty') }}</AText>
       <AText>{{ parcelItems.length }}</AText>
     </div>
 
     <div v-if="parcelStatus" class="delivery-block">
-      <AText weight="500">Статус</AText>
+      <AText weight="500">{{ t('delivery.card.titles.status') }}</AText>
       <AText>{{ parcelStatus }}</AText>
     </div>
 
     <div v-if="parcelCurrency" class="delivery-block">
-      <AText weight="500">Сума доставки</AText>
+      <AText weight="500">{{ t('delivery.card.titles.currency') }}</AText>
       <AText>{{ parcelCurrency }}</AText>
     </div>
 
     <div v-if="parcel?.sentAt" class="delivery-block">
-      <AText weight="500">Дата відправки</AText>
+      <AText weight="500">{{ t('delivery.card.titles.sentAt') }}</AText>
       <AText>{{ parcel.sentAt }}</AText>
     </div>
 
     <div v-if="parcel?.arrivedAt" class="delivery-block">
-      <AText weight="500">Дата прибуття</AText>
+      <AText weight="500">{{ t('delivery.card.titles.arrivedAt') }}</AText>
       <AText>{{ parcel.arrivedAt }}</AText>
     </div>
 
@@ -133,5 +140,6 @@ onMounted(() => deliveriesStore.setDeliveryItems(props?.parcel?.id))
 
 .delivery-title {
   text-align: left;
+  text-transform: capitalize;
 }
 </style>

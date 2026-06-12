@@ -7,7 +7,7 @@ const props = withDefaults(
     type?: TextType
     size?: number | string
     color?: string
-    weight?: '500' | '600' | '700' | null
+    weight?: '400' | '500' | '600' | '700' | null
   }>(),
   {
     as: 'span',
