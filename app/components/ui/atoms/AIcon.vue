@@ -4,10 +4,12 @@ const props = withDefaults(
     name: string
     size?: number | string
     color?: string
+    hoverColor?: string
   }>(),
   {
     size: 20,
     color: 'var(--color-text-muted)',
+    hoverColor: 'var(--color-text-muted)',
   },
 )
 
@@ -34,5 +36,9 @@ const iconUrl = computed(() => `/images/shared/${props?.name}.svg`)
   flex-shrink: 0;
   background: v-bind(color);
   transition: all 0.5s ease;
+
+  &:hover {
+    background: v-bind(hoverColor);
+  }
 }
 </style>

@@ -18,9 +18,34 @@ export const useDeliveriesStore = defineStore('deliveries', () => {
   const deliveries = ref<Delivery[]>([])
   const deliveryItemsMap = ref<Record<number, ClothingItem[]>>({})
   const availableItems = ref<ClothingItem[]>([])
+  const filteredDeliveries = ref<Delivery[]>([])
+
+  const searchedText = ref<string>('')
+  const sorting = ref<Sorting>({ status: 'all', type: 'all' })
+  const deliveriesQty = ref<number>(deliveries.value?.length || 0)
+
   const isLoading = ref(false)
   const isFetched = ref(false)
   const errorMsg = ref('')
+
+  const setFilteredDeliveries = (filDeliveries: Delivery[]) => {
+    filteredDeliveries.value = filDeliveries
+  }
+
+  const setDeliveriesQty = (qty: number) => {
+    deliveriesQty.value = qty
+  }
+
+  const setSorting = (sort: Partial<Sorting>) => {
+    sorting.value = {
+      ...sorting.value,
+      ...sort,
+    }
+  }
+
+  const setSearchedText = (text: string) => {
+    searchedText.value = text
+  }
 
   const setLoading = (status: boolean) => {
     isLoading.value = status
@@ -181,5 +206,13 @@ export const useDeliveriesStore = defineStore('deliveries', () => {
     setLoading,
     setFetched,
     setError,
+    setSorting,
+    setSearchedText,
+    sorting,
+    searchedText,
+    setDeliveriesQty,
+    deliveriesQty,
+    filteredDeliveries,
+    setFilteredDeliveries,
   }
 })

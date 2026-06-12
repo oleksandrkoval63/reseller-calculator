@@ -12,8 +12,23 @@ const emit = defineEmits<{
 
 const { locale } = useI18n()
 
+const searchedText = ref<string>('')
+
+const filteredItems = computed(() => {
+  if (!props?.availableItems) return []
+
+  const search = searchedText.value.trim().toLowerCase()
+
+  if (!search) return props?.availableItems
+
+  return props.availableItems.filter(
+    (item) =>
+      item?.title.toLowerCase().includes(search) || item?.brand.toLowerCase().includes(search),
+  )
+})
+
 const itemsCountText = computed(() => {
-  return pluralizeItems(props?.availableItems?.length, locale.value)
+  return pluralizeItems(filteredItems.value?.length, locale.value)
 })
 
 const updateSelected = (item: ClothingItem) => {
@@ -25,14 +40,14 @@ const updateSelected = (item: ClothingItem) => {
   <div :class="['picker-list', { absolute }]">
     <div class="picker-list__heading">
       <AText v-if="itemsCountText" as="span" size="14px">{{ itemsCountText }}</AText>
-      <MSearch />
+      <MSearch v-model="searchedText" />
     </div>
 
-    <div v-if="availableItems?.length" class="picker-list_scroll">
+    <div v-if="filteredItems?.length" class="picker-list_scroll">
       <AScroll height="275px" right="0">
         <div class="picker-list__wrapper">
           <PickerCard
-            v-for="avItem in availableItems"
+            v-for="avItem in filteredItems"
             :key="avItem.id"
             :item="avItem"
             @picked="updateSelected"

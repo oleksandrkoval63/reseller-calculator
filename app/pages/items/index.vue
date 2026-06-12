@@ -14,11 +14,8 @@ onMounted(() => itemsStore.setItems())
       <Filters :count="itemsStore.items.length" />
 
       <div class="items-wrapper">
-        <AScroll v-if="itemsStore.itemsDisplay === 'list'" right="-15px">
+        <AScroll right="-15px">
           <List :data="itemsStore.items" />
-        </AScroll>
-        <AScroll v-else height="770px" right="-15px">
-          <Grid :data="itemsStore.items" />
         </AScroll>
       </div>
 

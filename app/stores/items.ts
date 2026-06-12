@@ -11,11 +11,27 @@ export const useItemsStore = defineStore(
 
     const items = ref<ClothingItem[]>([])
     const filteredItems = ref<ClothingItem[]>([])
+
+    const searchedText = ref<string>('')
+    const sorting = ref<Sorting>({ status: 'all', type: 'all' })
+
     const itemsQty = ref<number>(items.value?.length || 0)
     const itemsDisplay = ref<'list' | 'grid'>('list')
+
     const isLoading = ref(false)
     const isFetched = ref(false)
     const errorMsg = ref<string>('')
+
+    const setSorting = (sort: Partial<Sorting>) => {
+      sorting.value = {
+        ...sorting.value,
+        ...sort,
+      }
+    }
+
+    const setSearchedText = (text: string) => {
+      searchedText.value = text
+    }
 
     const setItemQty = (quantity: number) => {
       itemsQty.value = quantity
@@ -99,6 +115,10 @@ export const useItemsStore = defineStore(
       errorMsg,
       setError,
       delItem,
+      setSorting,
+      setSearchedText,
+      sorting,
+      searchedText,
     }
   },
   {
