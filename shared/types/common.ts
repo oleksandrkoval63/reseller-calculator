@@ -49,3 +49,5 @@ export type Sorting = {
   status: SortingStatus
   type: SortingType
 }
+
+export type CurrencyCode = 'UAH' | 'EUR'

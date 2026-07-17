@@ -1,9 +1,5 @@
 import type { ClothingItem } from '~~/entities/item/types'
 
-const getProfit = (purchasedPrice: number, soldPrice: number | null) => {
-  return soldPrice !== null ? soldPrice - purchasedPrice : 0
-}
-
 export const useItemsStore = defineStore(
   'items',
   () => {
@@ -76,26 +72,6 @@ export const useItemsStore = defineStore(
       await setItems()
     }
 
-    const summaryProfit = computed(() => {
-      return filteredItems.value.reduce((acc, item) => {
-        return acc + getProfit(item.stats.purchasedPrice, item.stats.soldPrice)
-      }, 0)
-    })
-
-    const summaryPurchase = computed(() => {
-      return filteredItems.value.reduce(
-        (acc, currentItem) => acc + (currentItem?.stats?.purchasedPrice || 0),
-        0,
-      )
-    })
-
-    const summarySold = computed(() => {
-      return filteredItems.value.reduce(
-        (acc, currentItem) => acc + (currentItem?.stats?.soldPrice || 0),
-        0,
-      )
-    })
-
     return {
       items,
       itemsQty,
@@ -103,9 +79,6 @@ export const useItemsStore = defineStore(
       setItems,
       filteredItems,
       setFilteredItems,
-      summaryProfit,
-      summaryPurchase,
-      summarySold,
       itemsDisplay,
       setItemsDisplay,
       isLoading,

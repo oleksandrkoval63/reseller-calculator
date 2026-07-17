@@ -1,4 +1,4 @@
-import type { ClothingItem, ClothingItemBD } from '~~/entities/item/types'
+import type { ClothingItem, ClothingItemPayload } from '~~/entities/item/types'
 import { mapDbItemToClothingItem } from '~~/shared/utils/map-item'
 
 export const useItemsApi = () => {
@@ -24,7 +24,7 @@ export const useItemsApi = () => {
     return (data || []).map(mapDbItemToClothingItem)
   }
 
-  const createItem = async (payload: ClothingItemBD) => {
+  const createItem = async (payload: ClothingItemPayload) => {
     const supabase = useSupabaseClient()
 
     const { data: userData } = await supabase.auth.getUser()
@@ -38,9 +38,18 @@ export const useItemsApi = () => {
       brand: payload.brand,
       category: payload.category,
       size: payload.size,
+
       purchased_price: payload.purchased_price,
+      purchased_currency: payload.purchased_currency,
+      purchased_exchange_rate: payload.purchased_exchange_rate,
+
       planned_price: payload.planned_price,
+      planned_currency: payload.planned_currency,
+
       sold_price: payload.sold_price,
+      sold_currency: payload.sold_currency,
+      sold_exchange_rate: payload.sold_exchange_rate,
+
       quantity: payload.quantity,
       status: payload.status,
       purchased_at: payload.purchased_at,
@@ -53,7 +62,7 @@ export const useItemsApi = () => {
 
   const updateItem = async (
     id: number,
-    payload: ClothingItemBD,
+    payload: ClothingItemPayload,
     previousImageKeys: string[] = [],
   ) => {
     const supabase = useSupabaseClient()

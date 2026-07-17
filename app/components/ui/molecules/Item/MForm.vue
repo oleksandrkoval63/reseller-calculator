@@ -121,6 +121,7 @@ const statusOptions = [
                 type="number"
                 :placeholder="t('form.fields.purchasedPrice')"
               />
+              <MCurrencySwitch v-model="form.purchasedCurrency" class="form-currency" />
               <AText v-if="errors.purchasedPrice" as="p" type="danger">{{
                 errors.purchasedPrice
               }}</AText>
@@ -132,6 +133,7 @@ const statusOptions = [
                 type="number"
                 :placeholder="t('form.fields.plannedPrice')"
               />
+              <MCurrencySwitch v-model="form.plannedCurrency" class="form-currency" />
               <AText v-if="errors.plannedPrice" as="p" type="danger">{{
                 errors.plannedPrice
               }}</AText>
@@ -143,6 +145,7 @@ const statusOptions = [
                 type="number"
                 :placeholder="t('form.fields.soldPrice')"
               />
+              <MCurrencySwitch v-model="form.soldCurrency" class="form-currency" />
               <AText v-if="errors.soldPrice" as="p" type="danger">{{ errors.soldPrice }}</AText>
             </div>
           </div>
@@ -188,11 +191,23 @@ const statusOptions = [
 </template>
 
 <style scoped lang="scss">
+.form-currency {
+  position: absolute;
+  top: 4px;
+  right: 2%;
+  border-radius: 8px;
+}
+
 .create-form {
   display: flex;
   flex-direction: column;
   gap: 8px;
   margin-bottom: 16px;
+}
+
+.create-form__error {
+  position: relative;
+  height: fit-content;
 }
 
 .create-form__section {
