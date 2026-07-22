@@ -1,6 +1,17 @@
-import type { DeliveryForm } from '~~/entities/delivery/types'
+import { useCurrencyStore } from '~/stores/currency'
+import type { DeliveryForm, DeliveryPayload } from '~~/entities/delivery/types'
 
-export const mapDeliveryFormToPayload = (form: DeliveryForm) => {
+export const mapDeliveryFormToPayload = async (form: DeliveryForm): Promise<DeliveryPayload> => {
+  const currencyStore = useCurrencyStore()
+
+  if (currencyStore.eurToUah === null) {
+    await currencyStore.loadCurrentRate()
+  }
+
+  if (currencyStore.eurToUah === null) {
+    throw new Error('Currency rate is not loaded')
+  }
+
   return {
     title: form.title.trim(),
     note: form.note.trim() || null,
@@ -10,5 +21,7 @@ export const mapDeliveryFormToPayload = (form: DeliveryForm) => {
     sent_at: useDayjsFormatter(form.sentAt),
     arrived_at: form?.arrivedAt ? useDayjsFormatter(form.arrivedAt) : null,
     status: form.status,
+    delivery_currency: form.pricingMode === 'auto' ? 'EUR' : form.deliveryCurrency,
+    delivery_exchange_rate: currencyStore.eurToUah,
   }
 }

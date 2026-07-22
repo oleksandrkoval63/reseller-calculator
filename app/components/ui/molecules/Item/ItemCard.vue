@@ -88,20 +88,24 @@ const handleOpenDelete = () => {
     <div v-for="(statsKey, index) in statsKeys" :key="index" class="list-row__cell">
       <AText>
         {{
-          useFormatterCurrency(
-            locale,
-            item?.stats?.[statsKey as keyof ClothesStats],
-            statsKey as keyof ClothesStats,
-            item.currencies,
-            item.exchangeRates,
-          )
+          useFormatterCurrency(locale, item?.stats?.[statsKey as keyof ClothesStats], {
+            type: statsKey as keyof ClothesStats,
+            currencies: item.currencies,
+            exchangeRates: item.exchangeRates,
+          })
         }}
       </AText>
     </div>
 
     <div class="list-row__cell profit-cell">
       <AText :class="[{ profit: profit }, { down: profit && profit < 0 }]">
-        {{ useFormatterCurrency(locale, profit, 'profit', item.currencies, item.exchangeRates) }}
+        {{
+          useFormatterCurrency(locale, profit, {
+            type: 'profit',
+            currencies: item.currencies,
+            exchangeRates: item.exchangeRates,
+          })
+        }}
       </AText>
       <AIcon
         v-if="profit"
@@ -160,13 +164,11 @@ const handleOpenDelete = () => {
           <AText class="stat-box__label">{{ t(`clothes.stats.${statsKey}`) }}</AText>
           <AText :class="['stat-box__value', { profit: statsKey === 'profit' }]">
             {{
-              useFormatterCurrency(
-                locale,
-                item?.stats?.[statsKey as keyof ClothesStats],
-                statsKey as keyof ClothesStats,
-                item.currencies,
-                item.exchangeRates,
-              )
+              useFormatterCurrency(locale, item?.stats?.[statsKey as keyof ClothesStats], {
+                type: statsKey as keyof ClothesStats,
+                currencies: item.currencies,
+                exchangeRates: item.exchangeRates,
+              })
             }}
           </AText>
         </ABadge>
@@ -174,7 +176,11 @@ const handleOpenDelete = () => {
           <AText class="stat-box__label">{{ t(`clothes.stats.profit`) }}</AText>
           <AText :class="['stat-box__value', { profit: profit }, { down: profit && profit < 0 }]">
             {{
-              useFormatterCurrency(locale, profit, 'profit', item.currencies, item.exchangeRates)
+              useFormatterCurrency(locale, profit, {
+                type: 'profit',
+                currencies: item.currencies,
+                exchangeRates: item.exchangeRates,
+              })
             }}
             <AIcon
               v-if="profit"

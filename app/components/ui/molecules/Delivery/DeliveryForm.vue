@@ -88,6 +88,8 @@ const normalizeFormForCompare = (form: DeliveryForm) => {
     arrivedAt: form.arrivedAt || null,
     status: form.status,
     itemIds: [...form.itemIds].sort((a, b) => a - b),
+    deliveryCurrency: form.deliveryCurrency || 'EUR',
+    deliveryExchangeRate: form.deliveryExchangeRate || null,
   }
 }
 
@@ -110,7 +112,7 @@ const handleSubmit = async () => {
     return
   }
 
-  const formatted = mapDeliveryFormToPayload(form)
+  const formatted = await mapDeliveryFormToPayload(form)
 
   if (props?.delivery?.id) {
     await deliveriesStore.editDelivery(props.delivery.id, formatted, form.itemIds)
@@ -213,6 +215,7 @@ onMounted(() => deliveriesStore.setAvailableItems())
           <div v-else class="create-form__error">
             <AInput v-model="form.priceEur" type="number" :placeholder="t('delivery.form.price')" />
             <AText v-if="errors.priceEur" as="p" type="danger">{{ errors.priceEur }}</AText>
+            <MCurrencySwitch v-model="form.deliveryCurrency" />
           </div>
         </div>
 

@@ -1,88 +1,97 @@
-import type { ClothesStats, PriceCurrencies, PriceRates } from '~~/entities/item/types'
-import type { CurrencyCode } from '~~/shared/types'
-
 import { useCurrencyStore } from '~/stores/currency'
 import { useSettingsStore } from '~/stores/settings'
+import type { PriceCurrencies, PriceRates } from '~~/entities/item/types'
 
-type PriceType = keyof ClothesStats | 'profit'
+type ItemPriceType = 'quantity' | 'purchasedPrice' | 'plannedPrice' | 'soldPrice' | 'profit'
+
+type FormatterCurrencyParams =
+  | {
+      type: ItemPriceType
+      currencies: PriceCurrencies
+      exchangeRates: PriceRates
+    }
+  | {
+      type: 'delivery'
+      currencies: CurrencyCode
+      exchangeRates: number
+    }
 
 export const useFormatterCurrency = (
   lang: string,
-  value: number | null,
-  type: PriceType,
-  currencies: PriceCurrencies,
-  exchangeRates: PriceRates,
+  value: number | null | undefined,
+  params?: FormatterCurrencyParams,
 ) => {
+  if (value == null) return '-'
+  if (!params) return String(value)
+  if (params.type === 'quantity') return String(value)
+
   const currencyStore = useCurrencyStore()
   const settingsStore = useSettingsStore()
 
-  if (value === null || value === undefined) {
-    return '-'
+  let displayCurrency: CurrencyCode
+  let convertedValue: number | null
+
+  switch (params.type) {
+    case 'purchasedPrice':
+      displayCurrency = settingsStore.purchaseDisplayCurrency
+
+      convertedValue = currencyStore.convertByRate(
+        value,
+        params.currencies.purchasedCurrency,
+        displayCurrency,
+        params.exchangeRates.purchasedExchangeRate,
+      )
+      break
+
+    case 'plannedPrice': {
+      const sourceCurrency = params.currencies.plannedCurrency
+
+      if (!sourceCurrency) return '-'
+
+      displayCurrency = settingsStore.plannedDisplayCurrency
+      convertedValue = currencyStore.convert(value, sourceCurrency, displayCurrency)
+      break
+    }
+
+    case 'soldPrice': {
+      const sourceCurrency = params.currencies.soldCurrency
+
+      if (!sourceCurrency) return '-'
+
+      displayCurrency = settingsStore.soldDisplayCurrency
+      convertedValue = currencyStore.convertByRate(
+        value,
+        sourceCurrency,
+        displayCurrency,
+        params.exchangeRates.soldExchangeRate,
+      )
+      break
+    }
+
+    case 'profit':
+      displayCurrency = settingsStore.profitDisplayCurrency
+      convertedValue = currencyStore.convertByRate(
+        value,
+        'UAH',
+        displayCurrency,
+        params.exchangeRates.soldExchangeRate,
+      )
+      break
+
+    case 'delivery':
+      displayCurrency = settingsStore.globalCurrency
+      convertedValue = currencyStore.convertByRate(
+        value,
+        params.currencies,
+        displayCurrency,
+        params.exchangeRates,
+      )
+      break
   }
 
-  if (type === 'quantity') {
-    return String(value)
-  }
+  if (convertedValue == null) return '-'
 
-  let sourceCurrency: CurrencyCode | null = null
-  let displayCurrency: CurrencyCode = 'UAH'
-  let convertedValue: number | null = value
-
-  if (type === 'purchasedPrice') {
-    sourceCurrency = currencies.purchasedCurrency
-    displayCurrency = settingsStore.purchaseDisplayCurrency
-
-    if (!sourceCurrency) return '-'
-
-    convertedValue = currencyStore.convertByRate(
-      value,
-      sourceCurrency,
-      displayCurrency,
-      exchangeRates.purchasedExchangeRate,
-    )
-  }
-
-  if (type === 'plannedPrice') {
-    sourceCurrency = currencies.plannedCurrency
-    displayCurrency = settingsStore.plannedDisplayCurrency
-
-    if (!sourceCurrency) return '-'
-
-    convertedValue = currencyStore.convert(value, sourceCurrency, displayCurrency)
-  }
-
-  if (type === 'soldPrice') {
-    sourceCurrency = currencies.soldCurrency
-    displayCurrency = settingsStore.soldDisplayCurrency
-
-    if (!sourceCurrency) return '-'
-
-    convertedValue = currencyStore.convertByRate(
-      value,
-      sourceCurrency,
-      displayCurrency,
-      exchangeRates.soldExchangeRate,
-    )
-  }
-
-  if (type === 'profit') {
-    displayCurrency = settingsStore.profitDisplayCurrency
-
-    convertedValue = currencyStore.convertByRate(
-      value,
-      'UAH',
-      displayCurrency,
-      exchangeRates.soldExchangeRate,
-    )
-  }
-
-  if (convertedValue === null) {
-    return '-'
-  }
-
-  const formattedLang = useLangFormater(lang)
-
-  return new Intl.NumberFormat(formattedLang, {
+  return new Intl.NumberFormat(useLangFormater(lang), {
     style: 'currency',
     currency: displayCurrency,
     currencyDisplay: 'narrowSymbol',
