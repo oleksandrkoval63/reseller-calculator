@@ -11,6 +11,8 @@ export const createDeliveryForm = (delivery?: DeliveryWithItems): DeliveryForm =
     arrivedAt: delivery?.arrivedAt || '',
     status: delivery?.status ?? 'draft',
     itemIds: delivery?.items?.map((item) => item.id) ?? [],
+    deliveryCurrency: delivery?.deliveryCurrency || 'UAH',
+    deliveryExchangeRate: delivery?.deliveryExchangeRate || null,
   })
 
   return form

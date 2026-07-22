@@ -19,8 +19,16 @@ const parcelStatus = computed(() => t(`delivery.card.status.${props?.parcel?.sta
 
 const parcelCurrency = computed(() =>
   props?.parcel?.pricingMode === 'manual'
-    ? useFormatterCurrency(locale.value, props?.parcel?.priceEur)
-    : useFormatterCurrency(locale.value, deliveryPriceCalculator(props?.parcel?.weightKg)),
+    ? useFormatterCurrency(locale.value, props?.parcel?.priceEur, {
+        type: 'delivery',
+        currencies: props?.parcel.deliveryCurrency,
+        exchangeRates: props?.parcel.deliveryExchangeRate,
+      })
+    : useFormatterCurrency(locale.value, deliveryPriceCalculator(props?.parcel?.weightKg), {
+        type: 'delivery',
+        currencies: props?.parcel.deliveryCurrency,
+        exchangeRates: props?.parcel.deliveryExchangeRate,
+      }),
 )
 
 const parcelTitle = computed(() => props?.parcel?.title ?? `Delivery ${props.idx + 1}`)

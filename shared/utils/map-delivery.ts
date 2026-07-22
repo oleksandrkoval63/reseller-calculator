@@ -14,5 +14,7 @@ export const mapDbDeliveryToDelivery = (delivery: DeliveryDB): Delivery => {
     status: delivery.status,
     createdAt: delivery.created_at,
     updatedAt: delivery.updated_at,
+    deliveryCurrency: delivery.delivery_currency,
+    deliveryExchangeRate: delivery.delivery_exchange_rate,
   }
 }

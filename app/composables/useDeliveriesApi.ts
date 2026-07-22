@@ -88,6 +88,8 @@ export const useDeliveriesApi = () => {
         sent_at: payload.sent_at ?? null,
         arrived_at: payload.arrived_at ?? null,
         status: payload.status ?? 'draft',
+        delivery_currency: payload.delivery_currency ?? 'EUR',
+        delivery_exchange_rate: payload.delivery_exchange_rate ?? null,
       })
       .select()
       .single()
@@ -111,6 +113,8 @@ export const useDeliveriesApi = () => {
         sent_at: payload.sent_at ?? null,
         arrived_at: payload.arrived_at ?? null,
         status: payload.status ?? 'draft',
+        delivery_currency: payload.delivery_currency ?? 'EUR',
+        delivery_exchange_rate: payload.delivery_exchange_rate ?? null,
       })
       .eq('id', id)
 

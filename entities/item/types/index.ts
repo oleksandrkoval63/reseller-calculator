@@ -1,3 +1,5 @@
+import type { CurrencyCode } from '~~/shared/types'
+
 export type ClothesStatus = 'draft' | 'listed' | 'sold'
 
 export type ClothesStats = {
@@ -7,6 +9,17 @@ export type ClothesStats = {
   quantity: number
 }
 
+export type PriceCurrencies = {
+  purchasedCurrency: CurrencyCode
+  plannedCurrency: CurrencyCode | null
+  soldCurrency: CurrencyCode | null
+}
+
+export type PriceRates = {
+  purchasedExchangeRate: number | null
+  soldExchangeRate: number | null
+}
+
 export type ClothingItem = {
   id: number
   title: string
@@ -14,6 +27,8 @@ export type ClothingItem = {
   category: string
   size: string
   stats: ClothesStats
+  currencies: PriceCurrencies
+  exchangeRates: PriceRates
   status: ClothesStatus
   purchasedAt: string
   soldAt: string | null
@@ -25,9 +40,16 @@ export type ClothingItemForm = {
   brand: string
   category: string
   size: string
+
   purchasedPrice: string
+  purchasedCurrency: CurrencyCode
+
   plannedPrice: string
+  plannedCurrency: CurrencyCode
+
   soldPrice: string
+  soldCurrency: CurrencyCode
+
   quantity: string
   status: 'draft' | 'listed' | 'sold'
   purchasedAt: string
@@ -36,13 +58,47 @@ export type ClothingItemForm = {
 }
 
 export type ClothingItemBD = {
+  id: number
   title: string
   brand: string
   category: string
   size: string
+
   purchased_price: number
+  purchased_currency: CurrencyCode
+  purchased_exchange_rate: number | null
+
   planned_price: number | null
+  planned_currency: CurrencyCode | null
+
   sold_price: number | null
+  sold_currency: CurrencyCode | null
+  sold_exchange_rate: number | null
+
+  quantity: number
+  status: 'draft' | 'listed' | 'sold'
+  purchased_at: string
+  sold_at: string | null
+  image: string[]
+}
+
+export type ClothingItemPayload = {
+  title: string
+  brand: string
+  category: string
+  size: string
+
+  purchased_price: number
+  purchased_currency: CurrencyCode
+  purchased_exchange_rate: number | null
+
+  planned_price: number | null
+  planned_currency: CurrencyCode | null
+
+  sold_price: number | null
+  sold_currency: CurrencyCode | null
+  sold_exchange_rate: number | null
+
   quantity: number
   status: 'draft' | 'listed' | 'sold'
   purchased_at: string

@@ -111,7 +111,10 @@
   "errors": {
     "form": {
       "title": "Minimum number of characters is 2",
-      "soldPrice": "Enter the sale price"
+      "soldPrice": "Enter the sale price",
+      "status": "Choose correct status or clear sold field",
+      "soldAt": "Choose sold date or select correct status",
+      "correctDate": "Choose correct date"
     },
     "required": "This field is required"
   },

@@ -60,6 +60,8 @@ onMounted(() => (isMounted.value = true))
         <MUser v-else />
       </div>
 
+      <MCurrencySwitch v-model="settingsStore.globalCurrency" class="global-currency" />
+
       <AButton class="btn-lang" @click="handleChangeLocale">
         <AIcon name="world" src="images/shared/world.svg" :size="20" />
       </AButton>
@@ -68,6 +70,11 @@ onMounted(() => (isMounted.value = true))
 </template>
 
 <style lang="scss" scoped>
+.global-currency {
+  height: 48px;
+  width: 48px;
+}
+
 .header {
   border-bottom: 2px solid var(--color-border);
   padding: 20px 0;

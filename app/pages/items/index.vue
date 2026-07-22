@@ -1,10 +1,13 @@
 <script setup lang="ts">
 import { useAuthStore } from '~/stores/auth'
+import { useCurrencyStore } from '~/stores/currency'
 import { useItemsStore } from '~/stores/items'
 
 const itemsStore = useItemsStore()
 const authStore = useAuthStore()
+const currencyStore = useCurrencyStore()
 
+await callOnce('currency-rate', () => currencyStore.loadCurrentRate())
 onMounted(() => itemsStore.setItems())
 </script>
 

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useItemsStore } from '~/stores/items'
+import { useSettingsStore } from '~/stores/settings'
 import type { ClothingItem } from '~~/entities/item/types'
 
 const props = defineProps<{
@@ -7,6 +8,14 @@ const props = defineProps<{
 }>()
 
 const itemsStore = useItemsStore()
+const settingsStore = useSettingsStore()
+
+const {
+  purchaseDisplayCurrency,
+  plannedDisplayCurrency,
+  soldDisplayCurrency,
+  profitDisplayCurrency,
+} = storeToRefs(settingsStore)
 
 const { t } = useI18n()
 
@@ -38,11 +47,23 @@ if (import.meta.client) {
     >
       <div class="clothes-list__cell clothes-list__cell--product">{{ t('clothes.title') }}</div>
       <div class="clothes-list__cell">{{ t('clothes.status') }}</div>
-      <div class="clothes-list__cell">{{ t('clothes.stats.purchasedPrice') }}</div>
-      <div class="clothes-list__cell">{{ t('clothes.stats.plannedPrice') }}</div>
-      <div class="clothes-list__cell">{{ t('clothes.stats.soldPrice') }}</div>
+      <div class="clothes-list__cell">
+        {{ t('clothes.stats.purchasedPrice') }}
+        <MCurrencySwitch v-model="purchaseDisplayCurrency" class="column-currency" />
+      </div>
+      <div class="clothes-list__cell">
+        {{ t('clothes.stats.plannedPrice') }}
+        <MCurrencySwitch v-model="plannedDisplayCurrency" class="column-currency" />
+      </div>
+      <div class="clothes-list__cell">
+        {{ t('clothes.stats.soldPrice') }}
+        <MCurrencySwitch v-model="soldDisplayCurrency" class="column-currency" />
+      </div>
       <div class="clothes-list__cell">{{ t('clothes.stats.quantity') }}</div>
-      <div class="clothes-list__cell">{{ t('clothes.stats.profit') }}</div>
+      <div class="clothes-list__cell">
+        {{ t('clothes.stats.profit') }}
+        <MCurrencySwitch v-model="profitDisplayCurrency" class="column-currency" />
+      </div>
 
       <div class="clothes-list__cell clothes-list__cell--actions">{{ t('clothes.actions') }}</div>
     </div>
@@ -63,6 +84,11 @@ if (import.meta.client) {
 </template>
 
 <style scoped lang="scss">
+.column-currency {
+  width: 50%;
+  margin: 0 auto;
+}
+
 .skeleton-wrapper {
   max-height: 600px;
   overflow: hidden;
@@ -87,6 +113,7 @@ if (import.meta.client) {
   color: var(--color-text-muted);
   font-size: 14px;
   font-weight: 500;
+  padding: 10px 0;
 }
 
 .clothes-list__cell {
@@ -94,6 +121,9 @@ if (import.meta.client) {
   font-size: 18px;
   font-weight: 500;
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
 
 .clothes-list__cell--product {

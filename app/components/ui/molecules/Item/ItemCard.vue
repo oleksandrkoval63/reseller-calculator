@@ -36,7 +36,14 @@ const statsKeys = Object.keys(props?.item?.stats)
 const largeBadge = computed(() => (statsKeys?.length % 2 === 0 ? 'large' : ''))
 
 const profit = computed(() => {
-  return useProfit(props.item?.stats?.purchasedPrice, props.item?.stats?.soldPrice ?? 0)
+  return useProfit(
+    props.item.stats.purchasedPrice,
+    props.item.currencies.purchasedCurrency ?? 'UAH',
+    props.item?.exchangeRates.purchasedExchangeRate,
+    props.item?.stats?.soldPrice ?? 0,
+    props.item?.currencies.soldCurrency,
+    props.item?.exchangeRates.soldExchangeRate,
+  )
 })
 
 const handleOpenEdit = () => {
@@ -80,13 +87,25 @@ const handleOpenDelete = () => {
 
     <div v-for="(statsKey, index) in statsKeys" :key="index" class="list-row__cell">
       <AText>
-        {{ useFormatterCurrency(locale, item?.stats?.[statsKey as keyof ClothesStats], statsKey) }}
+        {{
+          useFormatterCurrency(locale, item?.stats?.[statsKey as keyof ClothesStats], {
+            type: statsKey as keyof ClothesStats,
+            currencies: item.currencies,
+            exchangeRates: item.exchangeRates,
+          })
+        }}
       </AText>
     </div>
 
     <div class="list-row__cell profit-cell">
-      <AText :class="[{ profit: profit > 0 }, { down: profit < 0 }]">
-        {{ useFormatterCurrency(locale, profit) }}
+      <AText :class="[{ profit: profit }, { down: profit && profit < 0 }]">
+        {{
+          useFormatterCurrency(locale, profit, {
+            type: 'profit',
+            currencies: item.currencies,
+            exchangeRates: item.exchangeRates,
+          })
+        }}
       </AText>
       <AIcon
         v-if="profit"
@@ -145,14 +164,24 @@ const handleOpenDelete = () => {
           <AText class="stat-box__label">{{ t(`clothes.stats.${statsKey}`) }}</AText>
           <AText :class="['stat-box__value', { profit: statsKey === 'profit' }]">
             {{
-              useFormatterCurrency(locale, item?.stats?.[statsKey as keyof ClothesStats], statsKey)
+              useFormatterCurrency(locale, item?.stats?.[statsKey as keyof ClothesStats], {
+                type: statsKey as keyof ClothesStats,
+                currencies: item.currencies,
+                exchangeRates: item.exchangeRates,
+              })
             }}
           </AText>
         </ABadge>
         <ABadge :class="['stat-box', largeBadge]">
           <AText class="stat-box__label">{{ t(`clothes.stats.profit`) }}</AText>
-          <AText :class="['stat-box__value', { profit: profit > 0 }, { down: profit < 0 }]">
-            {{ useFormatterCurrency(locale, profit) }}
+          <AText :class="['stat-box__value', { profit: profit }, { down: profit && profit < 0 }]">
+            {{
+              useFormatterCurrency(locale, profit, {
+                type: 'profit',
+                currencies: item.currencies,
+                exchangeRates: item.exchangeRates,
+              })
+            }}
             <AIcon
               v-if="profit"
               :class="['profit-arrow', { up: profit > 0 }, { down: profit < 0 }]"

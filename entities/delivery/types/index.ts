@@ -17,6 +17,8 @@ export type DeliveryDB = {
   status: DeliveryStatus
   created_at: string
   updated_at: string
+  delivery_currency: CurrencyCode
+  delivery_exchange_rate: number
 }
 
 export type Delivery = {
@@ -32,6 +34,8 @@ export type Delivery = {
   status: DeliveryStatus
   createdAt: string
   updatedAt: string
+  deliveryCurrency: CurrencyCode
+  deliveryExchangeRate: number
 }
 
 export type DeliveryWithItems = Delivery & {
@@ -47,6 +51,8 @@ export type DeliveryPayload = {
   sent_at?: string | null
   arrived_at?: string | null
   status?: DeliveryStatus
+  delivery_currency?: CurrencyCode
+  delivery_exchange_rate?: number
 }
 
 export type DeliveryForm = {
@@ -59,6 +65,8 @@ export type DeliveryForm = {
   arrivedAt: string
   status: DeliveryStatus
   itemIds: number[]
+  deliveryCurrency: CurrencyCode
+  deliveryExchangeRate: number | null
 }
 
 export type DeliveryFormSchema = Partial<

@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { useItemsStore } from '~/stores/items'
-
-const itemsStore = useItemsStore()
-
 const { t, locale } = useI18n()
+
+const { displayedPurchase, displayedSold, displayedProfit, formatGlobalCurrency } = useItemsTotals(
+  locale.value,
+)
 </script>
 
 <template>
@@ -11,28 +11,26 @@ const { t, locale } = useI18n()
     <div class="items-summary__body">
       <div class="items-summary__stat">
         <AText class="items-summary__value" size="28px">
-          {{ useFormatterCurrency(locale, itemsStore.summaryPurchase) }}
+          {{ formatGlobalCurrency(displayedPurchase) }}
         </AText>
         <AText class="items-summary__label">{{ t('summary.titles.purchasedPrice') }}</AText>
       </div>
 
       <div class="items-summary__stat">
         <AText class="items-summary__value" size="28px">
-          <span> {{ useFormatterCurrency(locale, itemsStore.summarySold) }} </span>
+          <span>
+            {{ formatGlobalCurrency(displayedSold) }}
+          </span>
         </AText>
         <AText class="items-summary__label">{{ t('summary.titles.soldPrice') }}</AText>
       </div>
 
       <div class="items-summary__stat">
         <div class="items-summary__value items-summary__value--profit">
-          <AText size="28px">{{ useFormatterCurrency(locale, itemsStore.summaryProfit) }}</AText>
+          <AText size="28px">{{ formatGlobalCurrency(displayedProfit) }}</AText>
           <AIcon
-            v-if="itemsStore.summaryProfit"
-            :class="[
-              'profit-arrow',
-              { up: itemsStore.summaryProfit > 0 },
-              { down: itemsStore.summaryProfit < 0 },
-            ]"
+            v-if="displayedProfit"
+            :class="['profit-arrow', { up: displayedProfit > 0 }, { down: displayedProfit < 0 }]"
             :size="28"
             name="profit-arrow"
           />
