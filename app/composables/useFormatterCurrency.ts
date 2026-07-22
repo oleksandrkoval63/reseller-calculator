@@ -18,7 +18,7 @@ type FormatterCurrencyParams =
 
 export const useFormatterCurrency = (
   lang: string,
-  value: number | null | undefined,
+  value: number | null,
   params?: FormatterCurrencyParams,
 ) => {
   if (value == null) return '-'
