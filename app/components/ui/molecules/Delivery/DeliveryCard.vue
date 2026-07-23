@@ -69,8 +69,10 @@ onMounted(() => deliveriesStore.setDeliveryItems(props?.parcel?.id))
       <AText>{{ parcel.sentAt }}</AText>
     </div>
 
-    <div v-if="parcel?.arrivedAt" class="delivery-block">
-      <AText weight="500">{{ t('delivery.card.titles.arrivedAt') }}</AText>
+    <div class="delivery-block">
+      <AText weight="500">{{
+        parcel?.sentAt ? t('delivery.card.titles.arrivedAt') : t('errors.form.none')
+      }}</AText>
       <AText>{{ parcel.arrivedAt }}</AText>
     </div>
 

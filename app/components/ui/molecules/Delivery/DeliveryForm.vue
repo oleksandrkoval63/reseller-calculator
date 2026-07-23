@@ -215,7 +215,7 @@ onMounted(() => deliveriesStore.setAvailableItems())
           <div v-else class="create-form__error">
             <AInput v-model="form.priceEur" type="number" :placeholder="t('delivery.form.price')" />
             <AText v-if="errors.priceEur" as="p" type="danger">{{ errors.priceEur }}</AText>
-            <MCurrencySwitch v-model="form.deliveryCurrency" />
+            <MCurrencySwitch v-model="form.deliveryCurrency" class="form-currency" />
           </div>
         </div>
 
@@ -264,6 +264,18 @@ onMounted(() => deliveriesStore.setAvailableItems())
 </template>
 
 <style scoped lang="scss">
+.create-form__error {
+  position: relative;
+  height: fit-content;
+}
+
+.form-currency {
+  position: absolute;
+  top: 4px;
+  right: 0.6%;
+  border-radius: 8px;
+}
+
 .delele-items__btn {
   padding: 2px 12px;
   border-radius: 8px;

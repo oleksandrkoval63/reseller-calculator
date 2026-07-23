@@ -114,7 +114,8 @@
       "soldPrice": "Enter the sale price",
       "status": "Choose correct status or clear sold field",
       "soldAt": "Choose sold date or select correct status",
-      "correctDate": "Choose correct date"
+      "correctDate": "Choose correct date",
+      "none": "Not choosed"
     },
     "required": "This field is required"
   },
