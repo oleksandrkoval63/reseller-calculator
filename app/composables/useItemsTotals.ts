@@ -20,40 +20,48 @@ export const useItemsTotals = (lang: string) => {
   })
 
   const summarySold = computed(() => {
-    return itemsStore.filteredItems.reduce((total, currentItem) => {
-      const amount = currencyStore.convertToUah(
-        currentItem.stats.soldPrice,
-        currentItem.currencies.soldCurrency,
-        currentItem.exchangeRates.soldExchangeRate,
+    return itemsStore.filteredItems.reduce((total, item) => {
+      if (item.stats.soldPrice == null || item.currencies.soldCurrency == null) {
+        return total
+      }
+
+      const soldInUah = currencyStore.convertToUah(
+        item.stats.soldPrice,
+        item.currencies.soldCurrency,
+        item.exchangeRates.soldExchangeRate,
       )
 
-      return total + (amount ?? 0)
+      return soldInUah == null ? total : total + soldInUah
     }, 0)
   })
 
   const summaryProfit = computed(() => {
-    return itemsStore.filteredItems.reduce((total, currentItem) => {
-      if (currentItem.stats.soldPrice === null) {
+    return itemsStore.filteredItems.reduce((total, item) => {
+      const { purchasedPrice, soldPrice } = item.stats
+
+      const { purchasedCurrency, soldCurrency } = item.currencies
+
+      if (soldPrice == null || soldCurrency == null) {
         return total
       }
 
       const purchasedInUah = currencyStore.convertToUah(
-        currentItem.stats.purchasedPrice,
-        currentItem.currencies.purchasedCurrency,
-        currentItem.exchangeRates.purchasedExchangeRate,
+        purchasedPrice,
+        purchasedCurrency,
+        item.exchangeRates.purchasedExchangeRate,
       )
 
       const soldInUah = currencyStore.convertToUah(
-        currentItem.stats.soldPrice,
-        currentItem.currencies.soldCurrency,
-        currentItem.exchangeRates.soldExchangeRate,
+        soldPrice,
+        soldCurrency,
+        item.exchangeRates.soldExchangeRate,
       )
 
-      if (purchasedInUah === null || soldInUah === null) {
+      if (purchasedInUah == null || soldInUah == null) {
         return total
       }
 
-      return total + (soldInUah - purchasedInUah)
+      return total + soldInUah - purchasedInUah
     }, 0)
   })
 
